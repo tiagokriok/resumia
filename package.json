@@ -1,0 +1,41 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@types/node": "^20.5.7",
+    "@vueuse/core": "^10.4.0",
+    "nuxt": "^3.7.0",
+    "nuxt-icon": "^0.5.0",
+    "prettier": "^3.0.2"
+  },
+  "dependencies": {
+    "@nuxtjs/google-fonts": "^3.0.2",
+    "@nuxtjs/i18n": "^8.0.0-rc.1",
+    "@nuxtjs/tailwindcss": "^6.8.0",
+    "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
+    "@pinia/nuxt": "^0.4.11",
+    "@tanstack/vue-query": "^4.34.0",
+    "@trpc/client": "^10.38.0",
+    "@trpc/server": "^10.38.0",
+    "@vueuse/nuxt": "^10.4.0",
+    "argon2": "^0.31.0",
+    "clsx": "^2.0.0",
+    "jose": "^4.14.4",
+    "mongoose": "^7.4.5",
+    "nanoid": "^4.0.2",
+    "notiwind": "^2.0.2",
+    "nuxt-headlessui": "^1.1.4",
+    "pinia": "^2.1.6",
+    "tailwind-merge": "^1.14.0",
+    "trpc-nuxt": "^0.10.12",
+    "zod": "^3.22.2"
+  }
+}
