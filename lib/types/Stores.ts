@@ -17,16 +17,6 @@ export interface AuthState {
 }
 
 export interface LoginAction {
-  user: Omit<
-    User,
-    | 'password'
-    | 'rememberToken'
-    | 'verifyAt'
-    | 'createdAt'
-    | 'updatedAt'
-    | 'deletedAt'
-    | 'isDeleted'
-    | 'createdBy'
-  >
+  user: Omit<User, 'password' | 'rememberToken'>
   access_token: string
 }

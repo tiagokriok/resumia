@@ -1,17 +1,23 @@
 {
-  "name": "nuxt-app",
+  "name": "resumia",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:rm": "docker compose rm db -s -f -v",
+    "db:restart": "yarn db:rm && yarn db:up",
+    "db:restart:win": "yarn db:rm && yarn db:up"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^20.5.7",
     "@vueuse/core": "^10.4.0",
+    "daisyui": "^3.6.3",
     "nuxt": "^3.7.0",
     "nuxt-icon": "^0.5.0",
     "prettier": "^3.0.2"

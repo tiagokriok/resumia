@@ -28,8 +28,7 @@ class AuthService {
 
     // TODO: Send verification email
 
-    const { password, rememberToken, ...userWithoutPassword } =
-      user.toObject()
+    const { password, rememberToken, ...userWithoutPassword } = user.toObject()
 
     const access_token = await AccessTokenProvider.sign(userWithoutPassword)
 
@@ -56,7 +55,7 @@ class AuthService {
       })
     }
 
-    const { password, rememberToken, ...userWithoutPassword } = user
+    const { password, rememberToken, ...userWithoutPassword } = user.toObject()
 
     const access_token = await AccessTokenProvider.sign(userWithoutPassword)
 

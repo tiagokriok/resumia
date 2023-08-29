@@ -5,17 +5,7 @@ import { User } from '../server/modules/users/users.schema'
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     isAuthenticated: false,
-    user: {} as Omit<
-      User,
-      | 'password'
-      | 'rememberToken'
-      | 'verifyAt'
-      | 'createdAt'
-      | 'updatedAt'
-      | 'deletedAt'
-      | 'isDeleted'
-      | 'createdBy'
-    >,
+    user: {} as Omit<User, 'password' | 'rememberToken'>,
     access_token: '',
   }),
   getters: {

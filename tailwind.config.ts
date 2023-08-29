@@ -15,4 +15,9 @@ export default <Partial<Config>>{
       },
     },
   },
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: ['lofi', 'black'],
+    darkTheme: 'black',
+  },
 }

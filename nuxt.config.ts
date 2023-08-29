@@ -40,4 +40,12 @@ export default defineNuxtConfig({
   nitro: {
     plugins: ['~/server/plugins/database.ts'],
   },
+  routeRules: {
+    '/app/**': {
+      ssr: false,
+    },
+    '/': {
+      redirect: '/app/login',
+    },
+  },
 })

@@ -8,7 +8,7 @@ export interface User {
   email: string
   password: string
   rememberToken?: string
-  role: 'owner' | 'manager' | 'staff' | 'sys_admin'
+  role: 'owner' | 'common' | 'sys_admin'
 }
 
 const UserSchema = new Schema<User>(
@@ -40,17 +40,13 @@ const UserSchema = new Schema<User>(
     },
     role: {
       type: String,
-      enum: ['owner', 'manager', 'staff', 'sys_admin'],
-      default: 'staff',
+      enum: ['owner', 'common', 'sys_admin'],
+      default: 'common',
     },
   },
   {
     collection: 'users',
   },
 )
-
-UserSchema.pre(/^update/, function () {
-  this.set({ updatedAt: Date.now() })
-})
 
 export const Users = model<User>('User', UserSchema)
