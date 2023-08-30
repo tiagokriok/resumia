@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server'
 import { createPresignedUrl } from '~/server/providers/s3'
 import { Context } from '~/server/trpc/context'
 import { CreateFileInput } from './dto'
-import { Files } from './files.schema'
+import { File, Files } from './files.schema'
 
 class FileService {
   public static async createPresignedUrl({
@@ -12,7 +12,7 @@ class FileService {
     input: CreateFileInput
     ctx: Context
   }): Promise<{
-    fileId: string
+    file: File
     presignedUrl: string
   }> {
     const user = ctx.user
@@ -38,7 +38,7 @@ class FileService {
     )
 
     return {
-      fileId: file.id,
+      file,
       presignedUrl,
     }
   }

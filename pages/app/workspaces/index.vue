@@ -17,8 +17,28 @@
 
   const { mutateAsync: createPresignedUrl } = useMutation({
     mutationFn: $client.files.createPresignedUrl.mutate,
-    onSuccess: (result) => {
-      console.log(result)
+    onSuccess: async ({ file: { mimeType, id }, presignedUrl: url }) => {
+      if (file.value) {
+        const formData = new FormData()
+        formData.append('file', file.value)
+        formData.append('Content-Type', mimeType)
+
+        await useFetch(url, {
+          method: 'PUT',
+          body: formData,
+        })
+          .then((res) => {
+            if (res.status.value === 'success') {
+              console.info('File uploaded')
+            }
+          })
+          .catch((err) => {
+            errorHandler(err)
+          })
+      } else {
+        console.info('No file selected')
+      }
+      return id
     },
     onError: (error) => errorHandler(error),
   })
@@ -27,28 +47,13 @@
     const target = event.target as HTMLInputElement
     if (target.files && target.files.length) {
       file.value = target.files[0]
-      console.log(file.value)
-      const { presignedUrl: url, fileId } = await createPresignedUrl({
+
+      await createPresignedUrl({
         label: file.value.name,
         name: file.value.name,
         size: file.value.size,
         mimeType: file.value.type,
         type: 'document',
-      })
-
-      const data = {
-        'Content-Type': file.value.type,
-        file: file.value,
-      }
-
-      const formData = new FormData()
-      Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value)
-      })
-
-      const response = await $fetch(url, {
-        method: 'PUT',
-        body: formData,
       })
     }
   }

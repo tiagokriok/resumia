@@ -55,7 +55,7 @@ class AuthService {
       })
     }
 
-    const { password, rememberToken, ...userWithoutPassword } = user.toObject()
+    const { password, rememberToken, ...userWithoutPassword } = user
 
     const access_token = await AccessTokenProvider.sign(userWithoutPassword)
 
