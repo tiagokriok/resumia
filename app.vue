@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+  import { usePreferredLanguages } from '@vueuse/core'
+
+  const languages = usePreferredLanguages()
+
+  const { setLocale } = useI18n()
+
+  setLocale(languages.value[0] || 'en-US')
   window.addEventListener('resize', () => {
     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
     let vh = window.innerHeight * 0.01
