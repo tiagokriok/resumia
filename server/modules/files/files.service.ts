@@ -5,10 +5,9 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { Readable } from 'node:stream'
 import { finished } from 'node:stream/promises'
-import { pdfLoader } from '~/server/providers/langchain'
+import { pdfLoader, splitter, vectorStore } from '~/server/providers/langchain'
 import { createPresignedUrl } from '~/server/providers/s3'
 import { Context } from '~/server/trpc/context'
-import { sseHooks } from '~/server/utils/hooks'
 import { CreateFileInput } from './dto'
 import { File, Files } from './files.schema'
 
@@ -93,7 +92,9 @@ class FileService {
     // @ts-ignore
     await finished(Readable.fromWeb(response.body).pipe(fileStream))
 
-    await pdfLoader(destination)
+    const documents = await pdfLoader(destination)
+    const splittedDocuments = await splitter(documents)
+    await vectorStore(splittedDocuments, `${user.id}:${file.id}`)
 
     await unlink(destination)
 

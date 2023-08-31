@@ -32,7 +32,9 @@
             if (res.status.value === 'success') {
               console.info('File uploaded')
               eventSource.value = useEventSource(`/api/${doc.id}`)
-              await $client.files.embedFile.mutate(doc.id)
+              $client.files.embedFile.mutate(doc.id).catch((err) => {
+                errorHandler(err)
+              })
             }
           })
           .catch((err) => {
