@@ -16,7 +16,7 @@ if (!_env.success) {
   throw new Error('Invalid environment variables')
 }
 
-const env = _env.data
+export const env = _env.data
 
 export const s3 = new S3({
   region: env.AWS_DEFAULT_REGION,

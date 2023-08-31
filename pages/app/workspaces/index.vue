@@ -12,24 +12,27 @@
   const file = ref<File>()
   const question = ref('')
   const questionEnabled = ref(false)
+  const eventSource = ref()
 
   const { $client } = useNuxtApp()
 
   const { mutateAsync: createPresignedUrl } = useMutation({
     mutationFn: $client.files.createPresignedUrl.mutate,
-    onSuccess: async ({ file: { mimeType, id }, presignedUrl: url }) => {
+    onSuccess: async ({ file: doc, presignedUrl: url }) => {
       if (file.value) {
         const formData = new FormData()
         formData.append('file', file.value)
-        formData.append('Content-Type', mimeType)
+        formData.append('Content-Type', doc.mimeType)
 
         await useFetch(url, {
           method: 'PUT',
           body: formData,
         })
-          .then((res) => {
+          .then(async (res) => {
             if (res.status.value === 'success') {
               console.info('File uploaded')
+              eventSource.value = useEventSource(`/api/${doc.id}`)
+              await $client.files.embedFile.mutate(doc.id)
             }
           })
           .catch((err) => {
@@ -38,7 +41,7 @@
       } else {
         console.info('No file selected')
       }
-      return id
+      return doc
     },
     onError: (error) => errorHandler(error),
   })
@@ -68,6 +71,7 @@
         accept="application/pdf"
       />
     </div>
+    <p v-if="eventSource?.data">{{ eventSource.data }}</p>
     <div
       v-if="questionEnabled"
       class="form-control flex-1 place-content-end my-8 w-full max-w-xs"

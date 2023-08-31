@@ -58,6 +58,7 @@ const FileSchema = new Schema<File>(
       _id: false,
       id: {
         type: String,
+        ref: 'User',
         required: true,
       },
       name: {
