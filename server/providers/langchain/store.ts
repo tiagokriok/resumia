@@ -3,7 +3,7 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { RedisVectorStore } from 'langchain/vectorstores/redis'
 import { redis } from '../redis'
 
-export async function vectorStore(
+export async function embedDocuments(
   documents: Document<Record<string, any>>[],
   keyPrefix: string,
 ) {
@@ -17,9 +17,22 @@ export async function vectorStore(
     {
       indexName: 'resumia-embeddings',
       redisClient: redis,
-      keyPrefix: 'resumia:',
+      keyPrefix: `resumia:${keyPrefix}:`,
     },
   )
 
-  // await redis.disconnect()
+  await redis.disconnect()
+}
+
+export function vectorStore(keyPrefix: string) {
+  return new RedisVectorStore(
+    new OpenAIEmbeddings({
+      openAIApiKey: process.env.OPENAI_API_KEY,
+    }),
+    {
+      indexName: 'resumia-embeddings',
+      redisClient: redis,
+      keyPrefix: `resumia:${keyPrefix}:`,
+    },
+  )
 }

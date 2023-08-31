@@ -1,3 +1,5 @@
+export * from './chat'
 export * from './loader'
+export * from './search'
 export * from './splitter'
 export * from './store'
