@@ -17,9 +17,7 @@ class AccessTokenProvider {
    * @returns The JWT token signed with the user object, secret and options.
    * @throws An error if there is an issue signing the user object.
    */
-  public static async sign(
-    user: Omit<User, 'password' | 'rememberToken'>,
-  ) {
+  public static async sign(user: Omit<User, 'password' | 'rememberToken'>) {
     try {
       const config = useRuntimeConfig()
       return await new SignJWT({ user })
@@ -46,6 +44,7 @@ class AccessTokenProvider {
       )
       return payload as tokenPayload
     } catch (error) {
+      console.error(error)
       throw new TRPCError({ code: 'UNAUTHORIZED' })
     }
   }

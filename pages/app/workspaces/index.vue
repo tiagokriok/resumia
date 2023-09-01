@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { useMutation } from '@tanstack/vue-query'
   import { errorHandler } from '~/lib/Error'
+  import { useAuthStore } from '../../../stores/auth'
 
   definePageMeta({
     middleware: ['auth'],
@@ -9,14 +10,22 @@
     roles: ['owner', 'common'],
   })
 
+  const auth = useAuthStore()
+
   const file = ref<File>()
   const question = ref('')
   const questionEnabled = ref(false)
   const eventSource = ref()
 
+  const embeddingIsDone = computed(() =>
+    eventSource.value?.data
+      ? !!JSON.parse(eventSource.value.data).finished
+      : false,
+  )
+
   const { $client } = useNuxtApp()
 
-  const { mutateAsync: createPresignedUrl } = useMutation({
+  const { mutateAsync: createPresignedUrl, data } = useMutation({
     mutationFn: $client.files.createPresignedUrl.mutate,
     onSuccess: async ({ file: doc, presignedUrl: url }) => {
       if (file.value) {
@@ -62,6 +71,20 @@
       })
     }
   }
+
+  const send = async () => {
+    console.log('send', auth.access_token)
+    await useFetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        question: question.value,
+        fileId: data.value?.file.id,
+      }),
+      headers: {
+        Authorization: auth.access_token,
+      },
+    })
+  }
 </script>
 <template>
   <div class="flex flex-col h-screen">
@@ -73,9 +96,9 @@
         accept="application/pdf"
       />
     </div>
-    <p v-if="eventSource?.data">{{ eventSource.data }}</p>
+    <p v-if="embeddingIsDone">{{ eventSource.data }}</p>
     <div
-      v-if="questionEnabled"
+      v-if="embeddingIsDone"
       class="form-control flex-1 place-content-end my-8 w-full max-w-xs"
     >
       <div class="join">
@@ -84,7 +107,10 @@
           class="input input-bordered input-accent join-item max-w-xs w-full rounded-l-full"
           placeholder="Question"
         />
-        <button class="btn btn-outline join-item rounded-r-full btn-accent">
+        <button
+          class="btn btn-outline join-item rounded-r-full btn-accent"
+          @click="send"
+        >
           Send
         </button>
       </div>

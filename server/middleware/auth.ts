@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   if (headers.authorization) {
     const authorization = headers.authorization
 
-    const [, token] = authorization.split(' ')
+    const token = authorization.replace('Bearer ', '')
     const { user } = await AccessTokenProvider.decode(token)
 
     if (!user) {

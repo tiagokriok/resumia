@@ -8,11 +8,13 @@ export const openAiChat = new ChatOpenAI({
   openAIApiKey: process.env.OPENAI_API_KEY,
   modelName: 'gpt-3.5-turbo',
   temperature: 0.3,
+  streaming: true,
 })
 
 export async function sendPrompt(keyPrefix: string, question: string) {
-  const prompt = new PromptTemplate({
-    template: `
+  try {
+    const prompt = new PromptTemplate({
+      template: `
 			Você é especialista em analise de documentos.
 			O usuário recebeu esse documento e precisa de ajuda para entender o conteúdo.
 			Se a resposta não for encontrada no conteúdo do documento, responda que você não encontrou nenhuma informação sobre o assunto, não tente inventar uma resposta.
@@ -22,24 +24,26 @@ export async function sendPrompt(keyPrefix: string, question: string) {
 			Pergunta:
 			{question}
 		`.trim(),
-    inputVariables: ['context', 'question'],
-  })
+      inputVariables: ['context', 'question'],
+    })
 
-  const store = vectorStore(keyPrefix)
+    const store = vectorStore(keyPrefix)
 
-  const chain = RetrievalQAChain.fromLLM(openAiChat, store.asRetriever(3), {
-    prompt,
-    returnSourceDocuments: true,
-    verbose: true,
-  })
+    const chain = RetrievalQAChain.fromLLM(openAiChat, store.asRetriever(3), {
+      prompt,
+    })
 
-  await redis.connect()
+    await redis.connect()
 
-  const response = await chain.call({
-    query: question,
-  })
+    const response = await chain.call({
+      query: question,
+    })
 
-  console.log(response)
+    await redis.disconnect()
 
-  await redis.disconnect()
+    return response
+  } catch (error) {
+    console.error(error)
+    throw new Error('Send prompt error')
+  }
 }

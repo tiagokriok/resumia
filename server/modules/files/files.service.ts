@@ -105,6 +105,7 @@ class FileService {
     sseHooks.callHook('sse:event', {
       id: file.id,
       name: file.name,
+      finished: true,
     })
   }
 }
