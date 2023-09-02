@@ -1,3 +1,4 @@
+import { LangChainStream, StreamingTextResponse } from 'ai'
 import { sendPrompt } from '../providers/langchain'
 
 export const runtime = 'edge'
@@ -17,22 +18,32 @@ export default defineLazyEventHandler(() => {
     }
 
     // Extract the `prompt` from the body of the request
-    const { question, fileId } = await readBody(event)
+    const { fileId, messages } = await readBody(event)
+
+    console.log('fileId', fileId, 'messages', messages)
 
     if (!fileId) {
-      throw createError({ statusCode: 400, statusMessage: 'Bad Request' })
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request',
+        message: 'Missing file id',
+      })
     }
 
-    if (!question) {
-      throw createError({ statusCode: 400, statusMessage: 'Bad Request' })
-    }
+    // if (!question) {
+    //   throw createError({
+    //     statusCode: 400,
+    //     statusMessage: 'Bad Request',
+    //     message: 'Missing question',
+    //   })
+    // }
 
-    const response = await sendPrompt(`${user.id}:${fileId}`, question).catch(
+    const { stream, handlers } = LangChainStream()
+
+    sendPrompt(`${user.id}:${fileId}`, messages.at(-1).content, handlers).catch(
       console.error,
     )
 
-    return {
-      response,
-    }
+    return new StreamingTextResponse(stream)
   })
 })

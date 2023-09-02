@@ -1,5 +1,6 @@
 import { RetrievalQAChain } from 'langchain/chains'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { BaseCallbackConfig } from 'langchain/dist/callbacks/manager'
 import { PromptTemplate } from 'langchain/prompts'
 import { redis } from '../redis'
 import { vectorStore } from './store'
@@ -11,7 +12,11 @@ export const openAiChat = new ChatOpenAI({
   streaming: true,
 })
 
-export async function sendPrompt(keyPrefix: string, question: string) {
+export async function sendPrompt(
+  keyPrefix: string,
+  question: string,
+  handlers: unknown,
+) {
   try {
     const prompt = new PromptTemplate({
       template: `
@@ -35,9 +40,12 @@ export async function sendPrompt(keyPrefix: string, question: string) {
 
     await redis.connect()
 
-    const response = await chain.call({
-      query: question,
-    })
+    const response = await chain.call(
+      {
+        query: question,
+      },
+      handlers as BaseCallbackConfig,
+    )
 
     await redis.disconnect()
 

@@ -17,7 +17,6 @@ export default <Partial<Config>>{
   },
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ['cmyk', 'synthwave'],
-    darkTheme: 'synthwave',
+    themes: ['lofi'],
   },
 }
