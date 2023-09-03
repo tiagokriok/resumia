@@ -1,5 +1,11 @@
+<script setup lang="ts">
+  const trends = ref([])
+</script>
 <template>
-  <div class="flex flex-col space-y-2">
+  <div
+    v-if="trends.length"
+    class="flex flex-col space-y-2"
+  >
     <div class="flex items-center justify-between">
       <p class="text-xl font-bold">Treding chats</p>
       <a

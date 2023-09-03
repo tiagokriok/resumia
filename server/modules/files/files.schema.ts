@@ -14,6 +14,7 @@ export interface File {
     id: string
     name: string
   }
+  sharable: boolean
   createdAt: Date
   deletedAt?: Date
   isDeleted: boolean
@@ -65,6 +66,10 @@ const FileSchema = new Schema<File>(
         type: String,
         required: true,
       },
+    },
+    sharable: {
+      type: Boolean,
+      default: false,
     },
     createdAt: {
       type: Date,
