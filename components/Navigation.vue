@@ -1,6 +1,6 @@
 <template>
   <div
-    class="btm-nav btm-nav-md sticky inset-x-0 bottom-4 rounded-full glass p-1 shadow-md"
+    class="btm-nav btm-nav-md fixed z-50 inset-x-0 bottom-2 rounded-full glass p-1 shadow-md max-w-sm mx-auto"
   >
     <div>
       <NuxtLink to="/app/workspaces">
