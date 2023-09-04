@@ -58,7 +58,7 @@
 
     <div
       v-else
-      class="card card-compact w-96 bg-base-100 shadow-xl"
+      class="card card-compact w-full bg-base-100 shadow-xl"
     >
       <figure>
         <img
