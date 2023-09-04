@@ -1,8 +1,18 @@
 export default {
-  languages: {
-    en: 'English',
-    es: 'Spanish',
-    br: 'Portuguese (Brazil)',
+  common: {
+    languages: {
+      en: 'English',
+      es: 'Spanish',
+      br: 'Portuguese (Brazil)',
+    },
+    buttons: {
+      save: 'Save',
+      cancel: 'Cancel',
+      delete: 'Delete',
+      add: 'Add',
+      create: 'Create',
+    },
+    nothingFound: 'Nothing found',
   },
   auth: {
     login: {
@@ -17,68 +27,15 @@ export default {
     register: {
       title: 'Sign up',
       name: 'Your Name',
-      account: 'Company Name',
-      username: 'Company Username',
       btnSignUp: 'Sign up',
     },
   },
-  backoffice: {
-    layout: {
-      hello: 'Hello,',
-      btnCreate: 'Create',
-      btnMenu: {
-        user: 'User',
-        event: 'Event',
-        appointment: 'Appointment',
-      },
-      createSchedule: 'Create Schedule',
-      createAppointment: 'Create Appointment',
+  components: {
+    recentlyViewed: {
+      title: 'Recently viewed',
+      seeAll: 'See all',
+      noChatsTitle: 'Looks like you don’t have any chats',
+      noChatsDescription: 'You can create by clicking on the button below',
     },
-  },
-  modal: {
-    form: {
-      event: {
-        name: 'Name',
-        description: 'Description',
-        duration: 'Duration',
-        inMinutes: 'Duration in minutes',
-        timeInAdvance: 'Time in advance',
-        timezone: 'Timezone',
-        selectTimezone: 'Select timezone',
-        price: 'Price',
-        slug: 'Slug',
-        isActive: 'Active',
-      },
-      availability: {
-        title: 'Availability',
-        label: 'Label',
-        startTime: 'Start time',
-        endTime: 'End time',
-        capacity: 'Maximum',
-        max: 'Capacity',
-        isActive: 'Active',
-        staff: 'Staff',
-      },
-    },
-  },
-  common: {
-    buttons: {
-      save: 'Save',
-      cancel: 'Cancel',
-      delete: 'Delete',
-      add: 'Add',
-      selectTime: 'Select time',
-    },
-    daysOfTheWeek: 'Days of the week',
-    daysOfWeek: {
-      monday: 'Monday',
-      tuesday: 'Tuesday',
-      wednesday: 'Wednesday',
-      thursday: 'Thursday',
-      friday: 'Friday',
-      saturday: 'Saturday',
-      sunday: 'Sunday',
-    },
-    nothingFound: 'Nothing found',
   },
 }

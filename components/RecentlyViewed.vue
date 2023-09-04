@@ -3,16 +3,10 @@
 
   const { $client } = useNuxtApp()
 
-  const { data: conversations, isLoading } = useQuery({
+  const { data: chats, isLoading } = useQuery({
     queryKey: ['recentlyViewed'],
     queryFn: async () => {
-      return await $client.conversations.find.query({
-        limit: 10,
-        offset: 0,
-        order: 'desc',
-        orderBy: 'updatedAt',
-        columns: ['id', 'messages', 'updatedAt'],
-      })
+      return await $client.conversations.getRecentlyChats.query()
     },
   })
 </script>
@@ -22,26 +16,28 @@
     class="flex flex-col space-y-2"
   >
     <div class="flex items-center justify-between">
-      <p class="text-xl font-bold">Recently viewed</p>
+      <p class="text-xl font-bold">
+        {{ $t('components.recentlyViewed.title') }}
+      </p>
       <NuxtLink
         to="/app/workspaces/chats"
         class="text-gray-400 font-semibold text-lg hover:text-gray-600"
-        >See all</NuxtLink
+        >{{ $t('components.recentlyViewed.seeAll') }}</NuxtLink
       >
     </div>
 
     <div
-      v-if="conversations?.total"
+      v-if="chats?.length"
       class="card w-full bg-base-300 shadow-xl rounded-3xl"
     >
       <div class="card-body p-4 flex flex-col space-y-2">
         <button
-          v-for="conversation in conversations?.items"
+          v-for="chat in chats"
           class="flex items-center space-x-2 bg-secondary-content rounded-full py-4 justify-evenly px-2 cursor-pointer hover:bg-base-200"
-          :key="conversation.id"
+          :key="chat.id"
         >
           <div
-            v-if="conversation.messages.length > 0"
+            v-if="chat.lastMessage"
             class="bg-base-300 rounded-full h-12 w-12 flex items-center justify-center"
           >
             <Icon
@@ -50,7 +46,7 @@
             />
           </div>
           <div class="flex-1">
-            <p>"{{ conversation.messages.at(-1)?.content }}"</p>
+            <p>"{{ chat.lastMessage }}"</p>
           </div>
         </button>
       </div>
@@ -63,14 +59,18 @@
       <figure>
         <img
           src="/searching.svg"
-          class="w-72"
+          class="w-2/3"
         />
       </figure>
       <div class="card-body">
-        <h2 class="card-title">Looks like you don't have any chats</h2>
-        <p>Lets create a new one</p>
+        <h2 class="card-title">
+          {{ $t('components.recentlyViewed.noChatsTitle') }}
+        </h2>
+        <p>{{ $t('components.recentlyViewed.noChatsDescription') }}</p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary rounded-full">Create</button>
+          <button class="btn capitalize btn-primary rounded-full">
+            {{ $t('common.buttons.create') }}
+          </button>
         </div>
       </div>
     </div>

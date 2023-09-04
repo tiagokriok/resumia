@@ -3,7 +3,15 @@ import { SearchQuery } from '~/lib/types/Search'
 import { Context } from '~/server/trpc/context'
 import { Conversation, Conversations } from './conversations.schema'
 
-export const find = async ({
+interface RecentlyChats {
+  id: string
+  lastMessage: string
+  fileId: string
+  label: string
+  updatedAt: Date
+}
+
+export const findConversations = async ({
   input,
   ctx,
 }: {
@@ -51,4 +59,41 @@ export const find = async ({
     total,
     items: conversations,
   }
+}
+
+export const getRecentlyChats = async ({
+  ctx,
+}: {
+  ctx: Context
+}): Promise<RecentlyChats[]> => {
+  if (!ctx.user?.id) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  const recentlyChats: RecentlyChats[] = await Conversations.find(
+    {
+      'owner.id': ctx.user?.id,
+      isDeleted: false,
+    },
+    {
+      id: 1,
+      fileId: '$file.id',
+      label: '$file.label',
+      lastMessage: {
+        $last: '$messages.content',
+      },
+      updatedAt: 1,
+    },
+    {
+      limit: 10,
+      sort: {
+        updatedAt: 'desc',
+      },
+    },
+  ).lean()
+
+  return recentlyChats
 }

@@ -4,6 +4,7 @@ import { nanoid } from '../../providers/nanoid'
 export interface File {
   id: string
   label: string
+  description: string
   name: string
   type: 'image' | 'video' | 'audio' | 'document'
   mimeType: string
@@ -31,6 +32,9 @@ const FileSchema = new Schema<File>(
     label: {
       type: String,
       required: true,
+    },
+    description: {
+      type: String,
     },
     name: {
       type: String,
