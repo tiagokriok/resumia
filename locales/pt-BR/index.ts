@@ -38,4 +38,18 @@ export default {
       noChatsDescription: 'Você pode criar por clicar no botão abaixo.',
     },
   },
+  files: {
+    create: {
+      title: 'Enviar arquivo',
+      label: 'Etiqueta',
+      description: 'Descrição',
+      uploadFile: 'Enviar seu arquivo',
+      clickUpload: 'Clique para enviar',
+      error: {
+        noFileSelectedTitle: 'Nenhum arquivo selecionado',
+        noFileSelectedDescription:
+          'Por favor, selecione um arquivo para enviar',
+      },
+    },
+  },
 }

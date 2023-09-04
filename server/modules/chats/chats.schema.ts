@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 import { nanoid } from '~/server/providers/nanoid'
 import { Message } from '../messages/messages.schema'
 
-export interface Conversation {
+export interface Chat {
   id: string
   owner: {
     id: string
@@ -19,7 +19,7 @@ export interface Conversation {
   isDeleted: boolean
 }
 
-const ConversationSchema = new Schema<Conversation>(
+const ChatSchema = new Schema<Chat>(
   {
     id: {
       type: String,
@@ -98,16 +98,13 @@ const ConversationSchema = new Schema<Conversation>(
     },
   },
   {
-    collection: 'conversations',
+    collection: 'chats',
     versionKey: false,
   },
 )
 
-ConversationSchema.pre(/^update/, function () {
+ChatSchema.pre(/^update/, function () {
   this.set({ updatedAt: Date.now() })
 })
 
-export const Conversations = model<Conversation>(
-  'Conversation',
-  ConversationSchema,
-)
+export const Chats = model<Chat>('Chat', ChatSchema)

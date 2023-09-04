@@ -21,7 +21,7 @@
   const { $client } = useNuxtApp()
 
   const { mutateAsync: createPresignedUrl, data } = useMutation({
-    mutationFn: $client.files.createPresignedUrl.mutate,
+    mutationFn: $client.files.create.mutate,
     onSuccess: async ({ file: doc, presignedUrl: url }) => {
       if (file.value) {
         const formData = new FormData()

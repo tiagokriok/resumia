@@ -5,7 +5,7 @@
     <h1 class="font-bold text-3xl">Resumia</h1>
     <div class="flex items-center space-x-4">
       <Avatar />
-      <BellNotification />
+      <!-- <BellNotification /> -->
     </div>
   </div>
 </template>

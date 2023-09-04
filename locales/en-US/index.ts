@@ -38,4 +38,17 @@ export default {
       noChatsDescription: 'You can create by clicking on the button below',
     },
   },
+  files: {
+    create: {
+      title: 'Upload File',
+      label: 'Label',
+      description: 'Description',
+      uploadFile: 'Upload your file',
+      clickUpload: 'Click to upload',
+      error: {
+        noFileSelectedTitle: 'No file selected',
+        noFileSelectedDescription: 'Please select a file to upload',
+      },
+    },
+  },
 }

@@ -1,12 +1,12 @@
 import { authRouter } from '~/server/modules/auth/auth.router'
-import { conversationRouter } from '~/server/modules/conversations/conversations.router'
+import { chatRouter } from '~/server/modules/chats/chats.router'
 import { fileRouter } from '~/server/modules/files/files.router'
 import { router } from '../trpc'
 
 export const appRouter = router({
   auth: authRouter,
   files: fileRouter,
-  conversations: conversationRouter,
+  chats: chatRouter,
 })
 
 // export type definition of API

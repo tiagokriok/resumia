@@ -38,4 +38,18 @@ export default {
       noChatsDescription: 'Puedes crearlo haciendo clic en el botón.',
     },
   },
+  files: {
+    create: {
+      title: 'Subir archivo',
+      label: 'Etiqueta',
+      description: 'Descripción',
+      uploadFile: 'Subir tu archivo',
+      clickUpload: 'Clic para subir',
+      error: {
+        noFileSelectedTitle: 'No se ha seleccionado ningún archivo',
+        noFileSelectedDescription:
+          'Por favor, seleccione un archivo para subir',
+      },
+    },
+  },
 }

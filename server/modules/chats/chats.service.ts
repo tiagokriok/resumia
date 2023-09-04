@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server'
 import { SearchQuery } from '~/lib/types/Search'
 import { Context } from '~/server/trpc/context'
-import { Conversation, Conversations } from './conversations.schema'
+import { Chat, Chats } from './chats.schema'
 
 interface RecentlyChats {
   id: string
@@ -11,13 +11,13 @@ interface RecentlyChats {
   updatedAt: Date
 }
 
-export const findConversations = async ({
+export const findChats = async ({
   input,
   ctx,
 }: {
   input: SearchQuery
   ctx: Context
-}): Promise<{ total: number; items: Conversation[] }> => {
+}): Promise<{ total: number; items: Chat[] }> => {
   if (!ctx.user?.id) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
@@ -46,8 +46,8 @@ export const findConversations = async ({
     })
   }
 
-  const total = await Conversations.count(filter)
-  const conversations = await Conversations.find(filter, projection, {
+  const total = await Chats.count(filter)
+  const chats = await Chats.find(filter, projection, {
     skip: input.offset,
     take: input.limit,
     sort: {
@@ -57,7 +57,7 @@ export const findConversations = async ({
 
   return {
     total,
-    items: conversations,
+    items: chats,
   }
 }
 
@@ -73,7 +73,7 @@ export const getRecentlyChats = async ({
     })
   }
 
-  const recentlyChats: RecentlyChats[] = await Conversations.find(
+  const recentlyChats: RecentlyChats[] = await Chats.find(
     {
       'owner.id': ctx.user?.id,
       isDeleted: false,
@@ -96,4 +96,38 @@ export const getRecentlyChats = async ({
   ).lean()
 
   return recentlyChats
+}
+
+export const createChat = async ({
+  input,
+  ctx,
+}: {
+  input: {
+    id: string
+    label: string
+  }
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  const chat = await Chats.create({
+    owner: {
+      id: user.id,
+      name: user.name,
+    },
+    file: {
+      id: input.id,
+      label: input.label,
+    },
+    messages: [],
+  })
+
+  return chat.toObject()
 }

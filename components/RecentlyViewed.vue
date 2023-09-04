@@ -6,7 +6,7 @@
   const { data: chats, isLoading } = useQuery({
     queryKey: ['recentlyViewed'],
     queryFn: async () => {
-      return await $client.conversations.getRecentlyChats.query()
+      return await $client.chats.getRecentlyChats.query()
     },
   })
 </script>
@@ -68,9 +68,12 @@
         </h2>
         <p>{{ $t('components.recentlyViewed.noChatsDescription') }}</p>
         <div class="card-actions justify-end">
-          <button class="btn capitalize btn-primary rounded-full">
+          <NuxtLink
+            to="/app/workspaces/files/create"
+            class="btn capitalize btn-primary rounded-full"
+          >
             {{ $t('common.buttons.create') }}
-          </button>
+          </NuxtLink>
         </div>
       </div>
     </div>
