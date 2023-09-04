@@ -11,6 +11,9 @@ dependencies:
   '@aws-sdk/s3-request-presigner':
     specifier: ^3.400.0
     version: 3.400.0
+  '@nuxtjs/device':
+    specifier: ^3.1.0
+    version: 3.1.0
   '@nuxtjs/google-fonts':
     specifier: ^3.0.2
     version: 3.0.2
@@ -2019,6 +2022,16 @@ packages:
       - vls
       - vti
       - vue-tsc
+
+  /@nuxtjs/device@3.1.0:
+    resolution: {integrity: sha512-jXWCVuPmzsGpn86GTA9/TOmfWulf9h3r2g6o5LpoZk4P1a9McMlpbDiaMPmyG5erfCj6H+XoZ6HBPCN9DtoCDA==}
+    dependencies:
+      '@nuxt/kit': 3.7.0
+      defu: 6.1.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: false
 
   /@nuxtjs/google-fonts@3.0.2:
     resolution: {integrity: sha512-9DY0NcBnx/I6+3Lr7NeB64k5A7GbqCN1pqVgU9ld00NEXSpDUht2+lG8mcC5UnmpTi8KCdCJckDbD/bqW3ncYg==}
