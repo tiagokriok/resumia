@@ -5,7 +5,7 @@
 </script>
 <template>
   <Container>
-    <div class="m-2 font-lato relative vh">
+    <div class="font-lato relative vh">
       <Header v-if="!hideHeader" />
       <slot />
       <Navigation v-if="!hideNavigation" />

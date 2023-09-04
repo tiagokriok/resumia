@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-headlessui',
     'nuxt-icon',
+    '@nuxtjs/device',
   ],
   i18n: {
     vueI18n: './locales/i18n.config.ts',

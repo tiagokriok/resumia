@@ -1,8 +1,9 @@
 <template>
+  <div class="pb-20" />
   <div
-    class="btm-nav btm-nav-md sticky inset-x-0 bottom-4 rounded-full glass p-1 shadow-md"
+    class="fixed inset-x-0 bottom-4 z-50 h-16 sm:max-w-sm mx-4 flex items-center justify-between px-1 rounded-full glass shadow-md"
   >
-    <div>
+    <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces">
         <Icon
           name="ph:house-line"
@@ -10,13 +11,15 @@
         />
       </NuxtLink>
     </div>
-    <NuxtLink to="/app/workspaces/files">
-      <Icon
-        name="ph:file-arrow-up-light"
-        class="w-6 h-6"
-      />
-    </NuxtLink>
-    <div>
+    <div class="flex justify-center h-14 w-14 items-center">
+      <NuxtLink to="/app/workspaces/files">
+        <Icon
+          name="ph:file-arrow-up-light"
+          class="w-6 h-6"
+        />
+      </NuxtLink>
+    </div>
+    <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces/chats">
         <Icon
           name="ph:chat-circle-text-light"
@@ -24,18 +27,20 @@
         />
       </NuxtLink>
     </div>
-    <NuxtLink to="/app/workpaces/settings">
-      <Icon
-        name="ph:gear-six-light"
-        class="w-6 h-6"
-      />
-    </NuxtLink>
+    <div class="flex justify-center h-14 w-14 items-center">
+      <NuxtLink to="/app/workpaces/settings">
+        <Icon
+          name="ph:gear-six-light"
+          class="w-6 h-6"
+        />
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
 <style scoped>
   .router-link-active {
-    @apply bg-primary font-bold text-primary-content rounded-full h-full w-full flex justify-center items-center;
+    @apply bg-primary font-bold text-primary-content rounded-full h-14 w-14 flex justify-center items-center;
   }
   .router-link-active:hover {
     @apply bg-base-300 text-base-content;
