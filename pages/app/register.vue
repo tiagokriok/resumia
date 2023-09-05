@@ -41,7 +41,7 @@
 <template>
   <div>
     <div
-      class="card border border-slate-700 bg-base-100 p-4 shadow-xl shadow-slate-700 md:w-96"
+      class="card rounded-xl border border-slate-700 bg-base-100 p-4 shadow-xl shadow-slate-700 md:w-96"
     >
       <div class="card-title">
         <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl">
@@ -61,7 +61,7 @@
             v-model="form.name"
             name="name"
             type="text"
-            class="input input-bordered"
+            class="input input-bordered rounded-xl"
           />
         </div>
         <div class="form-control">
@@ -75,7 +75,7 @@
             v-model="form.email"
             name="email"
             type="email"
-            class="input input-bordered"
+            class="input input-bordered rounded-xl"
           />
         </div>
         <div class="form-control">
@@ -92,10 +92,10 @@
               v-model="form.password"
               name="password"
               :type="inputType"
-              class="input join-item input-bordered w-full"
+              class="input join-item input-bordered w-full rounded-xl"
             />
             <button
-              class="btn btn-outline join-item"
+              class="btn btn-outline join-item rounded-xl"
               @click="
                 inputType = inputType === 'password' ? 'text' : 'password'
               "
@@ -110,7 +110,7 @@
           <div class="flex w-full flex-col space-y-4 md:space-y-6">
             <div>
               <button
-                class="btn btn-primary btn-block"
+                class="btn btn-primary btn-block rounded-xl"
                 block
                 @click="submit"
               >
