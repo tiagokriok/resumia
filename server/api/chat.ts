@@ -3,6 +3,7 @@ import { RetrievalQAChain } from 'langchain/chains'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { PromptTemplate } from 'langchain/prompts'
 import { Chats } from '~/server/modules/chats/chats.schema'
+import { Messages } from '~/server/modules/messages/messages.schema'
 import { vectorStore } from '../providers/langchain'
 import { redis } from '../providers/redis'
 
@@ -71,7 +72,13 @@ export default defineLazyEventHandler(async () => {
         })
       }
 
-      // TODO: Save question
+      const question = await Messages.create({
+        chatId,
+        content: messages.at(-1).content,
+        role: 'user',
+      })
+
+      // TODO: update Chat
 
       const { stream, handlers } = LangChainStream()
 
@@ -91,12 +98,18 @@ export default defineLazyEventHandler(async () => {
 
       chain
         .call({
-          query: messages.at(-1).content,
+          query: question.content,
         })
         .then(async (response) => {
           await redis.disconnect()
-          // TODO: save response
-          console.log(response)
+
+          await Messages.create({
+            chatId,
+            content: response.text,
+            role: 'assistant',
+          })
+
+          // TODO: update Chat
         })
         .catch(console.error)
 

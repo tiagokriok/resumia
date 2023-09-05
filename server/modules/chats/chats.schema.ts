@@ -12,7 +12,7 @@ export interface Chat {
     id: string
     label: string
   }
-  messages: Omit<Message, 'conversationId'>[]
+  messages: Omit<Message, 'chatId'>[]
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date
@@ -64,8 +64,9 @@ const ChatSchema = new Schema<Chat>(
           createdAt: {
             type: Date,
           },
-          fromUser: {
-            type: Boolean,
+          role: {
+            type: String,
+            enum: ['user', 'assistant'],
           },
         },
       ],

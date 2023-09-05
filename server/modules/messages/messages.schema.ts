@@ -5,8 +5,8 @@ export interface Message {
   id: string
   content: string
   createdAt: Date
-  fromUser: boolean
-  conversationId: string
+  role: 'user' | 'assistant'
+  chatId: string
 }
 
 const MessageSchema = new Schema<Message>(
@@ -23,13 +23,13 @@ const MessageSchema = new Schema<Message>(
     },
     createdAt: {
       type: Date,
-      required: true,
+      defaut: Date.now,
     },
-    fromUser: {
-      type: Boolean,
-      default: false,
+    role: {
+      type: String,
+      enum: ['user', 'assistant'],
     },
-    conversationId: {
+    chatId: {
       type: String,
       required: true,
       ref: 'Conversation',
