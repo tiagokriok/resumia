@@ -76,6 +76,26 @@ export default defineLazyEventHandler(async () => {
 
       // TODO: update Chat
 
+      if (chat.messages.length >= 10) {
+        await Chats.updateOne(
+          { id: chatId },
+          {
+            $pop: {
+              messages: -1,
+            },
+          },
+        )
+      }
+
+      await Chats.updateOne(
+        { id: chatId },
+        {
+          $push: {
+            messages: question,
+          },
+        },
+      )
+
       const { stream, handlers } = LangChainStream()
 
       const openAiChat = new ChatOpenAI({
@@ -101,13 +121,32 @@ export default defineLazyEventHandler(async () => {
         .then(async (response) => {
           await redis.disconnect()
 
-          await Messages.create({
+          const answer = await Messages.create({
             chatId,
             content: response.text,
             role: 'assistant',
           })
 
           // TODO: update Chat
+          if (chat.messages.length >= 10) {
+            await Chats.updateOne(
+              { id: chatId },
+              {
+                $pop: {
+                  messages: -1,
+                },
+              },
+            )
+          }
+
+          await Chats.updateOne(
+            { id: chatId },
+            {
+              $push: {
+                messages: answer,
+              },
+            },
+          )
         })
         .catch(console.error)
 
