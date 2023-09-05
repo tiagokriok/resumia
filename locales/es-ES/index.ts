@@ -1,8 +1,18 @@
 export default {
-  languages: {
-    en: 'Inglés',
-    es: 'Español',
-    br: 'Portugués',
+  common: {
+    languages: {
+      en: 'Inglés',
+      es: 'Español',
+      br: 'Portugués',
+    },
+    buttons: {
+      save: 'Guardar',
+      cancel: 'Cancelar',
+      delete: 'Eliminar',
+      add: 'Agregar',
+      create: 'Crear',
+    },
+    nothingFound: 'Ningún resultado encontrado',
   },
   auth: {
     login: {
@@ -17,68 +27,29 @@ export default {
     register: {
       title: 'Registrarse',
       name: 'Tu nombre',
-      account: 'Nombre de empresa',
-      username: 'Nombre de usuario de la empresa',
       btnSignUp: 'Registrarse',
     },
   },
-  backoffice: {
-    layout: {
-      hello: 'Hola,',
-      btnCreate: 'Crear',
-      btnMenu: {
-        user: 'Usuario',
-        event: 'Evento',
-        appointment: 'Agendamiento',
-      },
-      createSchedule: 'Crear agenda',
-      createAppointment: 'Crear agendamiento',
+  components: {
+    recentlyViewed: {
+      title: 'Recientemente visto',
+      seeAll: 'Ver todo',
+      noChatsTitle: 'Te parece que no tienes chats',
+      noChatsDescription: 'Puedes crearlo haciendo clic en el botón.',
     },
   },
-  modal: {
-    form: {
-      event: {
-        name: 'Nombre',
-        description: 'Descripción',
-        duration: 'Duración',
-        inMinutes: 'Duración en minutos',
-        timeInAdvance: 'Tiempo de antecede',
-        timezone: 'Fuso horário',
-        selectTimezone: 'Seleccione el fuso horário',
-        price: 'Precio',
-        slug: 'Slug',
-        isActive: 'Activo',
-      },
-      availability: {
-        title: 'Disponibilidad',
-        label: 'Etiqueta',
-        startTime: 'Inicio',
-        endTime: 'Termínio',
-        capacity: 'Maxima',
-        max: 'Capacidad',
-        isActive: 'Activo',
-        staff: 'Calaboradores',
+  files: {
+    create: {
+      title: 'Subir archivo',
+      label: 'Etiqueta',
+      description: 'Descripción',
+      uploadFile: 'Subir tu archivo',
+      clickUpload: 'Clic para subir',
+      error: {
+        noFileSelectedTitle: 'No se ha seleccionado ningún archivo',
+        noFileSelectedDescription:
+          'Por favor, seleccione un archivo para subir',
       },
     },
-  },
-  common: {
-    buttons: {
-      save: 'Guardar',
-      cancel: 'Cancelar',
-      delete: 'Eliminar',
-      add: 'Agregar',
-      selectTime: 'Seleccionar tiempo',
-    },
-    daysOfTheWeek: 'Días de la semana',
-    daysOfWeek: {
-      monday: 'Lunes',
-      tuesday: 'Martes',
-      wednesday: 'Miércoles',
-      thursday: 'Jueves',
-      friday: 'Viernes',
-      saturday: 'Sábado',
-      sunday: 'Domingo',
-    },
-    nothingFound: 'Ningún resultado encontrado',
   },
 }

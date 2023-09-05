@@ -1,3 +1,4 @@
+import { Chats } from '~/server/modules/chats/chats.schema'
 import { sseHooks } from '../utils/hooks'
 
 export default defineEventHandler(async (event) => {
@@ -13,8 +14,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
-  const fileId = getRouterParam(event, 'fileId')
-  console.log(fileId)
+  const chatId = getRouterParam(event, 'chatId')
+
+  if (!chatId) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      message: 'Missing chatId',
+    })
+  }
+
+  const chat = await Chats.findOne({ id: chatId, 'owner.id': user.id })
+
+  if (!chat) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Not Found',
+      message: 'Chat not found',
+    })
+  }
 
   // if (!process.dev) return { disabled: true }
 
@@ -25,7 +43,7 @@ export default defineEventHandler(async (event) => {
   setResponseStatus(event, 200)
 
   const sendEvent = (data: { id: string; name: string }) => {
-    if (fileId !== data.id) event.node.res.end()
+    if (chat.file.id !== data.id) event.node.res.end()
     event.node.res.write(`id: ${data.id}\n`)
     event.node.res.write(`data: ${JSON.stringify(data)}\n\n`)
   }
