@@ -10,8 +10,6 @@ import { redis } from '../providers/redis'
 export const runtime = 'edge'
 
 export default defineLazyEventHandler(async () => {
-  await redis.connect()
-
   const prompt = new PromptTemplate({
     template: `
 			Você é especialista em analise de documentos.
@@ -52,8 +50,6 @@ export default defineLazyEventHandler(async () => {
 
       const { chatId, messages } = body
 
-      console.log('chatId', chatId, 'messages', messages)
-
       if (!chatId) {
         throw createError({
           statusCode: 400,
@@ -90,6 +86,8 @@ export default defineLazyEventHandler(async () => {
         callbacks: [handlers],
       })
 
+      await redis.connect()
+
       const store = vectorStore(chat.file.id)
 
       const chain = RetrievalQAChain.fromLLM(openAiChat, store.asRetriever(3), {
@@ -121,6 +119,7 @@ export default defineLazyEventHandler(async () => {
         statusCode: 400,
         statusMessage: 'Bad Request',
       })
+    } finally {
     }
   })
 })

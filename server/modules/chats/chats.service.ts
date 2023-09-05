@@ -61,6 +61,37 @@ export const findChats = async ({
   }
 }
 
+export const findOneChat = async ({
+  input,
+  ctx,
+}: {
+  input: string
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  const chat = await Chats.findOne({
+    id: input,
+    'owner.id': user.id,
+  })
+
+  if (!chat) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'Chat not found',
+    })
+  }
+
+  return chat
+}
+
 export const getRecentlyChats = async ({
   ctx,
 }: {

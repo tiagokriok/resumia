@@ -16,16 +16,32 @@
   const { $client } = useNuxtApp()
   const route = useRoute()
 
+  const bottomChat = ref<HTMLDivElement | null>(null)
+
   const { chatId } = route.params
 
-  const { messages, handleSubmit, input } = useChat({
+  const { messages, handleSubmit, input, isLoading } = useChat({
+    id: chatId as string,
     body: {
       chatId,
     },
     headers: { 'Content-Type': 'application/json' },
   })
 
+  watch([messages, isLoading], () => {
+    setTimeout(() => {
+      bottomChat.value?.scrollIntoView({
+        behavior: 'smooth',
+      })
+    }, 100)
+  })
+
   const { data: eventData, close: closeSSE } = useEventSource(`/api/${chatId}`)
+
+  // const { data: chat } = useQuery({
+  //   queryKey: ['chat', chatId],
+  //   queryFn: () => $client.chats.findOne.query(chatId as string),
+  // })
 
   const { textarea } = useTextareaAutosize()
 
@@ -36,6 +52,14 @@
       $client.files.embed.mutate(query.embed as string).catch((err) => {
         errorHandler(err)
       })
+    } else {
+      closeSSE()
+    }
+
+    const chatWindow = document.getElementById('chat-window')
+    if (chatWindow) {
+      const xH = chatWindow.scrollHeight
+      chatWindow.scrollTo(0, xH)
     }
   })
 
@@ -50,23 +74,40 @@
 <template>
   <div>
     <PageNavigation title="Chat" />
-    {{ chatId }} - {{ route.query.embed }} -
-    {{ embeddingIsSuccess }}
 
+    <ChatMessages
+      v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed"
+    />
     <div
-      class="chat"
-      v-for="message in messages"
-      :key="message.id"
-      :class="{
-        'chat-end': message.role === 'user',
-        'chat-start': message.role !== 'user',
-      }"
+      id="chat-window"
+      v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed"
     >
-      <div class="chat-header">
-        {{ message.role === 'user' ? 'You' : 'Resumia' }}
+      <div
+        class="chat"
+        v-for="message in messages"
+        :key="message.id"
+        :class="{
+          'chat-end': message.role === 'user',
+          'chat-start': message.role !== 'user',
+        }"
+      >
+        <div class="chat-header">
+          {{ message.role === 'user' ? 'You' : 'Resumia' }}
+        </div>
+        <div
+          :ref="message.id"
+          class="chat-bubble rounded-xl"
+        >
+          {{ message.content }}
+        </div>
       </div>
-      <div class="chat-bubble rounded-xl">{{ message.content }}</div>
     </div>
+    <div
+      v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed"
+      ref="bottomChat"
+    />
+
+    <LoadingChat v-else />
 
     <div class="pb-20">
       <div
@@ -85,7 +126,7 @@
           <button
             type="submit"
             class="bg-primary text-primary-content h-12 w-12 rounded-full flex items-center justify-center"
-            @click="handleSubmit"
+            :defaul="!embeddingIsSuccess"
           >
             <Icon
               name="ph:paper-plane-right-fill"

@@ -1,7 +1,12 @@
 import { z } from 'zod'
 import { searchSchema } from '~/lib/types/Search'
 import { protectedProcedure, router } from '~/server/trpc/trpc'
-import { createChat, findChats, getRecentlyChats } from './chats.service'
+import {
+  createChat,
+  findChats,
+  findOneChat,
+  getRecentlyChats,
+} from './chats.service'
 
 export const chatRouter = router({
   find: protectedProcedure.input(searchSchema).query(findChats),
@@ -14,4 +19,7 @@ export const chatRouter = router({
       }),
     )
     .mutation(createChat),
+  findOne: protectedProcedure
+    .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
+    .query(findOneChat),
 })
