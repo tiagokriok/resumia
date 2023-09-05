@@ -1,6 +1,99 @@
 <script setup lang="ts">
+  import { useChat } from 'ai/vue'
+  import { errorHandler } from '~/lib/Error'
+  import { useAuthStore } from '~/stores/auth'
+
+  definePageMeta({
+    middleware: ['auth'],
+    layout: 'app',
+    protected: true,
+    roles: ['owner', 'common'],
+    hideNavigation: true,
+    hideHeader: true,
+  })
+
+  const { user } = useAuthStore()
+  const { $client } = useNuxtApp()
   const route = useRoute()
+
+  const { chatId } = route.params
+
+  const { messages, handleSubmit, input } = useChat({
+    body: {
+      chatId,
+    },
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  const { data: eventData, close: closeSSE } = useEventSource(`/api/${chatId}`)
+
+  const { textarea } = useTextareaAutosize()
+
+  onMounted(async () => {
+    const { query } = route
+
+    if (query.embed) {
+      $client.files.embed.mutate(query.embed as string).catch((err) => {
+        errorHandler(err)
+      })
+    }
+  })
+
+  const embeddingIsSuccess = computed(() => {
+    return eventData.value ? !!JSON.parse(eventData.value).finished : false
+  })
+
+  watch(eventData, () => {
+    closeSSE()
+  })
 </script>
 <template>
-  <div>{{ route.params.chatId }} && {{ route.query.embed }}</div>
+  <div>
+    <PageNavigation title="Chat" />
+    {{ chatId }} - {{ route.query.embed }} -
+    {{ embeddingIsSuccess }}
+
+    <div
+      class="chat"
+      v-for="message in messages"
+      :key="message.id"
+      :class="{
+        'chat-end': message.role === 'user',
+        'chat-start': message.role !== 'user',
+      }"
+    >
+      <div class="chat-header">
+        {{ message.role === 'user' ? 'You' : 'Resumia' }}
+      </div>
+      <div class="chat-bubble rounded-xl">{{ message.content }}</div>
+    </div>
+
+    <div class="pb-20">
+      <div
+        class="fixed bottom-0 inset-x-0 px-4 bg-primary-content p-2"
+        @submit="handleSubmit"
+      >
+        <form
+          class="form-control flex items-center justify-between flex-row space-x-2"
+        >
+          <textarea
+            ref="textarea"
+            v-model="input"
+            class="resize-none textarea textarea-primary rounded-xl flex-1"
+            placeholder="What's on your mind?"
+          />
+          <button
+            type="submit"
+            class="bg-primary text-primary-content h-12 w-12 rounded-full flex items-center justify-center"
+            @click="handleSubmit"
+          >
+            <Icon
+              name="ph:paper-plane-right-fill"
+              class="h-6 w-6"
+            />
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>

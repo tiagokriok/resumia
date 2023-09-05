@@ -5,7 +5,7 @@ import { createFile, deleteFile, embedFile } from './files.service'
 
 export const fileRouter = router({
   create: protectedProcedure.input(createFileSchema).mutation(createFile),
-  embedFile: protectedProcedure
+  embed: protectedProcedure
     .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
     .mutation(embedFile),
   delete: protectedProcedure
