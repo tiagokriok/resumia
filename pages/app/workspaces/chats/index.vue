@@ -11,7 +11,9 @@
   const { $client } = useNuxtApp()
 
   const deleteModal = ref<HTMLDialogElement | null>(null)
+  const createModal = ref<HTMLDialogElement | null>(null)
   const chatIdDelete = ref<string>('')
+  const fileSelected = ref<{ id: string; label: string }>()
 
   const {
     data: chats,
@@ -23,7 +25,18 @@
       await $client.chats.find.query({
         limit: 999,
         order: 'desc',
-        orderBy: 'updateBy',
+        orderBy: 'updatedAt',
+      }),
+    initialData: { items: [], total: 0 },
+  })
+
+  const { data: files, refetch: refetchFiles } = useQuery({
+    queryKey: ['files'],
+    queryFn: async () =>
+      await $client.files.find.query({
+        limit: 999,
+        order: 'desc',
+        orderBy: 'createdAt',
       }),
     initialData: { items: [], total: 0 },
   })
@@ -31,6 +44,11 @@
   onMounted(async () => {
     await refetch()
   })
+
+  const openCreateModal = async () => {
+    await refetchFiles()
+    createModal.value?.showModal()
+  }
 
   const deleteChat = async () => {
     deleteModal.value?.close()
@@ -49,6 +67,7 @@
     <div class="flex items-center justify-between">
       <p class="text-xl font-bold">Chat history</p>
       <button
+        @click="openCreateModal"
         class="capitalize bg-primary text-primary-content font-semibold text-lg h-10 w-10 rounded-full flex items-center justify-center hover:scale-95 duration-300"
       >
         <Icon
@@ -122,7 +141,7 @@
           <p class="py-4">Are you sure you want to delete this chat?</p>
           <div class="modal-action">
             <button
-              class="btn btn-error rounded-xl"
+              class="btn btn-primary rounded-xl"
               @click="deleteChat"
             >
               Delete
@@ -131,6 +150,56 @@
               <!-- if there is a button in form, it will close the modal -->
               <button class="btn btn-outline rounded-xl">Close</button>
             </form>
+          </div>
+        </div>
+      </dialog>
+    </Teleport>
+    <Teleport to="body">
+      <dialog
+        ref="createModal"
+        class="modal modal-bottom sm:modal-middle z-50"
+      >
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">Create chat</h3>
+          <div class="form-control w-full my-2">
+            <label class="label">
+              <span class="label-text">Select a file to chat with</span>
+            </label>
+            <select
+              v-model="fileSelected"
+              class="select select-bordered select-primary rounded-xl"
+            >
+              <option
+                disabled
+                selected
+              >
+                Pick one
+              </option>
+              <option
+                v-for="file in files.items"
+                :key="file.id"
+                :value="{ label: file.label, id: file.id }"
+              >
+                {{ file.label }}
+              </option>
+            </select>
+          </div>
+          <NuxtLink
+            to="/app/workspaces/files/create"
+            class="link link-primary"
+            >Upload file</NuxtLink
+          >
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-outline rounded-xl">Close</button>
+            </form>
+            <button
+              class="btn btn-primary rounded-xl"
+              @click="deleteChat"
+            >
+              Create
+            </button>
           </div>
         </div>
       </dialog>

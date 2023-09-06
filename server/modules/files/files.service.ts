@@ -12,8 +12,57 @@ import {
 } from '~/server/providers/langchain'
 import { createPresignedUrl } from '~/server/providers/s3'
 import { Context } from '~/server/trpc/context'
+import { SearchQuery } from '../../../lib/types/Search'
 import { CreateFileInput } from './dto'
 import { File, Files } from './files.schema'
+
+export const findFiles = async ({
+  input,
+  ctx,
+}: {
+  input: SearchQuery
+  ctx: Context
+}): Promise<{ total: number; items: File[] }> => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+    })
+  }
+
+  const filter = {
+    isDeleted: input.withTrash,
+  }
+
+  const projection: { [key: string]: number | string } = {}
+
+  if (input.columns?.length) {
+    input.columns.forEach((column: string | { field: string; as: string }) => {
+      if (typeof column === 'string') {
+        if (column !== 'password') {
+          projection[column] = 1
+        }
+      } else {
+        projection[column.field] = `$${column.as}`
+      }
+    })
+  }
+
+  const total = await Files.count(filter)
+  const files = await Files.find(filter, projection, {
+    skip: input.offset,
+    take: input.limit,
+    sort: {
+      [`${input.orderBy}`]: input.order,
+    },
+  })
+
+  return {
+    total,
+    items: files,
+  }
+}
 
 export const createFile = async ({
   input,

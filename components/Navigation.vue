@@ -1,7 +1,7 @@
 <template>
   <div class="pb-20" />
   <div
-    class="fixed inset-x-0 bottom-4 z-50 h-16 sm:max-w-sm mx-4 flex items-center justify-between px-1 rounded-full glass shadow-md"
+    class="fixed inset-x-0 bottom-4 z-50 h-16 sm:max-w-sm mx-4 flex items-center justify-between px-1 rounded-full glass shadow-lg shadow-primary/50 bg-primary/70"
   >
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces">
