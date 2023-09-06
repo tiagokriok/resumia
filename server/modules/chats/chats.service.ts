@@ -119,7 +119,7 @@ export const getRecentlyChats = async ({
       updatedAt: 1,
     },
     {
-      limit: 10,
+      limit: 5,
       sort: {
         updatedAt: 'desc',
       },
@@ -161,4 +161,34 @@ export const createChat = async ({
   })
 
   return chat.toObject()
+}
+
+export const deleteChat = async ({
+  input,
+  ctx,
+}: {
+  input: string
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  await Chats.updateOne(
+    {
+      id: input,
+      'owner.id': user.id,
+    },
+    {
+      $set: {
+        isDeleted: true,
+        deletedAt: Date.now(),
+      },
+    },
+  )
 }

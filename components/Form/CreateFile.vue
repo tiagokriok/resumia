@@ -48,7 +48,7 @@
 
       await createChat({
         id: file.id,
-        label: file.name,
+        label: file.label,
       })
 
       // TODO: Push to Chat router

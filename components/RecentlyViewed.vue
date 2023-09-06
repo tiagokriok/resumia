@@ -28,28 +28,26 @@
 
     <div
       v-if="chats?.length"
-      class="card w-full bg-base-300 shadow-xl rounded-xl"
+      class="flex flex-col space-y-2"
     >
-      <div class="card-body p-4 flex flex-col space-y-2">
-        <NuxtLink
-          v-for="chat in chats"
-          class="flex items-center space-x-2 bg-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:bg-base-200"
-          :key="chat.id"
-          :to="`/app/workspaces/chats/${chat.id}`"
+      <NuxtLink
+        v-for="chat in chats"
+        class="flex items-center space-x-2 bg-primary rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:bg-base-200 max-h-24"
+        :key="chat.id"
+        :to="`/app/workspaces/chats/${chat.id}`"
+      >
+        <div
+          class="bg-primary-content rounded-full h-12 w-12 flex items-center justify-center"
         >
-          <div
-            class="bg-base-300 rounded-full h-12 w-12 flex items-center justify-center"
-          >
-            <Icon
-              name="ph:chats-circle"
-              class="h-8 w-8"
-            />
-          </div>
-          <div class="flex-1">
-            <p>"{{ chat.lastMessage }}"</p>
-          </div>
-        </NuxtLink>
-      </div>
+          <Icon
+            name="ph:chats-circle"
+            class="h-8 w-8"
+          />
+        </div>
+        <div class="flex-1 w-20 text-primary-content">
+          <p class="truncate">{{ chat.lastMessage }}</p>
+        </div>
+      </NuxtLink>
     </div>
 
     <div

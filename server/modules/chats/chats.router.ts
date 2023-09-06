@@ -3,6 +3,7 @@ import { searchSchema } from '~/lib/types/Search'
 import { protectedProcedure, router } from '~/server/trpc/trpc'
 import {
   createChat,
+  deleteChat,
   findChats,
   findOneChat,
   getRecentlyChats,
@@ -22,4 +23,7 @@ export const chatRouter = router({
   findOne: protectedProcedure
     .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
     .query(findOneChat),
+  delete: protectedProcedure
+    .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
+    .mutation(deleteChat),
 })
