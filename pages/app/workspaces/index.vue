@@ -15,8 +15,8 @@
 <template>
   <div class="flex flex-col space-y-4 my-2">
     <Search
-      label="Search chat"
-      placeholder="Search here"
+      label="common.search.label"
+      placeholder="common.search.placeholder"
       v-model="search"
       @search="submit"
     />

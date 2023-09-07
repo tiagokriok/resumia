@@ -14,6 +14,10 @@ export default {
       edit: 'Edit',
     },
     nothingFound: 'Nothing found',
+    search: {
+      label: 'Search',
+      placeholder: 'Search here...',
+    },
   },
   auth: {
     login: {

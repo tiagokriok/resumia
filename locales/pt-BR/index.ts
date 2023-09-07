@@ -14,6 +14,10 @@ export default {
       edit: 'Editar',
     },
     nothingFound: 'Nenhum resultado encontrado',
+    search: {
+      label: 'Pesquisar',
+      placeholder: 'Pesquisar aqui...',
+    },
   },
   auth: {
     login: {
