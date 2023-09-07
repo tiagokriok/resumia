@@ -10,13 +10,13 @@
       v-if="route.query.embed"
       class="text-center text-lg font-semibold"
     >
-      Embedding your file, this can take a moment
+      {{ $t('components.loading.chat.embedFile') }}
     </p>
     <p
       v-else
       class="text-center text-lg font-semibold"
     >
-      Loading your messages
+      {{ $t('components.loading.chat.messages') }}
     </p>
   </div>
 </template>

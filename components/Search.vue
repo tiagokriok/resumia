@@ -7,8 +7,8 @@ import { inferAsyncReturnType } from '@trpc/server';
       placeholder: string
     }>(),
     {
-      label: 'Search',
-      placeholder: 'Search here',
+      label: 'components.search.label',
+      placeholder: 'components.search.placeholder',
     },
   )
 
@@ -22,12 +22,12 @@ import { inferAsyncReturnType } from '@trpc/server';
 <template>
   <div>
     <div class="flex flex-col space-y-2 w-full">
-      <p class="text-xl font-bold">{{ label }}</p>
+      <p class="text-xl font-bold">{{ $t(label) }}</p>
       <div class="join">
         <input
           class="input input-bordered join-item rounded-l-xl flex-1 bg-base-200 font-semibold border-none"
           type="text"
-          :placeholder="placeholder"
+          :placeholder="$t(placeholder)"
           @input="input"
         />
         <button

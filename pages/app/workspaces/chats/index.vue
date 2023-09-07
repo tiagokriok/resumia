@@ -10,6 +10,7 @@
   })
 
   const { $client } = useNuxtApp()
+  const { t } = useI18n()
   const toast = useToast()
   const router = useRouter()
 
@@ -59,9 +60,9 @@
       } else {
         toast.add({
           group: 'top-right',
-          title: 'Error',
+          title: t('errors.files.noFileSelectedTitle'),
           type: 'error',
-          text: 'Please select a file',
+          text: t('errors.files.noFileSelectedDescription'),
         })
       }
     },
@@ -77,7 +78,7 @@
           group: 'top-right',
           title: 'Error',
           type: 'error',
-          text: 'Something went wrong',
+          text: t('errors.commons.unknownError'),
         })
       }
     },
@@ -127,9 +128,13 @@
 </script>
 <template>
   <div class="space-y-4 font-lato">
-    <Search v-model="search" />
+    <Search
+      v-model="search"
+      label="chats.index.searchLabel"
+      placeholder="chats.index.searchPlaceholder"
+    />
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-bold">Chat history</h2>
+      <h2 class="text-xl font-bold">{{ $t('chats.index.title') }}</h2>
     </div>
 
     <div
@@ -176,7 +181,7 @@
                   name="ph:pencil"
                   class="h-6 w-6"
                 />
-                <span>Edit</span>
+                <span>{{ $t('common.buttons.edit') }}</span>
               </button>
             </li>
             <li>
@@ -188,7 +193,7 @@
                   name="ph:trash"
                   class="h-6 w-6"
                 />
-                <span>Delete</span>
+                <span>{{ $t('common.buttons.delete') }}</span>
               </button>
             </li>
           </ul>
@@ -198,7 +203,7 @@
         v-if="chats.items.length === 0"
         class="text-center text-md"
       >
-        <p class="text-center">Looks like you don't have any chats</p>
+        <p class="text-center">{{ $t('chats.index.noChats') }}</p>
       </div>
     </div>
     <ClientOnly>
@@ -215,18 +220,24 @@
           aria-modal="true"
         >
           <div class="modal-box">
-            <h3 class="font-bold text-lg">Confirm deletion</h3>
-            <p class="py-4">Are you sure you want to delete this chat?</p>
+            <h3 class="font-bold text-lg">
+              {{ $t('chats.index.dialog.delete.title') }}
+            </h3>
+            <p class="py-4">
+              {{ $t('chats.index.dialog.delete.description') }}
+            </p>
             <div class="modal-action">
               <button
                 class="btn btn-primary rounded-xl"
                 @click="deleteChat"
               >
-                Delete
+                {{ $t('common.buttons.delete') }}
               </button>
               <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
-                <button class="btn btn-outline rounded-xl">Close</button>
+                <button class="btn btn-outline rounded-xl">
+                  {{ $t('common.buttons.cancel') }}
+                </button>
               </form>
             </div>
           </div>
@@ -239,10 +250,14 @@
           aria-modal="true"
         >
           <div class="modal-box">
-            <h3 class="font-bold text-lg">Create chat</h3>
+            <h3 class="font-bold text-lg">
+              {{ $t('chats.index.dialog.create.title') }}
+            </h3>
             <div class="form-control w-full my-2">
               <label class="label">
-                <span class="label-text">Select a file to chat with</span>
+                <span class="label-text">{{
+                  $t('chats.index.dialog.create.label')
+                }}</span>
               </label>
               <select
                 v-model="fileSelected"
@@ -266,18 +281,20 @@
             <NuxtLink
               to="/app/workspaces/files/create"
               class="link link-primary"
-              >Upload file</NuxtLink
+              >{{ $t('chats.index.dialog.create.upload') }}</NuxtLink
             >
             <div class="modal-action">
               <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
-                <button class="btn btn-outline rounded-xl">Close</button>
+                <button class="btn btn-outline rounded-xl">
+                  {{ $t('common.buttons.cancel') }}
+                </button>
               </form>
               <button
                 class="btn btn-primary rounded-xl"
                 @click="createChat()"
               >
-                Create
+                {{ $t('common.buttons.create') }}
               </button>
             </div>
           </div>
@@ -290,10 +307,14 @@
           aria-modal="true"
         >
           <div class="modal-box">
-            <h3 class="font-bold text-lg">Update chat label</h3>
+            <h3 class="font-bold text-lg">
+              {{ $t('chats.index.dialog.update.title') }}
+            </h3>
             <div class="form-control w-full my-2">
               <label class="label">
-                <span class="label-text font-semibold">Label</span>
+                <span class="label-text font-semibold">{{
+                  $t('chats.index.dialog.update.label')
+                }}</span>
               </label>
               <input
                 v-model="chatLabel"
@@ -304,13 +325,15 @@
             <div class="modal-action">
               <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
-                <button class="btn btn-outline rounded-xl">Close</button>
+                <button class="btn btn-outline rounded-xl">
+                  {{ $t('common.buttons.cancel') }}
+                </button>
               </form>
               <button
                 class="btn btn-primary rounded-xl"
                 @click="updateChat()"
               >
-                Save
+                {{ $t('common.buttons.save') }}
               </button>
             </div>
           </div>

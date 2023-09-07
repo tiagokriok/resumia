@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-  import { Message } from '~/server/modules/messages/messages.schema'
   import { useQuery } from '@tanstack/vue-query'
+  import { Message } from '~/server/modules/messages/messages.schema'
 
   const { messages } = withDefaults(defineProps<{ messages: Message[] }>(), {
     messages: [],
@@ -44,7 +44,7 @@
     }"
   >
     <div class="chat-header">
-      {{ message.role === 'user' ? 'You' : 'Resumia' }}
+      {{ message.role === 'user' ? $t('components.messages.you') : 'Resumia' }}
     </div>
     <div
       :id="message.id"

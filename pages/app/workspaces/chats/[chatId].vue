@@ -89,7 +89,9 @@
         }"
       >
         <div class="chat-header">
-          {{ message.role === 'user' ? 'You' : 'Resumia' }}
+          {{
+            message.role === 'user' ? $t('components.messages.you') : 'Resumia'
+          }}
         </div>
         <div class="chat-bubble rounded-xl">
           {{ message.content }}
@@ -115,7 +117,6 @@
             ref="textarea"
             v-model="input"
             class="resize-none textarea textarea-primary rounded-xl flex-1"
-            placeholder="What's on your mind?"
           />
           <button
             type="submit"

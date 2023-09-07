@@ -11,6 +11,7 @@ export default {
       delete: 'Eliminar',
       add: 'Agregar',
       create: 'Crear',
+      edit: 'Editar',
     },
     nothingFound: 'Ningún resultado encontrado',
   },
@@ -37,6 +38,19 @@ export default {
       noChatsTitle: 'Te parece que no tienes chats',
       noChatsDescription: 'Puedes crearlo haciendo clic en el botón.',
     },
+    messages: {
+      you: 'Tú',
+    },
+    loading: {
+      chat: {
+        embedFile: 'Incorporando tu archivo, esto puede tardar unos minutos',
+        messages: 'Cargando mensajes',
+      },
+    },
+    search: {
+      label: 'Buscar',
+      placeholder: 'Buscar aquí...',
+    },
   },
   files: {
     create: {
@@ -50,6 +64,38 @@ export default {
         noFileSelectedDescription:
           'Por favor, seleccione un archivo para subir',
       },
+    },
+  },
+  chats: {
+    index: {
+      title: 'Historial de chats',
+      searchLabel: 'Buscar',
+      searchPlaceholder: 'Buscar un chat...',
+      noChats: 'Te parece que no tienes chats',
+      dialog: {
+        delete: {
+          title: 'Confirmar eliminación',
+          description: '¿Estás seguro de que quieres eliminar este chat?',
+        },
+        create: {
+          title: 'Crear chat',
+          label: 'Selecciona un archivo para chatear',
+          upload: 'Subir archivo',
+        },
+        update: {
+          title: 'Actualizar chat',
+          label: 'Etiqueta',
+        },
+      },
+    },
+  },
+  errors: {
+    files: {
+      noFileSelectedTitle: 'No se ha seleccionado ningún archivo',
+      noFileSelectedDescription: 'Por favor, seleccione un archivo para subir',
+    },
+    commons: {
+      unknownError: 'Algo salió mal',
     },
   },
 }
