@@ -191,6 +191,12 @@
           </ul>
         </button>
       </div>
+      <div
+        v-if="chats.items.length === 0"
+        class="text-center text-md"
+      >
+        <p class="text-center">Looks like you don't have any chats</p>
+      </div>
     </div>
     <ClientOnly>
       <Teleport
@@ -202,7 +208,7 @@
       <Teleport to="body">
         <dialog
           ref="deleteModal"
-          class="modal modal-bottom sm:modal-middle z-50"
+          class="modal modal-bottom sm:modal-middle"
           aria-modal="true"
         >
           <div class="modal-box">
@@ -226,7 +232,7 @@
       <Teleport to="body">
         <dialog
           ref="createModal"
-          class="modal modal-bottom sm:modal-middle z-50"
+          class="modal modal-bottom sm:modal-middle"
           aria-modal="true"
         >
           <div class="modal-box">
@@ -277,7 +283,7 @@
       <Teleport to="body">
         <dialog
           ref="updateModal"
-          class="modal modal-bottom sm:modal-middle z-50"
+          class="modal modal-bottom sm:modal-middle"
           aria-modal="true"
         >
           <div class="modal-box">
@@ -308,9 +314,10 @@
         </dialog>
       </Teleport>
       <Teleport to="body">
+        <div class="pb-12" />
         <button
           @click="openCreateModal"
-          class="capitalize bg-primary text-primary-content font-semibold text-lg h-12 w-12 rounded-full flex items-center justify-center hover:scale-105 duration-300 absolute bottom-14 right-0 z-40 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-primary/40"
+          class="capitalize bg-primary text-primary-content font-semibold text-lg h-12 w-12 rounded-full flex items-center justify-center hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-primary/40"
         >
           <Icon
             name="ph:plus-bold"
