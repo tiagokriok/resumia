@@ -7,6 +7,7 @@ import {
   findChats,
   findOneChat,
   getRecentlyChats,
+  updateChat,
 } from './chats.service'
 
 export const chatRouter = router({
@@ -26,4 +27,12 @@ export const chatRouter = router({
   delete: protectedProcedure
     .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
     .mutation(deleteChat),
+  update: protectedProcedure
+    .input(
+      z.object({
+        chatId: z.string().regex(/^[0-9A-Za-z]{12}$/),
+        label: z.string(),
+      }),
+    )
+    .mutation(updateChat),
 })

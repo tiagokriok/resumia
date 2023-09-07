@@ -163,6 +163,38 @@ export const createChat = async ({
   return chat.toObject()
 }
 
+export const updateChat = async ({
+  input,
+  ctx,
+}: {
+  input: {
+    chatId: string
+    label: string
+  }
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  await Chats.updateOne(
+    {
+      id: input.chatId,
+      'owner.id': user.id,
+    },
+    {
+      $set: {
+        label: input.label,
+      },
+    },
+  )
+}
+
 export const deleteChat = async ({
   input,
   ctx,

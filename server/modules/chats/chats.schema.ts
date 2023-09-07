@@ -4,6 +4,7 @@ import { Message } from '../messages/messages.schema'
 
 export interface Chat {
   id: string
+  label: string
   owner: {
     id: string
     name: string
@@ -26,6 +27,9 @@ const ChatSchema = new Schema<Chat>(
       default: () => nanoid(),
       required: true,
       unique: true,
+    },
+    label: {
+      type: String,
     },
     owner: {
       _id: false,

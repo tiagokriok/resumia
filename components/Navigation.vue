@@ -1,12 +1,10 @@
 <template>
-  <div class="pb-20" />
-  <div
-    class="fixed inset-x-0 bottom-4 z-50 h-16 sm:max-w-sm mx-4 flex items-center justify-between px-1 rounded-full glass shadow-lg shadow-primary/50 bg-primary/70"
-  >
+  <div class="pb-16" />
+  <div class="btm-nav glass bg-primary/70">
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces">
         <Icon
-          name="ph:house-line"
+          name="ph:house-line-bold"
           class="w-6 h-6"
         />
       </NuxtLink>
@@ -14,7 +12,7 @@
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces/files">
         <Icon
-          name="ph:file-arrow-up-light"
+          name="ph:file-arrow-up-bold"
           class="w-6 h-6"
         />
       </NuxtLink>
@@ -22,7 +20,7 @@
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces/chats">
         <Icon
-          name="ph:chat-circle-text-light"
+          name="ph:chat-circle-text-bold"
           class="w-6 h-6"
         />
       </NuxtLink>
@@ -30,7 +28,7 @@
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workpaces/settings">
         <Icon
-          name="ph:gear-six-light"
+          name="ph:gear-six-bold"
           class="w-6 h-6"
         />
       </NuxtLink>
@@ -40,7 +38,7 @@
 
 <style scoped>
   .router-link-active {
-    @apply bg-primary font-bold text-primary-content rounded-full h-14 w-14 flex justify-center items-center;
+    @apply bg-primary-content font-bold text-primary rounded-full h-14 w-14 flex justify-center items-center;
   }
   .router-link-active:hover {
     @apply bg-base-300 text-base-content;

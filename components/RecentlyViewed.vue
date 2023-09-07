@@ -32,7 +32,7 @@
     >
       <NuxtLink
         v-for="chat in chats"
-        class="flex items-center space-x-2 bg-primary rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:bg-base-200 max-h-24"
+        class="flex items-center space-x-2 bg-primary rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:scale-105 duration-300 max-h-24"
         :key="chat.id"
         :to="`/app/workspaces/chats/${chat.id}`"
       >

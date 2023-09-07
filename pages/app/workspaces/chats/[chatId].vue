@@ -56,11 +56,11 @@
       closeSSE()
     }
 
-    const chatWindow = document.getElementById('chat-window')
-    if (chatWindow) {
-      const xH = chatWindow.scrollHeight
-      chatWindow.scrollTo(0, xH)
-    }
+    setTimeout(() => {
+      bottomChat.value?.scrollIntoView({
+        behavior: 'smooth',
+      })
+    }, 100)
   })
 
   const embeddingIsSuccess = computed(() => {
@@ -78,10 +78,7 @@
     <ChatMessages
       v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed"
     />
-    <div
-      id="chat-window"
-      v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed"
-    >
+    <div v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed">
       <div
         class="chat"
         v-for="message in messages"
@@ -94,10 +91,7 @@
         <div class="chat-header">
           {{ message.role === 'user' ? 'You' : 'Resumia' }}
         </div>
-        <div
-          :ref="message.id"
-          class="chat-bubble rounded-xl"
-        >
+        <div class="chat-bubble rounded-xl">
           {{ message.content }}
         </div>
       </div>
