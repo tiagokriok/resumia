@@ -10,7 +10,10 @@
 </script>
 <template>
   <div>
-    <PageNavigation title="files.create.title" />
+    <PageNavigation
+      title="files.create.title"
+      backTo="/app/workspaces/files"
+    />
     <FormCreateFile />
   </div>
 </template>

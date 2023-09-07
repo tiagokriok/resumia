@@ -1,8 +1,11 @@
 <script setup lang="ts">
-  withDefaults(defineProps<{ title: string; options: boolean }>(), {
-    title: '',
-    options: false,
-  })
+  withDefaults(
+    defineProps<{ title: string; options: boolean; backTo?: string }>(),
+    {
+      title: '',
+      options: false,
+    },
+  )
 
   const router = useRouter()
 </script>
@@ -11,7 +14,18 @@
     <div
       class="flex items-center justify-between glass bg-primary/70 h-16 inset-x-0 fixed top-0 px-4 z-50 shadow-md"
     >
+      <NuxtLink
+        v-if="backTo"
+        :to="backTo"
+        class="bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
+      >
+        <Icon
+          name="ph:arrow-left-bold"
+          class="text-primary"
+        />
+      </NuxtLink>
       <button
+        v-else
         class="bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
         @click="router.back()"
       >

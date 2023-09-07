@@ -11,8 +11,8 @@
   })
 
   const { $client } = useNuxtApp()
+  const { t } = useI18n()
   const toast = useToast()
-  const router = useRouter()
 
   const deleteModal = ref<HTMLDialogElement | null>(null)
   const updateModal = ref<HTMLDialogElement | null>(null)
@@ -45,9 +45,9 @@
       if (!file.value) {
         return toast.add({
           group: 'top-right',
-          title: 'Error',
+          title: t('errors.files.noFileSelectedTitle'),
           type: 'error',
-          text: 'Please select a file',
+          text: t('errors.files.noFileSelectedDescription'),
         })
       }
       await $client.files.update.mutate({
@@ -68,9 +68,9 @@
       if (!file.value) {
         return toast.add({
           group: 'top-right',
-          title: 'Error',
+          title: t('errors.files.noFileSelectedTitle'),
           type: 'error',
-          text: 'Please select a file',
+          text: t('errors.files.noFileSelectedDescription'),
         })
       }
       await $client.files.delete.mutate(file.value.id)
@@ -94,9 +94,9 @@
         if (!file.value) {
           return toast.add({
             group: 'top-right',
-            title: 'Error',
+            title: t('errors.files.noFileSelectedTitle'),
             type: 'error',
-            text: 'Please select a file',
+            text: t('errors.files.noFileSelectedDescription'),
           })
         }
         form.label = file.value.label
@@ -114,9 +114,9 @@
         if (!selectedFile) {
           return toast.add({
             group: 'top-right',
-            title: 'Error',
+            title: t('errors.files.noFileSelectedTitle'),
             type: 'error',
-            text: 'Please select a file',
+            text: t('errors.files.noFileSelectedDescription'),
           })
         }
         file.value = selectedFile
@@ -131,10 +131,12 @@
   <div class="space-y-4 font-lato">
     <Search
       v-model="search"
-      placeholder="Search Files"
+      label="files.index.searchLabel"
+      placeholder="files.index.searchPlaceholder"
+      @search="refetchFiles()"
     />
     <div>
-      <h2 class="text-xl font-bold">Your files</h2>
+      <h2 class="text-xl font-bold">{{ $t('files.index.title') }}</h2>
     </div>
 
     <div class="grid grid-cols-3 gap-2 select-none">
@@ -155,7 +157,7 @@
       v-if="files.items.length === 0"
       class="text-center text-md"
     >
-      <p class="text-center">Looks like you don't have any files</p>
+      <p class="text-center">{{ $t('files.index.noFiles') }}</p>
     </div>
   </div>
   <ClientOnly>
@@ -179,13 +181,17 @@
               class="col-span-2"
             >
               <p>
-                <span class="font-semibold text-md">Description:</span>
+                <span class="font-semibold text-md"
+                  >{{ $t('files.index.dialog.view.description') }}:</span
+                >
                 {{ file.description }}
               </p>
             </div>
             <div class="col-span-2">
               <p>
-                <span class="font-semibold text-md">Filename:</span>
+                <span class="font-semibold text-md"
+                  >{{ $t('files.index.dialog.view.filename') }}:</span
+                >
                 {{ file?.name }}
               </p>
             </div>
@@ -226,10 +232,14 @@
         aria-modal="true"
       >
         <div class="modal-box space-y-2">
-          <h3 class="font-bold text-lg">Update File</h3>
+          <h3 class="font-bold text-lg">
+            {{ $t('files.index.dialog.update.title') }}
+          </h3>
           <div class="form-control w-full">
             <label class="label">
-              <span class="label-text font-semibold">Label</span>
+              <span class="label-text font-semibold">{{
+                $t('files.index.dialog.update.label')
+              }}</span>
             </label>
             <input
               v-model="form.label"
@@ -239,7 +249,9 @@
           </div>
           <div class="form-control w-full">
             <label class="label">
-              <span class="label-text font-semibold">Description</span>
+              <span class="label-text font-semibold">{{
+                $t('files.index.dialog.update.description')
+              }}</span>
             </label>
             <textarea
               v-model="form.description"
@@ -249,13 +261,15 @@
           <div class="modal-action">
             <form method="dialog">
               <!-- if there is a button in form, it will close the modal -->
-              <button class="btn btn-outline rounded-xl">Close</button>
+              <button class="btn btn-outline rounded-xl">
+                {{ $t('common.buttons.cancel') }}
+              </button>
             </form>
             <button
               class="btn btn-primary rounded-xl"
               @click="updateFile()"
             >
-              Save
+              {{ $t('common.buttons.save') }}
             </button>
           </div>
         </div>
@@ -268,18 +282,22 @@
         aria-modal="true"
       >
         <div class="modal-box">
-          <h3 class="font-bold text-lg">Confirm deletion</h3>
-          <p class="py-4">Are you sure you want to delete this file?</p>
+          <h3 class="font-bold text-lg">
+            {{ $t('files.index.dialog.delete.title') }}
+          </h3>
+          <p class="py-4">{{ $t('files.index.dialog.delete.description') }}</p>
           <div class="modal-action">
             <button
               class="btn btn-primary rounded-xl"
-              @click="deleteFile"
+              @click="deleteFile()"
             >
-              Delete
+              {{ $t('common.buttons.delete') }}
             </button>
             <form method="dialog">
               <!-- if there is a button in form, it will close the modal -->
-              <button class="btn btn-outline rounded-xl">Close</button>
+              <button class="btn btn-outline rounded-xl">
+                {{ $t('common.buttons.cancel') }}
+              </button>
             </form>
           </div>
         </div>

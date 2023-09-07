@@ -65,6 +65,27 @@ export default {
           'Por favor, seleccione un archivo para subir',
       },
     },
+    index: {
+      title: 'Sus archivos',
+      searchLabel: 'Buscar',
+      searchPlaceholder: 'Buscar un archivo...',
+      noFiles: 'Te parece que no tienes archivos',
+      dialog: {
+        view: {
+          description: 'Descripción',
+          filename: 'Nombre del archivo',
+        },
+        update: {
+          title: 'Actualizar archivo',
+          label: 'Etiqueta',
+          description: 'Descripción',
+        },
+        delete: {
+          title: 'Confirmar eliminación',
+          description: '¿Estás seguro de que quieres eliminar este archivo?',
+        },
+      },
+    },
   },
   chats: {
     index: {

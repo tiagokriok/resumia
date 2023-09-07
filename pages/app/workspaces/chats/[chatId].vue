@@ -73,7 +73,10 @@
 </script>
 <template>
   <div>
-    <PageNavigation title="Chat" />
+    <PageNavigation
+      title="Chat"
+      backTo="/app/workspaces/chats"
+    />
 
     <ChatMessages
       v-if="(embeddingIsSuccess && route.query.embed) || !route.query.embed"

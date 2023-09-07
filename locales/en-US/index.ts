@@ -64,6 +64,27 @@ export default {
         noFileSelectedDescription: 'Please select a file to upload',
       },
     },
+    index: {
+      title: 'Your files',
+      searchLabel: 'Search',
+      searchPlaceholder: 'Search a file...',
+      noFiles: "Looks like you don't have any files",
+      dialog: {
+        view: {
+          description: 'Description',
+          filename: 'File name',
+        },
+        update: {
+          title: 'Update file',
+          label: 'Label',
+          description: 'Description',
+        },
+        delete: {
+          title: 'Confirm delete',
+          description: 'Are you sure you want to delete this file?',
+        },
+      },
+    },
   },
   chats: {
     index: {

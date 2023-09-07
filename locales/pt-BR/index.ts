@@ -65,6 +65,27 @@ export default {
           'Por favor, selecione um arquivo para enviar',
       },
     },
+    index: {
+      title: 'Seus arquivos',
+      searchLabel: 'Pesquisar',
+      searchPlaceholder: 'Pesquisar um arquivo...',
+      noFiles: 'Você ainda não tem nenhum arquivo',
+      dialog: {
+        view: {
+          description: 'Descrição',
+          filename: 'Nome do arquivo',
+        },
+        update: {
+          title: 'Atualizar arquivo',
+          label: 'Etiqueta',
+          description: 'Descrição',
+        },
+        delete: {
+          title: 'Confirmar exclusão',
+          description: 'Você tem certeza que deseja excluir este arquivo?',
+        },
+      },
+    },
   },
   chats: {
     index: {

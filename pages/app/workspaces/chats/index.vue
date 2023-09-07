@@ -35,6 +35,7 @@
         order: 'desc',
         orderBy: 'updatedAt',
         ...(search.value && { searchText: search.value }),
+        columns: ['id', 'label', 'file', 'updatedAt', 'messages'],
       }),
     initialData: { items: [], total: 0 },
   })
@@ -132,6 +133,7 @@
       v-model="search"
       label="chats.index.searchLabel"
       placeholder="chats.index.searchPlaceholder"
+      @search="refetch()"
     />
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">{{ $t('chats.index.title') }}</h2>
@@ -144,24 +146,30 @@
       <div
         v-for="chat in chats.items"
         :key="chat.id"
-        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
+        :to="`/app/workspaces/chats/${chat.id}`"
+        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24 relative"
       >
-        <div
-          class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-secondary"
+        <NuxtLink
+          :to="`/app/workspaces/chats/${chat.id}`"
+          class="flex items-center space-x-2 flex-1"
         >
-          <Icon
-            name="ph:chats-circle"
-            class="h-8 w-8"
-          />
-        </div>
-        <div class="flex-1 w-20 space-y-2 item-body">
-          <h3 class="capitalize text-md font-semibold">
-            {{ chat.label ?? chat.file.label }}
-          </h3>
-          <p class="text-sm line-clamp-2">
-            {{ chat.messages.length ? chat.messages.at(-1)?.content : '' }}
-          </p>
-        </div>
+          <div
+            class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-secondary"
+          >
+            <Icon
+              name="ph:chats-circle"
+              class="h-8 w-8"
+            />
+          </div>
+          <div class="flex-1 w-20 space-y-2 item-body">
+            <h3 class="capitalize text-md font-semibold">
+              {{ chat.label ?? chat.file.label }}
+            </h3>
+            <p class="text-sm line-clamp-2">
+              {{ chat.messages.length ? chat.messages.at(-1)?.content : '' }}
+            </p>
+          </div>
+        </NuxtLink>
         <button
           class="dropdown dropdown-bottom dropdown-end flex items-center justify-center text-secondary-content"
         >
