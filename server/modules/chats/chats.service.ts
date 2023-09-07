@@ -5,9 +5,10 @@ import { Chat, Chats } from './chats.schema'
 
 interface RecentlyChats {
   id: string
+  label: string
   lastMessage: string
   fileId: string
-  label: string
+  fileLabel: string
   updatedAt: Date
 }
 
@@ -111,8 +112,9 @@ export const getRecentlyChats = async ({
     },
     {
       id: 1,
+      label: 1,
       fileId: '$file.id',
-      label: '$file.label',
+      fileLabel: '$file.label',
       lastMessage: {
         $last: '$messages.content',
       },

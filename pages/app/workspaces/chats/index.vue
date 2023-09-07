@@ -10,6 +10,8 @@
   })
 
   const { $client } = useNuxtApp()
+  const toast = useToast()
+  const router = useRouter()
 
   const deleteModal = ref<HTMLDialogElement | null>(null)
   const createModal = ref<HTMLDialogElement | null>(null)
@@ -45,10 +47,51 @@
     initialData: { items: [], total: 0 },
   })
 
-  const { mutateAsync: mutateUChat } = useMutation({
-    mutationFn: $client.chats.update.mutate,
-    onSuccess: () => {
+  const { mutateAsync: createChat } = useMutation({
+    mutationFn: async () => {
+      if (fileSelected.value) {
+        return await $client.chats.create.mutate({
+          id: fileSelected.value.id,
+          label: fileSelected.value.label,
+        })
+      } else {
+        toast.add({
+          group: 'top-right',
+          title: 'Error',
+          type: 'error',
+          text: 'Please select a file',
+        })
+      }
+    },
+    onSuccess: async (chat) => {
+      if (chat) {
+        createModal.value?.close()
+        // TODO: router push to chat
+        router.push({
+          path: `/app/workspaces/chats/${chat.id}`,
+        })
+      } else {
+        toast.add({
+          group: 'top-right',
+          title: 'Error',
+          type: 'error',
+          text: 'Something went wrong',
+        })
+      }
+    },
+    onError: (err) => errorHandler(err),
+  })
+
+  const { mutateAsync: updateChat } = useMutation({
+    mutationFn: async () => {
+      await $client.chats.update.mutate({
+        chatId: chatIdUpdate.value,
+        label: chatLabel.value,
+      })
+    },
+    onSuccess: async () => {
       updateModal.value?.close()
+      await refetch()
     },
     onError: (err) => errorHandler(err),
   })
@@ -66,14 +109,6 @@
     chatIdUpdate.value = id
     chatLabel.value = label
     updateModal.value?.showModal()
-  }
-
-  const updateChat = async () => {
-    await mutateUChat({
-      chatId: chatIdUpdate.value,
-      label: chatLabel.value,
-    })
-    await refetch()
   }
 
   const deleteChat = async () => {
@@ -94,11 +129,14 @@
       <p class="text-xl font-bold">Chat history</p>
     </div>
 
-    <div v-if="!isFetching">
+    <div
+      v-if="!isFetching"
+      class="space-y-4"
+    >
       <div
         v-for="chat in chats.items"
         :key="chat.id"
-        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md content hover:scale-105 duration-300"
+        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md content hover:scale-105 duration-300 h-24"
       >
         <div
           class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-secondary"
@@ -228,7 +266,7 @@
               </form>
               <button
                 class="btn btn-primary rounded-xl"
-                @click="deleteChat"
+                @click="createChat()"
               >
                 Create
               </button>
@@ -261,7 +299,7 @@
               </form>
               <button
                 class="btn btn-primary rounded-xl"
-                @click="updateChat"
+                @click="updateChat()"
               >
                 Save
               </button>
