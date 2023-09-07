@@ -20,6 +20,7 @@
   const chatIdUpdate = ref<string>('')
   const fileSelected = ref<{ id: string; label: string }>()
   const chatLabel = ref<string>('')
+  const search = ref<string>('')
 
   const {
     data: chats,
@@ -32,6 +33,7 @@
         limit: 999,
         order: 'desc',
         orderBy: 'updatedAt',
+        ...(search.value && { searchText: search.value }),
       }),
     initialData: { items: [], total: 0 },
   })
@@ -125,8 +127,9 @@
 </script>
 <template>
   <div class="space-y-4 font-lato">
+    <Search v-model="search" />
     <div class="flex items-center justify-between">
-      <p class="text-xl font-bold">Chat history</p>
+      <h2 class="text-xl font-bold">Chat history</h2>
     </div>
 
     <div
@@ -136,7 +139,7 @@
       <div
         v-for="chat in chats.items"
         :key="chat.id"
-        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md content hover:scale-105 duration-300 h-24"
+        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
       >
         <div
           class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-secondary"
@@ -147,9 +150,9 @@
           />
         </div>
         <div class="flex-1 w-20 space-y-2 item-body">
-          <h2 class="capitalize text-md font-semibold">
+          <h3 class="capitalize text-md font-semibold">
             {{ chat.label ?? chat.file.label }}
-          </h2>
+          </h3>
           <p class="text-sm line-clamp-2">
             {{ chat.messages.length ? chat.messages.at(-1)?.content : '' }}
           </p>
@@ -317,7 +320,7 @@
         <div class="pb-12" />
         <button
           @click="openCreateModal"
-          class="capitalize bg-primary text-primary-content font-semibold text-lg h-12 w-12 rounded-full flex items-center justify-center hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-primary/40"
+          class="btn btn-circle btn-primary hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-primary/40"
         >
           <Icon
             name="ph:plus-bold"

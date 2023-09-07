@@ -12,7 +12,7 @@
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces/files">
         <Icon
-          name="ph:file-arrow-up-bold"
+          name="ph:files-bold"
           class="w-6 h-6"
         />
       </NuxtLink>

@@ -18,6 +18,7 @@ export const searchSchema = z.object({
     )
     .optional(),
   withTrash: z.boolean().default(false),
+  searchText: z.string().optional(),
 })
 
 // ['name', { field: 'email', as: 'email_alias' }]

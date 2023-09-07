@@ -31,6 +31,21 @@ export const findChats = async ({
     'owner.id': ctx.user?.id,
   }
 
+  if (input.searchText) {
+    // @ts-ignore
+    filter.$or = [
+      {
+        label: { $regex: input.searchText, $options: 'i' },
+      },
+      {
+        'file.label': { $regex: input.searchText, $options: 'i' },
+      },
+      {
+        'messages.content': { $regex: input.searchText, $options: 'i' },
+      },
+    ]
+  }
+
   const projection: { [key: string]: number | string } = {}
 
   if (input.columns?.length) {

@@ -1,8 +1,14 @@
 import { z } from 'zod'
 import { searchSchema } from '~/lib/types/Search'
 import { protectedProcedure, router } from '../../trpc/trpc'
-import { createFileSchema } from './dto'
-import { createFile, deleteFile, embedFile, findFiles } from './files.service'
+import { createFileSchema, updateFileSchema } from './dto'
+import {
+  createFile,
+  deleteFile,
+  embedFile,
+  findFiles,
+  updateFile,
+} from './files.service'
 
 export const fileRouter = router({
   create: protectedProcedure.input(createFileSchema).mutation(createFile),
@@ -13,4 +19,5 @@ export const fileRouter = router({
     .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
     .mutation(deleteFile),
   find: protectedProcedure.input(searchSchema).query(findFiles),
+  update: protectedProcedure.input(updateFileSchema).mutation(updateFile),
 })

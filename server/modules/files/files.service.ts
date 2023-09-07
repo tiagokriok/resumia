@@ -13,7 +13,7 @@ import {
 import { createPresignedUrl } from '~/server/providers/s3'
 import { Context } from '~/server/trpc/context'
 import { SearchQuery } from '../../../lib/types/Search'
-import { CreateFileInput } from './dto'
+import { CreateFileInput, UpdateFileInput } from './dto'
 import { File, Files } from './files.schema'
 
 export const findFiles = async ({
@@ -33,6 +33,21 @@ export const findFiles = async ({
 
   const filter = {
     isDeleted: input.withTrash,
+  }
+
+  if (input.searchText) {
+    // @ts-ignore
+    filter.$or = [
+      {
+        name: { $regex: input.searchText, $options: 'i' },
+      },
+      {
+        description: { $regex: input.searchText, $options: 'i' },
+      },
+      {
+        label: { $regex: input.searchText, $options: 'i' },
+      },
+    ]
   }
 
   const projection: { [key: string]: number | string } = {}
@@ -100,6 +115,37 @@ export const createFile = async ({
     file: file.toObject(),
     presignedUrl,
   }
+}
+
+export const updateFile = async ({
+  input,
+  ctx,
+}: {
+  input: UpdateFileInput
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+    })
+  }
+
+  const file = await Files.updateOne(
+    {
+      id: input.id,
+      'owner.id': user.id,
+    },
+    {
+      $set: {
+        label: input.label,
+        description: input.description,
+      },
+    },
+  )
+
+  return file
 }
 
 export const embedFile = async ({
