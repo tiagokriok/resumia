@@ -27,3 +27,6 @@
 - [ ] Trends Pages
 - [ ] Search Index Page
 - [ ] Payment system
+- [ ] PWA
+	- [ ] Splash Screen / Generate Icon
+ 	- [ ] Service Worker
