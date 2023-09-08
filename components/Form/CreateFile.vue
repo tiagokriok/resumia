@@ -14,12 +14,13 @@
     description: '',
     file: undefined,
   })
+  const isUploading = ref(false)
 
   const { $client } = useNuxtApp()
   const toast = useToast()
   const router = useRouter()
 
-  const { mutateAsync: createChat } = useMutation({
+  const { mutateAsync: createChat, isLoading: isCreatingChat } = useMutation({
     mutationFn: $client.chats.create.mutate,
     onSuccess: async ({ id, file }) => {
       await router.push({
@@ -31,43 +32,65 @@
     },
   })
 
-  const uploadFile = async (file: IFile, url: string) => {
-    const formData = new FormData()
-    if (form.file) {
-      formData.append('file', form.file)
+  const uploadFile = async (
+    file: IFile,
+    url: string,
+    fields: Record<string, string>,
+  ) => {
+    try {
+      isUploading.value = true
+      const formData = new FormData()
+      if (form.file) {
+        if (fields) {
+          for (const [key, value] of Object.entries(fields)) {
+            formData.append(key, value)
+          }
+        }
+        formData.append('file', form.file)
 
-      formData.append('Content-Type', file.mimeType)
+        await useFetch(url, {
+          method: 'POST',
+          body: formData,
+          onResponse: async (ctx) => {
+            console.log(ctx)
+            if (!ctx.response.ok) {
+              await $client.files.delete.mutate(file.id)
+              toast.add({
+                group: 'top-right',
+                title: 'Error',
+                type: 'error',
+                text: 'Uploading file failed',
+              })
+            }
 
-      await useFetch(url, {
-        method: 'PUT',
-        body: formData,
-      }).catch(async (err) => {
-        await $client.files.delete.mutate(file.id)
-        errorHandler(err)
-      })
-
-      await createChat({
-        id: file.id,
-        label: file.label,
-      })
-
-      // TODO: Push to Chat router
-      console.log('File uploaded')
-    } else {
-      console.error('No file selected')
-      toast.add({
-        group: 'top-right',
-        title: t('files.create.error.noFileSelectedTitle'),
-        type: 'error',
-        text: t('files.create.error.noFileSelectedDescription'),
-      })
+            if (ctx.response.ok) {
+              await createChat({
+                id: file.id,
+                label: file.label,
+              })
+            }
+          },
+        })
+      } else {
+        console.error('No file selected')
+        toast.add({
+          group: 'top-right',
+          title: t('files.create.error.noFileSelectedTitle'),
+          type: 'error',
+          text: t('files.create.error.noFileSelectedDescription'),
+        })
+      }
+    } catch (err) {
+      errorHandler(err)
+    } finally {
+      isUploading.value = false
     }
   }
 
-  const { mutateAsync: createFile } = useMutation({
+  const { mutateAsync: createFile, isLoading: isCreatingFile } = useMutation({
     mutationFn: $client.files.create.mutate,
-    onSuccess: async ({ file, presignedUrl }) => {
-      await uploadFile(file, presignedUrl)
+    onSuccess: async ({ file, fields, url }) => {
+      await uploadFile(file, url, fields)
       return file
     },
     onError: (error) => errorHandler(error),
@@ -99,6 +122,19 @@
       form.file = target.files[0]
     }
   }
+
+  const loadingMessage = computed((): string => {
+    if (isUploading.value) {
+      return 'File Uploading'
+    }
+    if (isCreatingFile.value) {
+      return 'Creating File'
+    }
+    if (isCreatingChat.value) {
+      return 'Creating Chat'
+    }
+    return 'Loading...'
+  })
 </script>
 <template>
   <form
@@ -188,4 +224,10 @@
       />
     </div>
   </form>
+  <Teleport
+    to="body"
+    v-if="isCreatingFile || isCreatingChat || isUploading"
+  >
+    <Loading :message="loadingMessage" />
+  </Teleport>
 </template>

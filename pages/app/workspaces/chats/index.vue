@@ -147,7 +147,7 @@
         v-for="chat in chats.items"
         :key="chat.id"
         :to="`/app/workspaces/chats/${chat.id}`"
-        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24 relative"
+        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
       >
         <NuxtLink
           :to="`/app/workspaces/chats/${chat.id}`"
@@ -178,7 +178,7 @@
             class="h-8 w-8"
           />
           <ul
-            class="dropdown-content z-[1] menu p-1 shadow bg-base-100 rounded-xl w-40 text-primary"
+            class="dropdown-content z-50 menu p-1 shadow bg-base-100 rounded-xl w-40 text-primary"
           >
             <li>
               <button

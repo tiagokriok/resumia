@@ -26,6 +26,7 @@
       }
       return result
     },
+    refetchOnWindowFocus: false,
   })
 
   const allMessages = computed(() => {

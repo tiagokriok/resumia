@@ -87,7 +87,8 @@ export const createFile = async ({
   ctx: Context
 }): Promise<{
   file: File
-  presignedUrl: string
+  url: string
+  fields: Record<string, string> | null
 }> => {
   const user = ctx.user
 
@@ -105,15 +106,22 @@ export const createFile = async ({
     },
   })
 
-  const presignedUrl = await createPresignedUrl(
-    'PUT',
+  const presigned = await createPresignedUrl(
+    'POST',
     `${user.id}/${file.id}`,
-    30,
+    60 * 60,
   )
+
+  if (!presigned) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+    })
+  }
 
   return {
     file: file.toObject(),
-    presignedUrl,
+    url: presigned.url,
+    fields: presigned.fields as Record<string, string> | null,
   }
 }
 
@@ -172,9 +180,15 @@ export const embedFile = async ({
     })
   }
 
-  const url = await createPresignedUrl('GET', `${user.id}/${input}`, 60)
+  const presigned = await createPresignedUrl('GET', `${user.id}/${input}`, 60)
 
-  const response = await fetch(url)
+  if (!presigned) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+    })
+  }
+
+  const response = await fetch(presigned.url)
 
   if (!response.ok) {
     throw new TRPCError({

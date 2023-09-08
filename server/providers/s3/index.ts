@@ -1,4 +1,11 @@
-import { GetObjectCommand, PutObjectCommand, S3 } from '@aws-sdk/client-s3'
+import {
+  GetObjectCommand,
+  GetObjectCommandInput,
+  PutObjectCommand,
+  PutObjectCommandInput,
+  S3,
+} from '@aws-sdk/client-s3'
+import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { z } from 'zod'
 
@@ -27,19 +34,58 @@ export const s3 = new S3({
 })
 
 export async function createPresignedUrl(
-  action: 'GET' | 'PUT',
+  action: 'GET' | 'PUT' | 'POST',
   key: string,
   expiresIn: number = 60,
 ) {
-  const config = {
-    Bucket: env.AWS_BUCKET,
-    Key: key,
+  if (action === 'GET') {
+    const config: GetObjectCommandInput = {
+      Bucket: env.AWS_BUCKET,
+      Key: key,
+    }
+
+    const command = new GetObjectCommand(config)
+
+    const url = await getSignedUrl(s3, command, { expiresIn })
+
+    return { url }
   }
 
-  const command =
-    action === 'GET'
-      ? new GetObjectCommand(config)
-      : new PutObjectCommand(config)
+  if (action === 'PUT') {
+    const config: PutObjectCommandInput = {
+      Bucket: env.AWS_BUCKET,
+      Key: key,
+    }
 
-  return await getSignedUrl(s3, command, { expiresIn })
+    const command = new PutObjectCommand(config)
+
+    const url = await getSignedUrl(s3, command, { expiresIn })
+
+    return { url }
+  }
+
+  if (action === 'POST') {
+    const { url, fields } = await createPresignedPost(s3, {
+      Bucket: env.AWS_BUCKET,
+      Key: key,
+      Conditions: [
+        // {
+        //   acl: 'public-read',
+        // },
+        { bucket: env.AWS_BUCKET },
+        ['starts-with', '$key', key],
+        ['content-length-range', 0, 1024 * 1024 * 10], // max 5MB
+      ],
+      Fields: {
+        // acl: 'public-read',
+      },
+      Expires: expiresIn,
+    })
+
+    console.log(url, fields)
+
+    return { url, fields }
+  }
+
+  return null
 }
