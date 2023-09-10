@@ -26,7 +26,7 @@
       </NuxtLink>
     </div>
     <div class="flex justify-center h-14 w-14 items-center">
-      <NuxtLink to="/app/workpaces/settings">
+      <NuxtLink to="/app/workspaces/profile">
         <Icon
           name="ph:gear-six-bold"
           class="w-6 h-6"

@@ -26,6 +26,7 @@
     "@aws-sdk/client-s3": "^3.400.0",
     "@aws-sdk/s3-presigned-post": "^3.408.0",
     "@aws-sdk/s3-request-presigner": "^3.400.0",
+    "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/device": "^3.1.0",
     "@nuxtjs/google-fonts": "^3.0.2",
     "@nuxtjs/i18n": "^8.0.0-rc.1",

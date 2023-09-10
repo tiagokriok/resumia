@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     'nuxt-headlessui',
     'nuxt-icon',
     '@nuxtjs/device',
+    '@nuxtjs/color-mode',
   ],
   i18n: {
     vueI18n: './locales/i18n.config.ts',
@@ -33,6 +34,10 @@ export default defineNuxtConfig({
     preload: true,
     download: false,
     base64: false,
+  },
+  colorMode: {
+    preference: 'lofi',
+    dataValue: 'theme',
   },
   runtimeConfig: {
     jwtSecret: process.env.JWT_SECRET,

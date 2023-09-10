@@ -21,7 +21,7 @@ export const register = async ({ input }: { input: RegisterInput }) => {
     email: input.email,
     name: input.name,
     password: passwordHash,
-    role: 'owner',
+    role: 'common',
     rememberToken: nanoid(),
   })
 

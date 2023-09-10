@@ -54,3 +54,31 @@ export const findUsers = async ({
     items: users,
   }
 }
+
+export const updateLanguage = async ({
+  input,
+  ctx,
+}: {
+  input: string
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  await Users.updateOne(
+    {
+      id: user.id,
+    },
+    {
+      $set: {
+        language: input,
+      },
+    },
+  )
+}

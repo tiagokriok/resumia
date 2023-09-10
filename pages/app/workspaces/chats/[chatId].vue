@@ -7,7 +7,7 @@
     middleware: ['auth'],
     layout: 'app',
     protected: true,
-    roles: ['owner', 'common'],
+    roles: ['common'],
     hideNavigation: true,
     hideHeader: true,
   })

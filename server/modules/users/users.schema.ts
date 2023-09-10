@@ -8,8 +8,9 @@ export interface User {
   email: string
   password: string
   rememberToken?: string
-  role: 'owner' | 'common' | 'sys_admin'
+  role: 'common' | 'sys_admin'
   plan: 'free' | 'pro'
+  language?: string
   avatar?: string
   verifyAt?: Date
   createdAt: Date
@@ -54,6 +55,9 @@ const UserSchema = new Schema<User>(
       type: String,
       enum: ['free', 'pro'],
       default: 'free',
+    },
+    language: {
+      type: String,
     },
     avatar: {
       type: String,

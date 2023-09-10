@@ -3,7 +3,7 @@ export default {
     languages: {
       en: 'English',
       es: 'Spanish',
-      br: 'Portuguese (Brazil)',
+      br: 'Portuguese',
     },
     buttons: {
       save: 'Save',

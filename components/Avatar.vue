@@ -17,8 +17,9 @@
   })
 </script>
 <template>
-  <div
+  <NuxtLink
     v-if="user.avatar"
+    to="/app/workspaces/profile"
     class="avatar"
   >
     <div
@@ -29,9 +30,10 @@
         alt="avatar"
       />
     </div>
-  </div>
-  <div
+  </NuxtLink>
+  <NuxtLink
     v-else
+    to="/app/workspaces/profile"
     class="avatar placeholder"
   >
     <div
@@ -39,5 +41,5 @@
     >
       <span class="text-2xl">{{ avatar }}</span>
     </div>
-  </div>
+  </NuxtLink>
 </template>

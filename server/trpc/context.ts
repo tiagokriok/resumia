@@ -17,14 +17,14 @@ export async function createContext(event: H3Event) {
       const [, token] = authorization.split(' ')
       const { user: userPayload } = await AccessTokenProvider.decode(token)
 
-      const user = await Users.findOne({ id: userPayload.id })
+      const user = await Users.findOne({ id: userPayload.id }).lean()
 
       if (!user) {
         return null
       }
 
       return {
-        ...user.toObject(),
+        ...user,
       }
     }
     return null

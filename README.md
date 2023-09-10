@@ -19,7 +19,7 @@
 	- [ ] Change language
 	- [ ] Delete account
 - [ ] Validate size of file and type before uploading to S3 (verify user plan)
-- [ ] Add ttl to objects in S3
+- [ ] Add ttl to objects in S3 (add rules on S3 bucket)
 - [ ] Landing Page
 - [ ] Audio transcription chat
 - [ ] Video transcription chat

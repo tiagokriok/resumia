@@ -6,7 +6,7 @@
     middleware: ['auth'],
     layout: 'app',
     protected: true,
-    roles: ['owner', 'common'],
+    roles: ['common'],
   })
 
   const { $client } = useNuxtApp()
