@@ -1,6 +1,7 @@
 import { inferAsyncReturnType } from '@trpc/server'
 import type { H3Event } from 'h3'
-import AccessTokenProvider from '../providers/jwt/AccessTokenProvider'
+import { User, Users } from '~/server/modules/users/users.schema'
+import AccessTokenProvider from '~/server/providers/jwt/AccessTokenProvider'
 
 /**
  * Creates context for an incoming request
@@ -11,18 +12,19 @@ export async function createContext(event: H3Event) {
   // console.log('cookies', parseCookies(event))
   const authorization = event.node.req.headers.authorization ?? null
 
-  const getUser = async (): Promise<{
-    id: string
-    name: string
-    email: string
-    role: string
-  } | null> => {
+  const getUser = async (): Promise<User | null> => {
     if (authorization) {
       const [, token] = authorization.split(' ')
-      const { user } = await AccessTokenProvider.decode(token)
+      const { user: userPayload } = await AccessTokenProvider.decode(token)
+
+      const user = await Users.findOne({ id: userPayload.id })
+
+      if (!user) {
+        return null
+      }
 
       return {
-        ...user,
+        ...user.toObject(),
       }
     }
     return null
