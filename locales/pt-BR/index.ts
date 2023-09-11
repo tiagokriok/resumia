@@ -18,6 +18,7 @@ export default {
       label: 'Pesquisar',
       placeholder: 'Pesquisar aqui...',
     },
+    pickOne: 'Escolha um',
   },
   auth: {
     login: {

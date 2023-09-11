@@ -13,14 +13,23 @@
   })
 
   const { locale, setLocaleCookie } = useI18n()
-
   const { $client } = useNuxtApp()
+  const colorMode = useColorMode()
+  const darkMode = ref(false)
 
   const { mutateAsync: setLanguage } = useMutation({
     mutationFn: $client.users.updateLanguage.mutate,
     onMutate: () => {
       setLocaleCookie(locale.value)
     },
+  })
+
+  onMounted(() => {
+    darkMode.value = colorMode.preference === 'black'
+  })
+
+  watch(darkMode, () => {
+    colorMode.preference = darkMode.value ? 'black' : 'lofi'
   })
 </script>
 <template>
@@ -49,13 +58,14 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <div
-            class="bg-gray-300 h-10 w-10 rounded-full flex items-center justify-center"
+            class="bg-base-300 h-10 w-10 rounded-full flex items-center justify-center"
           >
             <Icon name="ph:sun-bold" />
           </div>
           <p>Dark mode</p>
         </div>
         <input
+          v-model="darkMode"
           type="checkbox"
           class="toggle rounded-xl"
         />
@@ -63,7 +73,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <div
-            class="bg-gray-300 h-10 w-10 rounded-full flex items-center justify-center"
+            class="bg-base-300 h-10 w-10 rounded-full flex items-center justify-center"
           >
             <Icon name="ph:translate-bold" />
           </div>

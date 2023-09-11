@@ -110,7 +110,7 @@
 
     <div class="pb-20">
       <div
-        class="fixed bottom-0 inset-x-0 px-4 bg-primary-content p-2"
+        class="fixed bottom-0 inset-x-0 px-4 p-2 glass bg-primary/70 border-none"
         @submit="handleSubmit"
       >
         <form
@@ -119,11 +119,12 @@
           <textarea
             ref="textarea"
             v-model="input"
-            class="resize-none textarea textarea-primary rounded-xl flex-1"
+            placeholder="Type a message"
+            class="resize-none textarea textarea-primary textarea-bordered rounded-xl flex-1"
           />
           <button
             type="submit"
-            class="bg-primary text-primary-content h-12 w-12 rounded-full flex items-center justify-center"
+            class="btn btn-circle"
             :defaul="!embeddingIsSuccess"
           >
             <Icon

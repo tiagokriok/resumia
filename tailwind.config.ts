@@ -17,7 +17,22 @@ export default <Partial<Config>>{
   },
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ['lofi', 'black'],
+    themes: [
+      {
+        lofi: {
+          ...require('daisyui/src/theming/themes')['[data-theme=lofi]'],
+          '--btn-text-case': 'uppercase',
+          '--rounded-btn': '0.75rem',
+        },
+      },
+      {
+        black: {
+          ...require('daisyui/src/theming/themes')['[data-theme=black]'],
+          '--btn-text-case': 'uppercase',
+          '--rounded-btn': '0.75rem',
+        },
+      },
+    ],
     darkTheme: 'black',
   },
 }

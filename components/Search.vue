@@ -25,17 +25,17 @@ import { inferAsyncReturnType } from '@trpc/server';
       <p class="text-xl font-bold">{{ $t(label) }}</p>
       <div class="join">
         <input
-          class="input input-bordered join-item rounded-l-xl flex-1 bg-base-200 font-semibold border-none"
+          class="input input-bordered join-item rounded-l-xl flex-1"
           type="text"
           :placeholder="$t(placeholder)"
           @input="input"
         />
         <button
-          class="btn join-item rounded-xl bg-base-200 px-2 border-none"
+          class="btn btn-ghost join-item rounded-xl px-2 border border-base-content/20 border-l-0"
           @click="$emit('search')"
         >
           <div
-            class="rounded-full bg-primary-content h-10 w-10 flex items-center justify-center"
+            class="rounded-full bg-primary-content text-primary h-10 w-10 flex items-center justify-center"
           >
             <Icon name="ph:magnifying-glass" />
           </div>

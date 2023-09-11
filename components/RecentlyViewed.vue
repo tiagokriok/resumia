@@ -37,7 +37,7 @@
         :to="`/app/workspaces/chats/${chat.id}`"
       >
         <div
-          class="bg-primary-content rounded-full h-12 w-12 flex items-center justify-center"
+          class="bg-primary-content text-primary rounded-full h-12 w-12 flex items-center justify-center"
         >
           <Icon
             name="ph:chats-circle"

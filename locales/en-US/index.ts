@@ -18,6 +18,7 @@ export default {
       label: 'Search',
       placeholder: 'Search here...',
     },
+    pickOne: 'Pick one',
   },
   auth: {
     login: {

@@ -147,21 +147,21 @@
         v-for="chat in chats.items"
         :key="chat.id"
         :to="`/app/workspaces/chats/${chat.id}`"
-        class="flex items-center space-x-2 bg-secondary text-secondary-content rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
+        class="flex items-center space-x-2 bg-primary rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
       >
         <NuxtLink
           :to="`/app/workspaces/chats/${chat.id}`"
           class="flex items-center space-x-2 flex-1"
         >
           <div
-            class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-secondary"
+            class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-primary"
           >
             <Icon
               name="ph:chats-circle"
               class="h-8 w-8"
             />
           </div>
-          <div class="flex-1 w-20 space-y-2 item-body">
+          <div class="flex-1 w-20 space-y-2 item-body text-primary-content">
             <h3 class="capitalize text-md font-semibold">
               {{ chat.label ?? chat.file.label }}
             </h3>
@@ -171,14 +171,14 @@
           </div>
         </NuxtLink>
         <button
-          class="dropdown dropdown-bottom dropdown-end flex items-center justify-center text-secondary-content"
+          class="dropdown dropdown-bottom dropdown-end flex items-center justify-center"
         >
           <Icon
             name="ph:dots-three-vertical"
             class="h-8 w-8"
           />
           <ul
-            class="dropdown-content z-50 menu p-1 shadow bg-base-100 rounded-xl w-40 text-primary"
+            class="dropdown-content z-50 menu p-1 shadow bg-base-100 rounded-xl w-40"
           >
             <li>
               <button
@@ -275,7 +275,7 @@
                   disabled
                   selected
                 >
-                  Pick one
+                  {{ $t('common.pickOne') }}
                 </option>
                 <option
                   v-for="file in files.items"
@@ -288,7 +288,7 @@
             </div>
             <NuxtLink
               to="/app/workspaces/files/create"
-              class="link link-primary"
+              class="link"
               >{{ $t('chats.index.dialog.create.upload') }}</NuxtLink
             >
             <div class="modal-action">
