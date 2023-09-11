@@ -96,7 +96,13 @@
             message.role === 'user' ? $t('components.messages.you') : 'Resumia'
           }}
         </div>
-        <div class="chat-bubble rounded-xl">
+        <div
+          class="chat-bubble"
+          :class="{
+            'chat-bubble-primary': message.role === 'user',
+            'chat-bubble-success': message.role !== 'user',
+          }"
+        >
           {{ message.content }}
         </div>
       </div>
@@ -110,7 +116,7 @@
 
     <div class="pb-20">
       <div
-        class="fixed bottom-0 inset-x-0 px-4 p-2 glass bg-primary/70 border-none"
+        class="fixed bottom-0 inset-x-0 px-4 p-2 glass bg-primary dark:bg-neutral border-none"
         @submit="handleSubmit"
       >
         <form
@@ -124,12 +130,12 @@
           />
           <button
             type="submit"
-            class="btn btn-circle"
+            class="bg-slate-50 dark:bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
             :defaul="!embeddingIsSuccess"
           >
             <Icon
               name="ph:paper-plane-right-fill"
-              class="h-6 w-6"
+              class="text-primary"
             />
           </button>
         </form>

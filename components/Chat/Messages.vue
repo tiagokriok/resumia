@@ -49,7 +49,11 @@
     </div>
     <div
       :id="message.id"
-      class="chat-bubble rounded-xl"
+      class="chat-bubble"
+      :class="{
+        'chat-bubble-primary': message.role === 'user',
+        'chat-bubble-success': message.role !== 'user',
+      }"
     >
       {{ message.content }}
     </div>

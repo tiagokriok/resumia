@@ -148,7 +148,7 @@
       >
         <Icon
           name="ph:file-pdf"
-          class="h-12 w-12 text-primary dark:text-primary-content"
+          class="h-12 w-12 text-primary"
         />
         <p>{{ file.label }}</p>
       </button>
@@ -302,7 +302,10 @@
         </div>
       </dialog>
     </Teleport>
-    <Teleport to="body">
+    <Teleport
+      to="body"
+      v-if="!isFetching"
+    >
       <div class="pb-12" />
       <NuxtLink
         to="/app/workspaces/files/create"

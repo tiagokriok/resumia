@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     base64: false,
   },
   colorMode: {
-    preference: 'light',
+    preference: 'winter',
     dataValue: 'theme',
   },
   runtimeConfig: {

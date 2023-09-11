@@ -42,11 +42,11 @@
   })
 
   onMounted(() => {
-    darkMode.value = colorMode.preference === 'dark'
+    darkMode.value = colorMode.preference === 'night'
   })
 
   watch(darkMode, () => {
-    colorMode.preference = darkMode.value ? 'dark' : 'light'
+    colorMode.preference = darkMode.value ? 'night' : 'winter'
   })
 
   const openModal = (modalName: string) => {

@@ -32,7 +32,7 @@
     >
       <NuxtLink
         v-for="chat in chats"
-        class="flex items-center space-x-2 bg-primary-content dark:bg-base-300 rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:scale-105 duration-300 h-24"
+        class="flex items-center space-x-2 bg-primary-content dark:bg-neutral rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:scale-105 duration-300 h-24"
         :key="chat.id"
         :to="`/app/workspaces/chats/${chat.id}`"
       >
@@ -44,7 +44,7 @@
             class="h-8 w-8"
           />
         </div>
-        <div class="flex-1 w-20 text-base-content dark:text-primary-content">
+        <div class="flex-1 w-20 text-base-content dark:text-neutral-content">
           <h2 class="capitalize text-md font-semibold">
             {{ chat.label ?? chat.fileLabel }}
           </h2>

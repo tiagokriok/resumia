@@ -13,7 +13,7 @@
   }
 </script>
 <template>
-  <div class="flex flex-col space-y-4 my-2">
+  <div class="flex flex-col space-y-4">
     <Search
       label="common.search.label"
       placeholder="common.search.placeholder"

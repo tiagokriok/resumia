@@ -12,7 +12,7 @@
 <template>
   <div class="pb-16">
     <div
-      class="flex items-center justify-between glass bg-primary/70 h-16 inset-x-0 fixed top-0 px-4 z-50 shadow-md"
+      class="flex items-center justify-between glass bg-primary dark:bg-primary-content h-16 inset-x-0 fixed top-0 px-4 z-50 shadow-md"
     >
       <NuxtLink
         v-if="backTo"
