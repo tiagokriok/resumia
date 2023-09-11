@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { AuthState, LoginAction } from '../lib/types/Stores'
-import { User } from '../server/modules/users/users.schema'
+import { AuthState, LoginAction } from '~/lib/types/Stores'
+import { User } from '~/server/modules/users/users.schema'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
@@ -25,6 +25,9 @@ export const useAuthStore = defineStore('auth', {
     },
     setTokens({ access_token, user }: LoginAction) {
       this.access_token = access_token
+      this.user = user
+    },
+    setUser(user: Omit<User, 'password' | 'rememberToken'>) {
       this.user = user
     },
   },

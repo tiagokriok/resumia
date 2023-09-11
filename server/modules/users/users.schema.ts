@@ -4,7 +4,6 @@ import { nanoid } from '../../providers/nanoid'
 export interface User {
   id: string
   name: string
-  publicName?: string
   email: string
   password: string
   rememberToken?: string
@@ -30,9 +29,6 @@ const UserSchema = new Schema<User>(
     name: {
       type: String,
       required: true,
-    },
-    publicName: {
-      type: String,
     },
     email: {
       type: String,

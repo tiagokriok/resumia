@@ -1,5 +1,7 @@
 <script setup lang="ts">
   import { useMutation } from '@tanstack/vue-query'
+  import { User } from '~/server/modules/users/users.schema'
+  import { useAuthStore } from '~/stores/auth'
 
   type Language = 'pt-BR' | 'en-US' | 'es-ES'
 
@@ -15,12 +17,27 @@
   const { locale, setLocaleCookie } = useI18n()
   const { $client } = useNuxtApp()
   const colorMode = useColorMode()
+  const { user, setUser } = useAuthStore()
   const darkMode = ref(false)
+  const updateModal = ref<HTMLDialogElement | null>(null)
+  const profileForm = reactive({
+    name: user.name,
+    email: user.email,
+  })
 
   const { mutateAsync: setLanguage } = useMutation({
     mutationFn: $client.users.updateLanguage.mutate,
     onMutate: () => {
       setLocaleCookie(locale.value)
+    },
+  })
+
+  const { mutateAsync: updateProfile } = useMutation({
+    mutationFn: async () => $client.users.updateProfile.mutate(profileForm),
+    onSuccess: (result) => {
+      console.log(result)
+      setUser(result as unknown as User)
+      updateModal.value?.close()
     },
   })
 
@@ -31,6 +48,14 @@
   watch(darkMode, () => {
     colorMode.preference = darkMode.value ? 'black' : 'lofi'
   })
+
+  const openModal = (modalName: string) => {
+    switch (modalName) {
+      case 'update':
+        updateModal.value?.showModal()
+        break
+    }
+  }
 </script>
 <template>
   <PageNavigation
@@ -44,10 +69,10 @@
     <div class="flex items-center justify-between space-x-4">
       <Avatar />
       <div class="flex flex-col flex-1">
-        <h3>Tiago</h3>
-        <p>tiago@teste.com</p>
+        <h3>{{ user.name }}</h3>
+        <p>{{ user.email }}</p>
       </div>
-      <button>
+      <button @click="openModal('update')">
         <Icon name="ph:pencil" />
       </button>
     </div>
@@ -91,4 +116,57 @@
       </div>
     </div>
   </div>
+  <ClientOnly>
+    <Teleport to="body">
+      <dialog
+        ref="updateModal"
+        class="modal modal-bottom sm:modal-middle"
+        aria-modal="true"
+      >
+        <div class="modal-box space-y-2">
+          <h3 class="font-bold text-lg">
+            {{ $t('profile.dialog.update.title') }}
+          </h3>
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text font-semibold">{{
+                $t('profile.dialog.update.name')
+              }}</span>
+            </label>
+            <input
+              v-model="profileForm.name"
+              type="text"
+              class="input input-bordered input-primary w-full rounded-xl"
+            />
+          </div>
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text font-semibold">{{
+                $t('profile.dialog.update.email')
+              }}</span>
+            </label>
+            <input
+              v-model="profileForm.email"
+              type="email"
+              class="input input-bordered input-primary w-full rounded-xl"
+            />
+          </div>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-outline rounded-xl">
+                {{ $t('common.buttons.cancel') }}
+              </button>
+            </form>
+            <button
+              class="btn btn-primary rounded-xl"
+              @click="updateProfile()"
+            >
+              {{ $t('common.buttons.save') }}
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </Teleport>
+  </ClientOnly>
 </template>

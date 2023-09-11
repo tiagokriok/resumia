@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server'
 import { SearchQuery } from '../../../lib/types/Search'
 import { Context } from '../../trpc/context'
+import { UpdateUserInput } from './dto'
 import { User, Users } from './users.schema'
 
 export const findUsers = async ({
@@ -81,4 +82,59 @@ export const updateLanguage = async ({
       },
     },
   )
+}
+
+export const updateProfile = async ({
+  input,
+  ctx,
+}: {
+  input: UpdateUserInput
+  ctx: Context
+}) => {
+  const user = ctx.user
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Unauthorized',
+    })
+  }
+
+  if (input.email !== user.email) {
+    // TODO: send verification email
+
+    const userExists = await Users.findOne({
+      email: input.email,
+    })
+
+    if (userExists) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'Email already exists',
+      })
+    }
+  }
+
+  const userUpdated = await Users.findOneAndUpdate(
+    {
+      id: user.id,
+    },
+    {
+      $set: input,
+    },
+    {
+      new: true,
+    },
+  ).lean()
+
+  if (!userUpdated) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'User not found',
+    })
+  }
+
+  const { password, rememberToken, ...userWithoutPassword } = userUpdated
+
+  return userWithoutPassword
 }

@@ -12,11 +12,12 @@
 - [ ] Profile page
 	- [ ] Change password
 	- [ ] Change email
+		- [ ] Send email alert to old email
 	- [ ] Change name
 	- [ ] Change avatar
 - [ ] Settings page
-	- [ ] Change theme
-	- [ ] Change language
+	- [x] Change theme
+	- [x] Change language
 	- [ ] Delete account
 - [ ] Validate size of file and type before uploading to S3 (verify user plan)
 - [ ] Add ttl to objects in S3 (add rules on S3 bucket)
