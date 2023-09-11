@@ -13,7 +13,7 @@
 	- [ ] Change password
 	- [ ] Change email
 		- [ ] Send email alert to old email
-	- [ ] Change name
+	- [x] Change name
 	- [ ] Change avatar
 - [ ] Settings page
 	- [x] Change theme

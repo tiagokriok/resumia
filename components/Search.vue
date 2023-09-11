@@ -35,7 +35,7 @@ import { inferAsyncReturnType } from '@trpc/server';
           @click="$emit('search')"
         >
           <div
-            class="rounded-full bg-primary-content text-primary h-10 w-10 flex items-center justify-center"
+            class="rounded-full bg-primary-content text-primary dark:bg-primary dark:text-primary-content h-10 w-10 flex items-center justify-center"
           >
             <Icon name="ph:magnifying-glass" />
           </div>

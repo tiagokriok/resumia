@@ -42,11 +42,11 @@
   })
 
   onMounted(() => {
-    darkMode.value = colorMode.preference === 'black'
+    darkMode.value = colorMode.preference === 'dark'
   })
 
   watch(darkMode, () => {
-    colorMode.preference = darkMode.value ? 'black' : 'lofi'
+    colorMode.preference = darkMode.value ? 'dark' : 'light'
   })
 
   const openModal = (modalName: string) => {
@@ -92,7 +92,7 @@
         <input
           v-model="darkMode"
           type="checkbox"
-          class="toggle rounded-xl"
+          class="toggle rounded-xl toggle-primary"
         />
       </div>
       <div class="flex items-center justify-between">

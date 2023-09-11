@@ -139,25 +139,24 @@
       <h2 class="text-xl font-bold">{{ $t('files.index.title') }}</h2>
     </div>
 
-    <div class="grid grid-cols-3 gap-2 select-none">
+    <div class="grid grid-cols-2 gap-2 select-none">
       <button
         v-for="file in files.items"
-        class="bg-primary text-primary-content rounded-xl cursor-pointer py-4 px-2 shadow-md hover:scale-105 duration-300 h-24 flex flex-col items-center justify-center space-y-2"
+        class="bg-primary-content dark:bg-base-300 rounded-xl cursor-pointer py-4 px-2 shadow-md hover:scale-105 duration-300 h-24 flex flex-col items-center justify-center space-y-2"
         :key="file.id"
         @click="openModal('view', file)"
       >
         <Icon
           name="ph:file-pdf"
-          class="h-12 w-12"
+          class="h-12 w-12 text-primary dark:text-primary-content"
         />
         <p>{{ file.label }}</p>
       </button>
     </div>
-    <div
-      v-if="files.items.length === 0"
-      class="text-center text-md"
-    >
-      <p class="text-center">{{ $t('files.index.noFiles') }}</p>
+    <div v-if="files.items.length === 0">
+      <p class="text-center text-md font-semibold">
+        {{ $t('files.index.noFiles') }}
+      </p>
     </div>
   </div>
   <ClientOnly>

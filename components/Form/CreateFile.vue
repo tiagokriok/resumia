@@ -216,6 +216,7 @@
       <Button
         label="common.buttons.cancel"
         type="button"
+        @click="router.back()"
       />
       <Button
         button-class="btn-primary"

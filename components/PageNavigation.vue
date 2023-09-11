@@ -17,7 +17,7 @@
       <NuxtLink
         v-if="backTo"
         :to="backTo"
-        class="bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
+        class="bg-slate-50 dark:bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
       >
         <Icon
           name="ph:arrow-left-bold"
@@ -26,7 +26,7 @@
       </NuxtLink>
       <button
         v-else
-        class="bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
+        class="bg-slate-50 dark:bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
         @click="router.back()"
       >
         <Icon
@@ -35,7 +35,7 @@
         />
       </button>
       <div>
-        <h1 class="font-semibold text-xl text-primary-content">
+        <h1 class="font-semibold text-xl text-slate-50">
           {{ $t(title) }}
         </h1>
       </div>

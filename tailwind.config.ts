@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 export default <Partial<Config>>{
+  darkMode: ['class', '[data-theme="dark"]'],
   content: [
     './components/**/*.{js,vue,ts}',
     './layouts/**/*.vue',
@@ -19,20 +20,20 @@ export default <Partial<Config>>{
   daisyui: {
     themes: [
       {
-        lofi: {
-          ...require('daisyui/src/theming/themes')['[data-theme=lofi]'],
+        light: {
+          ...require('daisyui/src/theming/themes')['[data-theme=light]'],
           '--btn-text-case': 'uppercase',
           '--rounded-btn': '0.75rem',
         },
       },
       {
-        black: {
-          ...require('daisyui/src/theming/themes')['[data-theme=black]'],
+        dark: {
+          ...require('daisyui/src/theming/themes')['[data-theme=dark]'],
           '--btn-text-case': 'uppercase',
           '--rounded-btn': '0.75rem',
         },
       },
     ],
-    darkTheme: 'black',
+    darkTheme: 'dark',
   },
 }

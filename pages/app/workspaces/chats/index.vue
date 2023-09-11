@@ -147,21 +147,23 @@
         v-for="chat in chats.items"
         :key="chat.id"
         :to="`/app/workspaces/chats/${chat.id}`"
-        class="flex items-center space-x-2 bg-primary rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
+        class="flex items-center space-x-2 bg-primary-content dark:bg-base-300 rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
       >
         <NuxtLink
           :to="`/app/workspaces/chats/${chat.id}`"
           class="flex items-center space-x-2 flex-1"
         >
           <div
-            class="bg-secondary-content rounded-full h-12 w-12 flex items-center justify-center text-primary"
+            class="bg-primary text-primary-content rounded-full h-12 w-12 flex items-center justify-center"
           >
             <Icon
               name="ph:chats-circle"
               class="h-8 w-8"
             />
           </div>
-          <div class="flex-1 w-20 space-y-2 item-body text-primary-content">
+          <div
+            class="flex-1 w-20 space-y-2 item-body text-base-content dark:text-primary-content"
+          >
             <h3 class="capitalize text-md font-semibold">
               {{ chat.label ?? chat.file.label }}
             </h3>
