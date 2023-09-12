@@ -18,6 +18,7 @@
   const { $client } = useNuxtApp()
   const colorMode = useColorMode()
   const { user, setUser } = useAuthStore()
+  const router = useRouter()
   const darkMode = ref(false)
   const updateModal = ref<HTMLDialogElement | null>(null)
   const profileForm = reactive({
@@ -64,7 +65,7 @@
   />
   <div class="flex flex-col space-y-4 pt-4">
     <div>
-      <h2 class="text-xl font-bold">Account</h2>
+      <h2 class="text-xl font-bold">{{ $t('profile.account') }}</h2>
     </div>
     <div class="flex items-center justify-between space-x-4">
       <Avatar />
@@ -77,42 +78,67 @@
       </button>
     </div>
     <div>
-      <h2 class="text-xl font-bold">Preferences</h2>
+      <h2 class="text-xl font-bold">{{ $t('profile.preferences.title') }}</h2>
     </div>
     <div class="grid grid-cols-1 gap-y-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <div
-            class="bg-base-300 h-10 w-10 rounded-full flex items-center justify-center"
+            class="bg-secondary dark:bg-slate-50 h-10 w-10 rounded-full flex items-center justify-center"
           >
-            <Icon name="ph:sun-bold" />
+            <Icon
+              name="ph:sun-bold"
+              class="text-secondary-content dark:text-secondary"
+            />
           </div>
-          <p>Dark mode</p>
+          <p>{{ $t('profile.preferences.darkMode') }}</p>
         </div>
         <input
           v-model="darkMode"
           type="checkbox"
-          class="toggle rounded-xl toggle-primary"
+          class="toggle rounded-xl toggle-secondary"
         />
       </div>
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <div
-            class="bg-base-300 h-10 w-10 rounded-full flex items-center justify-center"
+            class="bg-secondary dark:bg-slate-50 h-10 w-10 rounded-full flex items-center justify-center"
           >
-            <Icon name="ph:translate-bold" />
+            <Icon
+              name="ph:translate-bold"
+              class="text-secondary-content dark:text-secondary"
+            />
           </div>
-          <p>Language</p>
+          <p>{{ $t('profile.preferences.language') }}</p>
         </div>
         <select
           v-model="locale"
           @change="setLanguage(locale as Language)"
-          class="select select-primary select-sm rounded-xl"
+          class="select select-secondary select-sm rounded-xl"
         >
           <option value="en-US">{{ $t('common.languages.en') }}</option>
           <option value="es-ES">{{ $t('common.languages.es') }}</option>
           <option value="pt-BR">{{ $t('common.languages.br') }}</option>
         </select>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div
+            class="bg-secondary dark:bg-slate-50 h-10 w-10 rounded-full flex items-center justify-center"
+          >
+            <Icon
+              name="ph:password-bold"
+              class="text-secondary-content dark:text-secondary"
+            />
+          </div>
+          <p>{{ $t('profile.preferences.changePassword') }}</p>
+        </div>
+        <button
+          class="btn btn-circle btn-ghost"
+          @click="router.push('/app/forgot-password')"
+        >
+          <Icon name="ph:caret-right" />
+        </button>
       </div>
     </div>
   </div>
@@ -136,7 +162,7 @@
             <input
               v-model="profileForm.name"
               type="text"
-              class="input input-bordered input-primary w-full rounded-xl"
+              class="input input-bordered input-secondary w-full rounded-xl"
             />
           </div>
           <div class="form-control w-full">
@@ -148,7 +174,7 @@
             <input
               v-model="profileForm.email"
               type="email"
-              class="input input-bordered input-primary w-full rounded-xl"
+              class="input input-bordered input-secondary w-full rounded-xl"
             />
           </div>
           <div class="modal-action">
@@ -159,7 +185,7 @@
               </button>
             </form>
             <button
-              class="btn btn-primary rounded-xl"
+              class="btn btn-secondary rounded-xl"
               @click="updateProfile()"
             >
               {{ $t('common.buttons.save') }}

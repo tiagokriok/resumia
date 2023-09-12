@@ -19,6 +19,7 @@ export default {
       placeholder: 'Search here...',
     },
     pickOne: 'Pick one',
+    back: 'Back',
   },
   auth: {
     login: {
@@ -34,6 +35,46 @@ export default {
       title: 'Sign up',
       name: 'Your Name',
       btnSignUp: 'Sign up',
+    },
+    forgotPassword: {
+      title: 'Reset password',
+      description:
+        "Enter the email associated with your account and we'll send you an email with instructions to reset your password.",
+      email: 'Email address',
+      btnSend: 'Send Instructions',
+      error: {
+        emailRequired: {
+          title: 'Email is required',
+          description: 'Please enter your email',
+        },
+      },
+      success: {
+        title: 'Email sent',
+        description:
+          'A link to reset your password has been sent to your email',
+      },
+    },
+    checkEmail: {
+      title: 'Check your email',
+      description: 'We’ve sent you an email with a link to reset your password',
+      btnOpen: 'Open email app',
+      later: "Skip, I'll check later",
+      notReceived: 'Did not receive the email? Check your spam folder, or',
+      notReceivedLink: 'try another email address.',
+    },
+    resetPassword: {
+      title: 'Create new password',
+      description:
+        'Your new password must be different from previously used passwords.',
+      password: 'Password',
+      confirmPassword: 'Confirm password',
+      btnReset: 'Reset password',
+      passwordHint: 'Must be at least 8 characters',
+      confirmPasswordHint: 'Both password must match',
+      success: {
+        title: 'Password reset',
+        description: 'Your password has been reset. You can now log in',
+      },
     },
   },
   components: {
@@ -111,6 +152,22 @@ export default {
           title: 'Update chat',
           label: 'Label',
         },
+      },
+    },
+  },
+  profile: {
+    account: 'Account',
+    preferences: {
+      title: 'Preferences',
+      darkMode: 'Dark mode',
+      language: 'Language',
+      changePassword: 'Change password',
+    },
+    dialog: {
+      update: {
+        title: 'Update account',
+        name: 'Name',
+        email: 'Email',
       },
     },
   },

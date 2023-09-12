@@ -8,9 +8,9 @@
 ## Roadmap
 
 - [ ] Send forgotten password email
-	- [ ] Reset password page
+	- [x] Reset password page
 - [ ] Profile page
-	- [ ] Change password
+	- [x] Change password
 	- [ ] Change email
 		- [ ] Send email alert to old email
 	- [x] Change name

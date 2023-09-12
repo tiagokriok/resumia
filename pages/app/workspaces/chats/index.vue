@@ -154,7 +154,7 @@
           class="flex items-center space-x-2 flex-1"
         >
           <div
-            class="bg-primary text-primary-content rounded-full h-12 w-12 flex items-center justify-center"
+            class="bg-secondary dark:bg-slate-50 text-primary-content dark:text-secondary rounded-full h-12 w-12 flex items-center justify-center"
           >
             <Icon
               name="ph:chats-circle"
@@ -238,7 +238,7 @@
             </p>
             <div class="modal-action">
               <button
-                class="btn btn-primary rounded-xl"
+                class="btn btn-secondary rounded-xl"
                 @click="deleteChat"
               >
                 {{ $t('common.buttons.delete') }}
@@ -271,7 +271,7 @@
               </label>
               <select
                 v-model="fileSelected"
-                class="select select-bordered select-primary rounded-xl"
+                class="select select-bordered select-secondary rounded-xl"
               >
                 <option
                   disabled
@@ -301,7 +301,7 @@
                 </button>
               </form>
               <button
-                class="btn btn-primary rounded-xl"
+                class="btn btn-secondary"
                 @click="createChat()"
               >
                 {{ $t('common.buttons.create') }}
@@ -329,7 +329,7 @@
               <input
                 v-model="chatLabel"
                 type="text"
-                class="input input-bordered input-primary w-full max-w-xs rounded-xl"
+                class="input input-bordered input-secondary dark:input-primary w-full max-w-xs rounded-xl"
               />
             </div>
             <div class="modal-action">
@@ -340,7 +340,7 @@
                 </button>
               </form>
               <button
-                class="btn btn-primary rounded-xl"
+                class="btn btn-secondary dark:btn-primary rounded-xl"
                 @click="updateChat()"
               >
                 {{ $t('common.buttons.save') }}
@@ -356,11 +356,11 @@
         <div class="pb-12" />
         <button
           @click="openCreateModal"
-          class="btn btn-circle btn-primary hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-primary/40"
+          class="btn btn-circle btn-secondary hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-secondary/40"
         >
           <Icon
             name="ph:plus-bold"
-            class="h-6 w-6"
+            class="h-6 w-6 text-slate-50"
           />
         </button>
       </Teleport>

@@ -151,7 +151,7 @@
         <input
           v-model="form.label"
           type="text"
-          class="input input-bordered input-primary rounded-xl"
+          class="input input-bordered input-secondary rounded-xl"
         />
       </div>
       <div class="form-control">
@@ -162,7 +162,7 @@
         </label>
         <textarea
           v-model="form.description"
-          class="textarea textarea-primary rounded-xl"
+          class="textarea textarea-secondary rounded-xl"
         ></textarea>
       </div>
       <div class="form-control">
@@ -174,7 +174,7 @@
         <div class="flex items-center justify-center w-full">
           <label
             for="dropzone-file"
-            class="flex flex-col items-center justify-center w-full h-64 border-2 border-primary/70 border-dashed rounded-xl cursor-pointer bg-base-100"
+            class="flex flex-col items-center justify-center w-full h-64 border-2 border-secondary/70 border-dashed rounded-xl cursor-pointer bg-base-100"
           >
             <div
               v-if="!form.file"
@@ -214,12 +214,13 @@
     </div>
     <div class="grid grid-cols-2 gap-2">
       <Button
+        button-class="btn-outline"
         label="common.buttons.cancel"
         type="button"
         @click="router.back()"
       />
       <Button
-        button-class="btn-primary"
+        button-class="btn-secondary"
         label="common.buttons.create"
         type="submit"
       />

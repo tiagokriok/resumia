@@ -37,7 +37,7 @@
         :to="`/app/workspaces/chats/${chat.id}`"
       >
         <div
-          class="bg-primary text-primary-content rounded-full h-12 w-12 flex items-center justify-center"
+          class="bg-secondary text-primary-content dark:bg-slate-50 dark:text-secondary rounded-full h-12 w-12 flex items-center justify-center"
         >
           <Icon
             name="ph:chats-circle"
@@ -55,7 +55,7 @@
 
     <div
       v-else
-      class="card card-compact w-full bg-base-100 shadow-xl"
+      class="card bg-base-100 card-compact w-full shadow-xl"
     >
       <figure>
         <img
@@ -71,7 +71,7 @@
         <div class="card-actions justify-end">
           <NuxtLink
             to="/app/workspaces/files/create"
-            class="btn capitalize btn-primary rounded-full"
+            class="btn btn-secondary text-slate-50"
           >
             {{ $t('common.buttons.create') }}
           </NuxtLink>

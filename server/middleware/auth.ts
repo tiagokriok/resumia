@@ -24,19 +24,17 @@ export default defineEventHandler(async (event) => {
 
     const { access_token } = auth
 
-    if (!access_token) {
-      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-    }
+    if (access_token) {
+      const { user } = await AccessTokenProvider.decode(access_token)
 
-    const { user } = await AccessTokenProvider.decode(access_token)
+      if (!user) {
+        throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+      }
 
-    if (!user) {
-      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-    }
-
-    event.context.auth = {
-      user,
-      accessToken: access_token,
+      event.context.auth = {
+        user,
+        accessToken: access_token,
+      }
     }
   }
 })

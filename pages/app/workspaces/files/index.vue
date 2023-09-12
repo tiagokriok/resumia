@@ -142,13 +142,13 @@
     <div class="grid grid-cols-2 gap-2 select-none">
       <button
         v-for="file in files.items"
-        class="bg-primary-content dark:bg-base-300 rounded-xl cursor-pointer py-4 px-2 shadow-md hover:scale-105 duration-300 h-24 flex flex-col items-center justify-center space-y-2"
+        class="bg-primary-content dark:bg-neutral rounded-xl cursor-pointer py-4 px-2 shadow-md hover:scale-105 duration-300 h-24 flex flex-col items-center justify-center space-y-2"
         :key="file.id"
         @click="openModal('view', file)"
       >
         <Icon
           name="ph:file-pdf"
-          class="h-12 w-12 text-primary"
+          class="h-12 w-12 text-secondary"
         />
         <p>{{ file.label }}</p>
       </button>
@@ -213,7 +213,7 @@
             </button>
             <button
               @click="openModal('update')"
-              class="btn btn-primary btn-circle"
+              class="btn btn-secondary btn-circle"
             >
               <Icon
                 name="ph:pencil"
@@ -243,7 +243,7 @@
             <input
               v-model="form.label"
               type="text"
-              class="input input-bordered input-primary w-full rounded-xl"
+              class="input input-bordered input-secondary w-full rounded-xl"
             />
           </div>
           <div class="form-control w-full">
@@ -254,7 +254,7 @@
             </label>
             <textarea
               v-model="form.description"
-              class="textarea textarea-primary rounded-xl"
+              class="textarea textarea-secondary rounded-xl"
             ></textarea>
           </div>
           <div class="modal-action">
@@ -265,7 +265,7 @@
               </button>
             </form>
             <button
-              class="btn btn-primary rounded-xl"
+              class="btn btn-secondary rounded-xl"
               @click="updateFile()"
             >
               {{ $t('common.buttons.save') }}
@@ -287,7 +287,7 @@
           <p class="py-4">{{ $t('files.index.dialog.delete.description') }}</p>
           <div class="modal-action">
             <button
-              class="btn btn-primary rounded-xl"
+              class="btn btn-secondary rounded-xl"
               @click="deleteFile()"
             >
               {{ $t('common.buttons.delete') }}
@@ -309,11 +309,11 @@
       <div class="pb-12" />
       <NuxtLink
         to="/app/workspaces/files/create"
-        class="btn btn-circle btn-primary hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-primary/40"
+        class="btn btn-circle btn-secondary hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-secondary/40"
       >
         <Icon
           name="ph:upload-simple-bold"
-          class="h-6 w-6"
+          class="h-6 w-6 text-slate-50"
         />
       </NuxtLink>
     </Teleport>

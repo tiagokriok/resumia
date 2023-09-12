@@ -23,7 +23,7 @@
     class="avatar"
   >
     <div
-      class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+      class="w-10 rounded-full ring ring-secondary ring-offset-base-100 ring-offset-2"
     >
       <img
         :src="user.avatar"
@@ -37,7 +37,7 @@
     class="avatar placeholder"
   >
     <div
-      class="bg-neutral-focus text-neutral-content rounded-full w-10 ring ring-primary ring-offset-base-100 ring-offset-2"
+      class="bg-neutral-focus text-neutral-content rounded-full w-10 ring ring-secondary ring-offset-base-100 ring-offset-2"
     >
       <span class="text-2xl">{{ avatar }}</span>
     </div>

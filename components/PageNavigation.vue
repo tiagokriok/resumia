@@ -12,26 +12,26 @@
 <template>
   <div class="pb-16">
     <div
-      class="flex items-center justify-between glass bg-primary dark:bg-primary-content h-16 inset-x-0 fixed top-0 px-4 z-50 shadow-md"
+      class="flex items-center justify-between glass bg-secondary dark:bg-primary-content h-16 inset-x-0 fixed top-0 px-4 z-50 shadow-md"
     >
       <NuxtLink
         v-if="backTo"
         :to="backTo"
-        class="bg-slate-50 dark:bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
+        class="bg-slate-50 h-10 w-10 rounded-full flex items-center justify-center"
       >
         <Icon
           name="ph:arrow-left-bold"
-          class="text-primary"
+          class="text-secondary"
         />
       </NuxtLink>
       <button
         v-else
-        class="bg-slate-50 dark:bg-primary-content h-10 w-10 rounded-full flex items-center justify-center"
+        class="bg-slate-50 h-10 w-10 rounded-full flex items-center justify-center"
         @click="router.back()"
       >
         <Icon
           name="ph:arrow-left-bold"
-          class="text-primary"
+          class="text-secondary"
         />
       </button>
       <div>

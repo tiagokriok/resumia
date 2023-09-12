@@ -4,7 +4,7 @@ import { ZodError } from 'zod'
 import { useToast } from '../composables/useToast'
 import { useAuthStore } from '../stores/auth'
 
-export function errorHandler(error: any) {
+export function errorHandler(error: TRPCError | ZodError | Error | unknown) {
   try {
     const authStore = useAuthStore()
     const toast = useToast()
@@ -31,6 +31,20 @@ export function errorHandler(error: any) {
         return navigateTo('/app/login')
       }
       text = message
+    } else if (error instanceof Error) {
+      const { name } = error
+
+      if (name === 'TRPCClientError') {
+        const { shape } = error as unknown as { shape: { message: string } }
+
+        if (shape.message) {
+          const shapeMessage = JSON.parse(shape.message)
+
+          text = shapeMessage[0].message
+        } else {
+          text = error.message
+        }
+      }
     }
     toast.add({
       group: 'top-right',

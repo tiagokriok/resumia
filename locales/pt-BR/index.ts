@@ -19,6 +19,7 @@ export default {
       placeholder: 'Pesquisar aqui...',
     },
     pickOne: 'Escolha um',
+    back: 'Voltar',
   },
   auth: {
     login: {
@@ -34,6 +35,45 @@ export default {
       title: 'Cadastre-se',
       name: 'Seu nome',
       btnSignUp: 'Cadastre-se',
+    },
+    forgotPassword: {
+      title: 'Redefinir senha',
+      description:
+        'Insira o e-mail associado a sua conta e enviaremos um e-mail com instruções para redefinir sua senha.',
+      email: 'E-mail',
+      btnSend: 'Enviar instruções',
+      error: {
+        emailRequired: {
+          title: 'E-mail é obrigatório',
+          description: 'Por favor, insira seu e-mail',
+        },
+      },
+      success: {
+        title: 'E-mail enviado',
+        description:
+          'Um link para redefinir sua senha foi enviado para seu e-mail',
+      },
+    },
+    checkEmail: {
+      title: 'Verifique seu e-mail',
+      description: 'Enviamos um e-mail com um link para redefinir sua senha',
+      btnOpen: 'Abrir e-mail',
+      later: 'Irei verificar mais tarde',
+      notReceived: 'Não recebeu o e-mail? Verifique sua pasta de spam ou',
+      notReceivedLink: 'tentar novamente com outro e-mail.',
+    },
+    resetPassword: {
+      title: 'Criar nova senha',
+      description: 'Sua nova senha deve ser diferente das senhas anteriores.',
+      password: 'Senha',
+      confirmPassword: 'Confirmar senha',
+      btnReset: 'Redefinir senha',
+      passwordHint: 'Deve ter pelo menos 8 caracteres',
+      confirmPasswordHint: 'Ambas as senhas devem ser iguais',
+      success: {
+        title: 'Senha redefinida',
+        description: 'Sua senha foi redefinida. Você pode agora logar',
+      },
     },
   },
   components: {
@@ -112,6 +152,22 @@ export default {
           title: 'Atualizar chat',
           label: 'Etiqueta',
         },
+      },
+    },
+  },
+  profile: {
+    account: 'Conta',
+    preferences: {
+      title: 'Preferências',
+      darkMode: 'Modo escuro',
+      language: 'Idioma',
+      changePassword: 'Alterar senha',
+    },
+    dialog: {
+      update: {
+        title: 'Atualizar conta',
+        name: 'Nome',
+        email: 'E-mail',
       },
     },
   },

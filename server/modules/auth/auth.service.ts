@@ -63,3 +63,69 @@ export const login = async ({ input }: { input: LoginInput }) => {
     access_token,
   }
 }
+
+export const forgotPassword = async ({ input }: { input: string }) => {
+  const user = await Users.findOne({ email: input })
+  // TODO: send reset email
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: 'Invalid email',
+    })
+  }
+
+  const rememberToken = nanoid()
+
+  await Users.updateOne(
+    {
+      id: user.id,
+      email: input,
+    },
+    {
+      $set: {
+        rememberToken,
+      },
+    },
+  )
+
+  return {
+    message: 'Reset email sent',
+  }
+}
+
+export const resetPassword = async ({
+  input,
+}: {
+  input: { password: string; rememberToken: string; confirmPassword: string }
+}) => {
+  const user = await Users.findOne({ rememberToken: input.rememberToken })
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: 'Invalid token',
+    })
+  }
+
+  if (input.password !== input.confirmPassword) {
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: 'Passwords do not match',
+    })
+  }
+
+  const passwordHash = await argon2.hash(input.password)
+
+  await Users.updateOne(
+    {
+      id: user.id,
+    },
+    {
+      $set: {
+        password: passwordHash,
+        rememberToken: null,
+      },
+    },
+  )
+}

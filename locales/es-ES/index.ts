@@ -19,6 +19,7 @@ export default {
       placeholder: 'Buscar aquí...',
     },
     pickOne: 'Elegir uno',
+    back: 'Atrás',
   },
   auth: {
     login: {
@@ -34,6 +35,49 @@ export default {
       title: 'Registrarse',
       name: 'Tu nombre',
       btnSignUp: 'Registrarse',
+    },
+    forgotPassword: {
+      title: 'Restablecer contraseña',
+      description:
+        'Introduce el correo asociado con tu cuenta y te enviaremos un correo con instrucciones para restablecer tu contraseña.',
+      email: 'Correo electrónico',
+      btnSend: 'Enviar instrucciones',
+      error: {
+        emailRequired: {
+          title: 'Correo electrónico es requerido',
+          description: 'Por favor, introduce tu correo electrónico',
+        },
+      },
+      success: {
+        title: 'Correo electrónico enviado',
+        description:
+          'Un enlace para restablecer tu contraseña ha sido enviado a tu correo electrónico',
+      },
+    },
+    checkEmail: {
+      title: 'Verifica tu correo',
+      description:
+        'Hemos enviado un correo electrónico con un enlace para restablecer tu contraseña',
+      btnOpen: 'Abrir correo electrónico',
+      later: 'Lo haré más tarde',
+      notReceived:
+        '¿No recibiste el correo electrónico? Comprueba tu carpeta de correo no deseado o',
+      notReceivedLink: 'reintentar otro correo electrónico.',
+    },
+    resetPassword: {
+      title: 'Crear nueva contraseña',
+      description:
+        'Tu nueva contraseña debe ser diferente de las contraseñas anteriores',
+      password: 'Contraseña',
+      confirmPassword: 'Confirmar contraseña',
+      btnReset: 'Restablecer contraseña',
+      passwordHint: 'Debe tener al menos 8 caracteres',
+      confirmPasswordHint: 'Ambas contraseñas deben coincidir',
+      success: {
+        title: 'Contraseña restablecida',
+        description:
+          'Tu contraseña ha sido restablecida. Puedes iniciar sesión',
+      },
     },
   },
   components: {
@@ -112,6 +156,22 @@ export default {
           title: 'Actualizar chat',
           label: 'Etiqueta',
         },
+      },
+    },
+  },
+  profile: {
+    account: 'Cuenta',
+    preferences: {
+      title: 'Preferencias',
+      darkMode: 'Modo oscuro',
+      language: 'Idioma',
+      changePassword: 'Cambiar contraseña',
+    },
+    dialog: {
+      update: {
+        title: 'Actualizar cuenta',
+        name: 'Nombre',
+        email: 'Correo',
       },
     },
   },
