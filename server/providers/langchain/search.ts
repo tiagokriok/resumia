@@ -3,11 +3,12 @@ import { RedisVectorStore } from 'langchain/vectorstores/redis'
 import { redis } from '../redis'
 
 export async function search(keyPrefix: string, question: string) {
+  const { openaiApiKey } = useRuntimeConfig()
   await redis.connect()
 
   const store = new RedisVectorStore(
     new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: openaiApiKey,
     }),
     {
       indexName: 'resumia-embeddings',

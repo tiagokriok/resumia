@@ -7,29 +7,14 @@ import {
 } from '@aws-sdk/client-s3'
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import { z } from 'zod'
 
-const envSchema = z.object({
-  AWS_ACCESS_KEY_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
-  AWS_DEFAULT_REGION: z.string().default('sa-east-1'),
-  AWS_BUCKET: z.string().default('resumia'),
-})
-
-const _env = envSchema.safeParse(process.env)
-
-if (!_env.success) {
-  console.error('❌ Invalid environment variables', _env.error.format())
-  throw new Error('Invalid environment variables')
-}
-
-export const env = _env.data
+const config = useRuntimeConfig()
 
 export const s3 = new S3({
-  region: env.AWS_DEFAULT_REGION,
+  region: config.awsDefaultRegion,
   credentials: {
-    accessKeyId: env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: config.awsAccessKeyId,
+    secretAccessKey: config.awsSecretAccessKey,
   },
 })
 
@@ -39,12 +24,12 @@ export async function createPresignedUrl(
   expiresIn: number = 60,
 ) {
   if (action === 'GET') {
-    const config: GetObjectCommandInput = {
-      Bucket: env.AWS_BUCKET,
+    const configCMD: GetObjectCommandInput = {
+      Bucket: config.awsBucket,
       Key: key,
     }
 
-    const command = new GetObjectCommand(config)
+    const command = new GetObjectCommand(configCMD)
 
     const url = await getSignedUrl(s3, command, { expiresIn })
 
@@ -52,12 +37,12 @@ export async function createPresignedUrl(
   }
 
   if (action === 'PUT') {
-    const config: PutObjectCommandInput = {
-      Bucket: env.AWS_BUCKET,
+    const configCMD: PutObjectCommandInput = {
+      Bucket: config.awsBucket,
       Key: key,
     }
 
-    const command = new PutObjectCommand(config)
+    const command = new PutObjectCommand(configCMD)
 
     const url = await getSignedUrl(s3, command, { expiresIn })
 
@@ -66,13 +51,13 @@ export async function createPresignedUrl(
 
   if (action === 'POST') {
     const { url, fields } = await createPresignedPost(s3, {
-      Bucket: env.AWS_BUCKET,
+      Bucket: config.awsBucket,
       Key: key,
       Conditions: [
         // {
         //   acl: 'public-read',
         // },
-        { bucket: env.AWS_BUCKET },
+        { bucket: config.awsBucket },
         ['starts-with', '$key', key],
         ['content-length-range', 0, 1024 * 1024 * 10], // max 5MB
       ],

@@ -7,12 +7,14 @@ export async function embedDocuments(
   documents: Document<Record<string, any>>[],
   keyPrefix: string,
 ) {
+  const { openaiApiKey } = useRuntimeConfig()
+
   await redis.connect()
 
   await RedisVectorStore.fromDocuments(
     documents,
     new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: openaiApiKey,
     }),
     {
       indexName: 'resumia-embeddings',
@@ -25,9 +27,11 @@ export async function embedDocuments(
 }
 
 export function vectorStore(keyPrefix: string) {
+  const { openaiApiKey } = useRuntimeConfig()
+
   return new RedisVectorStore(
     new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: openaiApiKey,
     }),
     {
       indexName: 'resumia-embeddings',

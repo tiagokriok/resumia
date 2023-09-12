@@ -41,7 +41,7 @@ export default async (_nitroApp: Nitro) => {
       })
     })
 
-    await connect(config.mongoURI)
+    await connect(config.mongodbUri)
     console.info('Connected to MongoDB')
   } catch (e) {
     console.error(e)

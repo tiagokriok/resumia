@@ -1,7 +1,9 @@
 import { createClient } from 'redis'
 
+const { redisUrl } = useRuntimeConfig()
+
 export const redis = createClient({
-  url: process.env.REDIS_URL,
+  url: redisUrl,
 })
 
 redis.on('error', (err) => console.error(err))

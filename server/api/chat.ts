@@ -10,6 +10,8 @@ import { redis } from '../providers/redis'
 export const runtime = 'edge'
 
 export default defineLazyEventHandler(async () => {
+  const { openaiApiKey } = useRuntimeConfig()
+
   const prompt = new PromptTemplate({
     template: `
 			Você é especialista em analise de documentos.
@@ -99,7 +101,7 @@ export default defineLazyEventHandler(async () => {
       const { stream, handlers } = LangChainStream()
 
       const openAiChat = new ChatOpenAI({
-        openAIApiKey: process.env.OPENAI_API_KEY,
+        openAIApiKey: openaiApiKey,
         modelName: 'gpt-3.5-turbo',
         temperature: 0.3,
         streaming: true,

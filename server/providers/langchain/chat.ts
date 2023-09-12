@@ -7,10 +7,12 @@ import { vectorStore } from './store'
 
 export async function sendPrompt(keyPrefix: string, question: string) {
   try {
+    const { openaiApiKey } = useRuntimeConfig()
+
     await redis.connect()
 
     const openAiChat = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: openaiApiKey,
       modelName: 'gpt-3.5-turbo',
       temperature: 0.3,
       streaming: true,
