@@ -1,5 +1,6 @@
 import { createTRPCNuxtClient, httpBatchLink } from 'trpc-nuxt/client'
-import type { AppRouter } from '../server/trpc/routers/index'
+import { AuthState } from '~/lib/types/Stores'
+import type { AppRouter } from '~/server/trpc/routers/index'
 
 export default defineNuxtPlugin(() => {
   const headers = useRequestHeaders()
@@ -14,7 +15,7 @@ export default defineNuxtPlugin(() => {
         url: '/api/trpc',
         headers(opts) {
           const authCookie = useCookie('auth')
-          const authStore = authCookie.value && JSON.parse(authCookie.value)
+          const authStore = authCookie.value as unknown as AuthState
 
           return {
             ...(authStore?.isAuthenticated && {

@@ -29,9 +29,6 @@ dependencies:
   '@nuxtjs/tailwindcss':
     specifier: ^6.8.0
     version: 6.8.0(webpack@5.88.2)
-  '@pinia-plugin-persistedstate/nuxt':
-    specifier: ^1.1.1
-    version: 1.1.1(@pinia/nuxt@0.4.11)(pinia@2.1.6)
   '@pinia/nuxt':
     specifier: ^0.4.11
     version: 0.4.11(vue@3.3.4)
@@ -80,6 +77,9 @@ dependencies:
   pinia:
     specifier: ^2.1.6
     version: 2.1.6(vue@3.3.4)
+  pinia-plugin-persistedstate:
+    specifier: ^3.2.0
+    version: 3.2.0(pinia@2.1.6)
   redis:
     specifier: ^4.6.8
     version: 4.6.8
@@ -2334,21 +2334,6 @@ packages:
   /@phc/format@1.0.0:
     resolution: {integrity: sha512-m7X9U6BG2+J+R1lSOdCiITLLrxm+cWlNI3HUFA92oLO77ObGNzaKdh8pMLqdZcshtkKuV84olNNXDfMc4FezBQ==}
     engines: {node: '>=10'}
-    dev: false
-
-  /@pinia-plugin-persistedstate/nuxt@1.1.1(@pinia/nuxt@0.4.11)(pinia@2.1.6):
-    resolution: {integrity: sha512-b6ZNP3Re8COmfZEpj4KQmbp2TuDKrLggDFLZa8FiJF68xE/oCsPXIuXUvAt8E4ht/5sq4Z/grlA+iGXaI2aeKQ==}
-    peerDependencies:
-      '@pinia/nuxt': ^0.4.4
-    dependencies:
-      '@nuxt/kit': 3.7.2
-      '@pinia/nuxt': 0.4.11(vue@3.3.4)
-      defu: 6.1.2
-      pinia-plugin-persistedstate: 3.2.0(pinia@2.1.6)
-    transitivePeerDependencies:
-      - pinia
-      - rollup
-      - supports-color
     dev: false
 
   /@pinia/nuxt@0.4.11(vue@3.3.4):

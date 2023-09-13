@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   build: {
-    transpile: ['trpc-nuxt'],
+    transpile: ['trpc-nuxt', 'pinia-plugin-persistedstate'],
   },
   modules: [
     '@pinia/nuxt',
@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxtjs/device',
     '@nuxtjs/color-mode',
-    '@pinia-plugin-persistedstate/nuxt',
   ],
   i18n: {
     vueI18n: './locales/i18n.config.ts',

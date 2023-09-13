@@ -1,3 +1,5 @@
+import { AuthState } from '~/lib/types/Stores'
+
 export default defineNuxtRouteMiddleware((to, from) => {
   console.info('Auth Middleware')
   const toast = useToast()
@@ -17,17 +19,16 @@ export default defineNuxtRouteMiddleware((to, from) => {
       return
     }
 
-    const { isAuthenticated, user } =
-      authStore.value && JSON.parse(authStore.value)
+    const { isAuthenticated, user } = authStore.value as unknown as AuthState
 
     console.info('Protected Route')
     const roles = to.meta.roles as string[]
     console.info(`Roles - ${roles}`)
 
-    if (isAuthenticated && roles?.includes(user.role)) {
+    if (isAuthenticated && roles?.includes(user?.role)) {
       console.info('Authenticated and Authorized')
       return
-    } else if (isAuthenticated && !roles?.includes(user.role)) {
+    } else if (isAuthenticated && !roles?.includes(user?.role)) {
       console.info('Not Authorized')
       toast.add({
         group: 'top-right',
