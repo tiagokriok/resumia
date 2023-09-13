@@ -6,7 +6,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
@@ -15,6 +14,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxtjs/device',
     '@nuxtjs/color-mode',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   i18n: {
     vueI18n: './locales/i18n.config.ts',

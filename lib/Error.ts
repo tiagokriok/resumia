@@ -6,7 +6,8 @@ import { useAuthStore } from '../stores/auth'
 
 export function errorHandler(error: TRPCError | ZodError | Error | unknown) {
   try {
-    const authStore = useAuthStore()
+    const nuxt = useNuxtApp()
+    const authStore = useAuthStore(nuxt.$pinia)
     const toast = useToast()
     let text = 'Something went wrong'
 

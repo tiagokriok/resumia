@@ -6,13 +6,13 @@ settings:
 
 dependencies:
   '@aws-sdk/client-s3':
-    specifier: ^3.410.0
+    specifier: ^3.400.0
     version: 3.410.0
   '@aws-sdk/s3-presigned-post':
-    specifier: ^3.410.0
+    specifier: ^3.408.0
     version: 3.410.0
   '@aws-sdk/s3-request-presigner':
-    specifier: ^3.410.0
+    specifier: ^3.400.0
     version: 3.410.0
   '@nuxtjs/color-mode':
     specifier: ^3.3.0
@@ -24,7 +24,7 @@ dependencies:
     specifier: ^3.0.2
     version: 3.0.2
   '@nuxtjs/i18n':
-    specifier: 8.0.0-rc.4
+    specifier: ^8.0.0-rc.1
     version: 8.0.0-rc.4(vue@3.3.4)
   '@nuxtjs/tailwindcss':
     specifier: ^6.8.0
@@ -36,34 +36,34 @@ dependencies:
     specifier: ^0.4.11
     version: 0.4.11(vue@3.3.4)
   '@tanstack/vue-query':
-    specifier: ^4.35.2
+    specifier: ^4.34.0
     version: 4.35.2(vue@3.3.4)
   '@trpc/client':
-    specifier: ^10.38.2
+    specifier: ^10.38.0
     version: 10.38.2(@trpc/server@10.38.2)
   '@trpc/server':
-    specifier: ^10.38.2
+    specifier: ^10.38.0
     version: 10.38.2
   '@vueuse/nuxt':
-    specifier: ^10.4.1
+    specifier: ^10.4.0
     version: 10.4.1(nuxt@3.7.2)(vue@3.3.4)
   ai:
-    specifier: ^2.2.12
+    specifier: ^2.2.11
     version: 2.2.12(react@18.2.0)(solid-js@1.7.11)(svelte@4.2.0)(vue@3.3.4)
   argon2:
-    specifier: ^0.31.1
+    specifier: ^0.31.0
     version: 0.31.1
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
   jose:
-    specifier: ^4.14.6
+    specifier: ^4.14.4
     version: 4.14.6
   langchain:
     specifier: ^0.0.137
     version: 0.0.137(@aws-sdk/client-s3@3.410.0)(pdf-parse@1.1.1)(redis@4.6.8)
   mongoose:
-    specifier: ^7.5.1
+    specifier: ^7.4.5
     version: 7.5.1
   nanoid:
     specifier: ^4.0.2
@@ -98,22 +98,22 @@ devDependencies:
     specifier: latest
     version: 0.8.3(nuxt@3.7.2)(vite@4.4.9)
   '@types/node':
-    specifier: ^20.6.0
+    specifier: ^20.5.7
     version: 20.6.0
   '@vueuse/core':
-    specifier: ^10.4.1
+    specifier: ^10.4.0
     version: 10.4.1(vue@3.3.4)
   daisyui:
-    specifier: ^3.7.3
+    specifier: ^3.6.3
     version: 3.7.3
   nuxt:
-    specifier: ^3.7.2
+    specifier: ^3.7.0
     version: 3.7.2(@types/node@20.6.0)
   nuxt-icon:
     specifier: ^0.5.0
     version: 0.5.0(vue@3.3.4)
   prettier:
-    specifier: ^3.0.3
+    specifier: ^3.0.2
     version: 3.0.3
 
 packages:
@@ -1579,7 +1579,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 7.3.0(vue-i18n@9.3.0-beta.27)
-      '@intlify/shared': 9.3.0-beta.27
+      '@intlify/shared': 9.4.0
       '@rollup/pluginutils': 5.0.4(rollup@3.29.1)
       '@vue/compiler-sfc': 3.3.4
       debug: 4.3.4

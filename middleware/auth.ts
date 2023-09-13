@@ -1,11 +1,25 @@
-import { useAuthStore } from '../stores/auth'
-
 export default defineNuxtRouteMiddleware((to, from) => {
   console.info('Auth Middleware')
-  const { isAuthenticated, user } = useAuthStore()
   const toast = useToast()
 
   if (to.meta.protected) {
+    const authStore = useCookie('auth')
+
+    if (!authStore.value) {
+      console.info('Not Authenticated')
+      toast.add({
+        group: 'top-right',
+        title: 'Unauthorized',
+        text: 'You are not authorized to access this page',
+        type: 'error',
+      })
+      return navigateTo('/app/login')
+      return
+    }
+
+    const { isAuthenticated, user } =
+      authStore.value && JSON.parse(authStore.value)
+
     console.info('Protected Route')
     const roles = to.meta.roles as string[]
     console.info(`Roles - ${roles}`)

@@ -1,10 +1,9 @@
 import { createTRPCNuxtClient, httpBatchLink } from 'trpc-nuxt/client'
 import type { AppRouter } from '../server/trpc/routers/index'
-import { useAuthStore } from '../stores/auth'
 
 export default defineNuxtPlugin(() => {
   const headers = useRequestHeaders()
-  const authStore = useAuthStore()
+
   /**
    * createTRPCNuxtClient adds a `useQuery` composable
    * built on top of `useAsyncData`.
@@ -14,8 +13,11 @@ export default defineNuxtPlugin(() => {
       httpBatchLink({
         url: '/api/trpc',
         headers(opts) {
+          const authCookie = useCookie('auth')
+          const authStore = authCookie.value && JSON.parse(authCookie.value)
+
           return {
-            ...(authStore.isAuthenticated && {
+            ...(authStore?.isAuthenticated && {
               Authorization: `Bearer ${authStore.access_token}`,
             }),
           }

@@ -1,15 +1,17 @@
-import { useAuthStore } from '../stores/auth'
-
 export default defineNuxtRouteMiddleware((to, from) => {
   console.info('Main Middleware')
-  const authStore = useAuthStore()
 
-  if (to.fullPath.includes('login') && authStore.isAuthenticated) {
+  const authCookie = useCookie('auth').value
+
+  const authStore = authCookie && JSON.parse(authCookie)
+  console.log('authStore', authStore)
+
+  if (to.fullPath.includes('login') && authStore?.isAuthenticated) {
     console.info('Login isAuthenticated')
     return navigateTo('/app/workspaces', {
       replace: true,
     })
-  } else if (to.fullPath.includes('login') && !authStore.isAuthenticated) {
+  } else if (to.fullPath.includes('login') && !authStore?.isAuthenticated) {
     console.info('Not Authenticated')
     return
   }

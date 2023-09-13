@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useMutation } from '@tanstack/vue-query'
-  import { errorHandler } from '../../lib/Error'
-  import { useAuthStore } from '../../stores/auth'
+  import { errorHandler } from '~/lib/Error'
+  import { useAuthStore } from '~/stores/auth'
 
   useHead({
     title: 'Login',
