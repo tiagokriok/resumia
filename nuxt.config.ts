@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxtjs/device',
     '@nuxtjs/color-mode',
+    'vue-email/nuxt',
   ],
   i18n: {
     vueI18n: './locales/i18n.config.ts',
@@ -47,6 +48,9 @@ export default defineNuxtConfig({
     awsBucket: '',
     redisUrl: '',
     openaiApiKey: '',
+    resendKey: '',
+    fromEmail: '',
+    appBaseUrl: '',
   },
   nitro: {
     plugins: ['~/server/plugins/database.ts'],

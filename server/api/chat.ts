@@ -76,8 +76,6 @@ export default defineLazyEventHandler(async () => {
         role: 'user',
       })
 
-      // TODO: update Chat
-
       if (chat.messages.length >= 10) {
         await Chats.updateOne(
           { id: chatId },
@@ -129,7 +127,6 @@ export default defineLazyEventHandler(async () => {
             role: 'assistant',
           })
 
-          // TODO: update Chat
           if (chat.messages.length >= 10) {
             await Chats.updateOne(
               { id: chatId },

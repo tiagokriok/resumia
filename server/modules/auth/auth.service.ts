@@ -1,6 +1,8 @@
+import { useCompiler } from '#vue-email'
 import { TRPCError } from '@trpc/server'
 import * as argon2 from 'argon2'
 import { nanoid } from 'nanoid'
+import { Resend } from 'resend'
 import AccessTokenProvider from '../../providers/jwt/AccessTokenProvider'
 import { Users } from '../users/users.schema'
 import { LoginInput, RegisterInput } from './dto'
@@ -24,8 +26,6 @@ export const register = async ({ input }: { input: RegisterInput }) => {
     role: 'common',
     rememberToken: nanoid(),
   })
-
-  // TODO: Send verification email
 
   const { password, rememberToken, ...userWithoutPassword } = user.toObject()
 
@@ -65,8 +65,9 @@ export const login = async ({ input }: { input: LoginInput }) => {
 }
 
 export const forgotPassword = async ({ input }: { input: string }) => {
+  const config = useRuntimeConfig()
+
   const user = await Users.findOne({ email: input })
-  // TODO: send reset email
 
   if (!user) {
     throw new TRPCError({
@@ -88,6 +89,23 @@ export const forgotPassword = async ({ input }: { input: string }) => {
       },
     },
   )
+
+  // TODO: send reset email
+  const template = await useCompiler('reset-password.vue', {
+    user: user.name,
+    token: `${config.appBaseUrl}/app/reset-password/${rememberToken}`,
+  })
+
+  const resend = new Resend(config.resendKey)
+  console.log(config.appUrl)
+
+  await resend.emails.send({
+    from: config.fromEmail,
+    to: user.email,
+    subject: 'Reset password',
+    html: template,
+  })
+  // TODO: Save id of email
 
   return {
     message: 'Reset email sent',

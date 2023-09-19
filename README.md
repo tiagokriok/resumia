@@ -7,8 +7,9 @@
 
 ## Roadmap
 
-- [ ] Send forgotten password email
+- [x] Send forgotten password email
 	- [x] Reset password page
+	- [ ] Link to reset expiration time
 - [ ] Profile page
 	- [x] Change password
 	- [ ] Change email

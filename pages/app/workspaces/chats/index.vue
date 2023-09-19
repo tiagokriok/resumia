@@ -70,7 +70,6 @@
     onSuccess: async (chat) => {
       if (chat) {
         createModal.value?.close()
-        // TODO: router push to chat
         router.push({
           path: `/app/workspaces/chats/${chat.id}`,
         })

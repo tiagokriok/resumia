@@ -5,14 +5,14 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const authCookie = useCookie('auth')
 
-  const { isAuthenticated } = authCookie.value as unknown as AuthState
+  const authState = authCookie.value as unknown as AuthState
 
-  if (to.fullPath.includes('login') && isAuthenticated) {
+  if (to.fullPath.includes('login') && authState?.isAuthenticated) {
     console.info('Login isAuthenticated')
     return navigateTo('/app/workspaces', {
       replace: true,
     })
-  } else if (to.fullPath.includes('login') && !isAuthenticated) {
+  } else if (to.fullPath.includes('login') && !authState?.isAuthenticated) {
     console.info('Not Authenticated')
     return
   }
