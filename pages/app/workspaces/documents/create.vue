@@ -12,7 +12,7 @@
   <div>
     <PageNavigation
       title="files.create.title"
-      backTo="/app/workspaces/files"
+      backTo="/app/workspaces/documents"
     />
     <FormCreateFile />
   </div>

@@ -9,7 +9,7 @@
       default: () => ({
         base: 'mx-auto',
         padding: 'px-4 sm:px-6 lg:px-8',
-        constrained: 'max-w-7xl',
+        constrained: 'max-w-7xl md:max-w-4xl',
       }),
     },
   })

@@ -188,4 +188,11 @@ export default {
       link: 'Redefinir sua senha',
     },
   },
+  app: {
+    workspaces: {
+      documents: 'Documentos',
+      chats: 'Chats',
+      planUpgrade: 'Upgrade',
+    },
+  },
 }

@@ -192,4 +192,11 @@ export default {
       link: 'Restablecer',
     },
   },
+  app: {
+    workspaces: {
+      documents: 'Documentos',
+      chats: 'Chats',
+      planUpgrade: 'Upgrade',
+    },
+  },
 }

@@ -70,7 +70,7 @@
         <p>{{ $t('components.recentlyViewed.noChatsDescription') }}</p>
         <div class="card-actions justify-end">
           <NuxtLink
-            to="/app/workspaces/files/create"
+            to="/app/workspaces/documents/create"
             class="btn btn-secondary text-slate-50"
           >
             {{ $t('common.buttons.create') }}

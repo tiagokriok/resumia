@@ -188,4 +188,11 @@ export default {
       link: 'Reset password',
     },
   },
+  app: {
+    workspaces: {
+      documents: 'Documents',
+      chats: 'Chats',
+      planUpgrade: 'Upgrade',
+    },
+  },
 }

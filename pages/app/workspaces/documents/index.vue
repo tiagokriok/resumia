@@ -308,7 +308,7 @@
     >
       <div class="pb-12" />
       <NuxtLink
-        to="/app/workspaces/files/create"
+        to="/app/workspaces/documents/create"
         class="btn btn-circle btn-secondary hover:scale-105 duration-300 fixed bottom-14 right-0 z-50 -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-secondary/40"
       >
         <Icon

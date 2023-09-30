@@ -288,7 +288,7 @@
               </select>
             </div>
             <NuxtLink
-              to="/app/workspaces/files/create"
+              to="/app/workspaces/documents/create"
               class="link"
               >{{ $t('chats.index.dialog.create.upload') }}</NuxtLink
             >

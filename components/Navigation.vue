@@ -1,6 +1,8 @@
 <template>
   <div class="pb-16" />
-  <div class="btm-nav glass bg-secondary dark:bg-primary-content text-slate-50">
+  <div
+    class="btm-nav glass bg-secondary dark:bg-primary-content text-slate-50 md:hidden"
+  >
     <div class="flex justify-center h-14 w-14 items-center">
       <NuxtLink to="/app/workspaces">
         <Icon
@@ -10,7 +12,7 @@
       </NuxtLink>
     </div>
     <div class="flex justify-center h-14 w-14 items-center">
-      <NuxtLink to="/app/workspaces/files">
+      <NuxtLink to="/app/workspaces/documents">
         <Icon
           name="ph:files-bold"
           class="w-6 h-6"
