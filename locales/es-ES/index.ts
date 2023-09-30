@@ -184,4 +184,12 @@ export default {
       unknownError: 'Algo salió mal',
     },
   },
+  emails: {
+    resetPassword: {
+      title: 'Restablecer contraseña',
+      description:
+        'Haz click en el siguiente enlace para restablecer tu contraseña. El enlace de restablecimiento de contraseña expirará en 15 minutos.',
+      link: 'Restablecer',
+    },
+  },
 }

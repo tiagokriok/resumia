@@ -36,12 +36,19 @@ export function errorHandler(error: TRPCError | ZodError | Error | unknown) {
       const { name } = error
 
       if (name === 'TRPCClientError') {
-        const { shape } = error as unknown as { shape: { message: string } }
+        let { shape } = error as unknown as { shape: { message: string } }
+
+        if (
+          typeof shape.message === 'string' &&
+          ((shape.message.startsWith('[') && shape.message.endsWith(']')) ||
+            (shape.message.startsWith('{') && shape.message.endsWith('}')))
+        ) {
+          const shapeMessage = JSON.parse(shape.message)
+          shape.message = shapeMessage[0].message
+        }
 
         if (shape.message) {
-          const shapeMessage = JSON.parse(shape.message)
-
-          text = shapeMessage[0].message
+          text = shape.message
         } else {
           text = error.message
         }

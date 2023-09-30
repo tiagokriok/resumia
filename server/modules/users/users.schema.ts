@@ -7,6 +7,7 @@ export interface User {
   email: string
   password: string
   rememberToken?: string
+  expiresAt?: Date
   role: 'common' | 'sys_admin'
   plan: 'free' | 'pro'
   language?: string
@@ -41,6 +42,9 @@ const UserSchema = new Schema<User>(
     },
     rememberToken: {
       type: String,
+    },
+    expiresAt: {
+      type: Date,
     },
     role: {
       type: String,

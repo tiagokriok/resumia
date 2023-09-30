@@ -180,4 +180,12 @@ export default {
       unknownError: 'Algo deu errado',
     },
   },
+  emails: {
+    resetPassword: {
+      title: 'Redefinir senha',
+      description:
+        'Clique no link abaixo para redefinir sua senha. Esse link vai expirar em 15 minutos.',
+      link: 'Redefinir sua senha',
+    },
+  },
 }

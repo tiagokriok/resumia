@@ -180,4 +180,12 @@ export default {
       unknownError: 'Something went wrong',
     },
   },
+  emails: {
+    resetPassword: {
+      title: 'Reset password',
+      description:
+        'Click the link below to reset your password. This link will expire in 15 minutes.',
+      link: 'Reset password',
+    },
+  },
 }

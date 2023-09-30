@@ -10,17 +10,17 @@
       <EHeading
         as="h1"
         class="font-lato text-xl font-extrabold"
-        >Reset Your Password</EHeading
+        >{{ $t('emails.resetPassword.title') }}</EHeading
       >
       <ESection>
-        <EText class="font-lato"
-          >Hi {{ user }}, click the link below to reset your password.</EText
-        >
+        <EText class="font-lato">{{
+          $t('emails.resetPassword.description')
+        }}</EText>
 
         <ELink
           class="link"
           :href="token"
-          >Reset Password</ELink
+          >{{ $t('emails.resetPassword.link') }}</ELink
         >
       </ESection>
     </EContainer>

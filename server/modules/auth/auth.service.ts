@@ -1,6 +1,7 @@
 import { useCompiler } from '#vue-email'
 import { TRPCError } from '@trpc/server'
 import * as argon2 from 'argon2'
+import { addMinutes, isPast } from 'date-fns'
 import { nanoid } from 'nanoid'
 import { Resend } from 'resend'
 import AccessTokenProvider from '../../providers/jwt/AccessTokenProvider'
@@ -67,7 +68,7 @@ export const login = async ({ input }: { input: LoginInput }) => {
 export const forgotPassword = async ({ input }: { input: string }) => {
   const config = useRuntimeConfig()
 
-  const user = await Users.findOne({ email: input })
+  const user = await Users.findOne({ email: input }).lean()
 
   if (!user) {
     throw new TRPCError({
@@ -86,18 +87,22 @@ export const forgotPassword = async ({ input }: { input: string }) => {
     {
       $set: {
         rememberToken,
+        expiresAt: addMinutes(new Date(), 15),
       },
     },
   )
 
-  // TODO: send reset email
   const template = await useCompiler('reset-password.vue', {
-    user: user.name,
-    token: `${config.appBaseUrl}/app/reset-password/${rememberToken}`,
+    props: {
+      user: user.name,
+      token: `${config.applicationUrl}/app/reset-password/${rememberToken}`,
+    },
+    i18n: {
+      defaultLocale: user.language,
+    },
   })
 
   const resend = new Resend(config.resendKey)
-  console.log(config.appUrl)
 
   await resend.emails.send({
     from: config.fromEmail,
@@ -126,6 +131,13 @@ export const resetPassword = async ({
     })
   }
 
+  if (user.expiresAt && isPast(user.expiresAt)) {
+    throw new TRPCError({
+      code: 'BAD_REQUEST',
+      message: 'Token expired',
+    })
+  }
+
   if (input.password !== input.confirmPassword) {
     throw new TRPCError({
       code: 'BAD_REQUEST',
@@ -143,6 +155,7 @@ export const resetPassword = async ({
       $set: {
         password: passwordHash,
         rememberToken: null,
+        expiresAt: null,
       },
     },
   )

@@ -1,3 +1,6 @@
+import en from './locales/en-US'
+import es from './locales/es-ES'
+import br from './locales/pt-BR'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -50,7 +53,7 @@ export default defineNuxtConfig({
     openaiApiKey: '',
     resendKey: '',
     fromEmail: '',
-    appBaseUrl: '',
+    applicationUrl: '',
   },
   nitro: {
     plugins: ['~/server/plugins/database.ts'],
@@ -61,6 +64,16 @@ export default defineNuxtConfig({
     },
     '/': {
       redirect: '/app/login',
+    },
+  },
+  vueEmail: {
+    i18n: {
+      defaultLocale: 'en-US',
+      translations: {
+        'en-US': en,
+        'es-ES': es,
+        'pt-BR': br,
+      },
     },
   },
 })

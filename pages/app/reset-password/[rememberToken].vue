@@ -21,12 +21,7 @@
   })
 
   const { mutateAsync: resetPassword } = useMutation({
-    mutationFn: async () =>
-      await $client.auth.resetPassword.mutate({
-        rememberToken: rememberToken as string,
-        password: form.password,
-        confirmPassword: form.confirmPassword,
-      }),
+    mutationFn: $client.auth.resetPassword.mutate,
     onSuccess: async () => {
       toast.add({
         group: 'top-right',
@@ -69,7 +64,13 @@
       <div>
         <form
           class="space-y-2"
-          @submit.prevent="resetPassword()"
+          @submit.prevent="
+            resetPassword({
+              rememberToken: rememberToken as string,
+              password: form.password,
+              confirmPassword: form.confirmPassword,
+            })
+          "
         >
           <div class="form-control w-full">
             <label
