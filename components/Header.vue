@@ -4,7 +4,7 @@
 <template>
   <template v-if="isDesktopOrTablet">
     <div
-      class="navbar glass bg-secondary dark:bg-primary-content text-slate-50 fixed inset-x-0 top-0"
+      class="navbar z-50 glass bg-secondary dark:bg-primary-content text-slate-50 fixed inset-x-0 top-0"
     >
       <div class="flex-1">
         <NuxtLink
