@@ -26,31 +26,36 @@
       >
     </div>
 
-    <div
-      v-if="chats?.length"
-      class="flex flex-col space-y-2"
-    >
-      <NuxtLink
-        v-for="chat in chats"
-        class="flex items-center space-x-2 bg-primary-content dark:bg-neutral rounded-xl py-4 justify-evenly px-2 cursor-pointer hover:scale-105 duration-300 h-24"
-        :key="chat.id"
-        :to="`/app/workspaces/chats/${chat.id}`"
-      >
-        <div
-          class="bg-secondary text-primary-content dark:bg-slate-50 dark:text-secondary rounded-full h-12 w-12 flex items-center justify-center"
-        >
-          <Icon
-            name="ph:chats-circle"
-            class="h-8 w-8"
-          />
-        </div>
-        <div class="flex-1 w-20 text-base-content dark:text-neutral-content">
-          <h2 class="capitalize text-md font-semibold">
-            {{ chat.label ?? chat.fileLabel }}
-          </h2>
-          <p class="truncate">{{ chat.lastMessage }}</p>
-        </div>
-      </NuxtLink>
+    <div v-if="chats?.length">
+      <table class="table">
+        <tbody>
+          <tr
+            v-for="chat in chats"
+            :key="chat.id"
+          >
+            <td>
+              <div class="flex items-center space-x-3">
+                <div>
+                  <div>
+                    <Icon
+                      name="ph:chats-circle"
+                      class="h-8 w-8 text-secondary"
+                    />
+                  </div>
+                </div>
+                <NuxtLink :to="`/app/workspaces/chats/${chat.id}`">
+                  <div class="font-bold">
+                    {{ chat.label ?? chat.fileLabel }}
+                  </div>
+                  <div class="text-sm opacity-50 line-clamp-2">
+                    {{ chat.lastMessage }}
+                  </div>
+                </NuxtLink>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div
