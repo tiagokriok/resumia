@@ -300,10 +300,9 @@
     <div>
       <h2 class="text-xl font-bold">{{ $t('files.index.title') }}</h2>
     </div>
-    <div class="">
+    <div>
       <table class="table">
         <tbody>
-          <!-- row 1 -->
           <tr
             v-for="file in filesParsed"
             :key="file.id"

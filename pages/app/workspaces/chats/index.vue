@@ -138,76 +138,77 @@
       <h2 class="text-xl font-bold">{{ $t('chats.index.title') }}</h2>
     </div>
 
-    <div
-      v-if="!isFetching"
-      class="space-y-4"
-    >
-      <div
-        v-for="chat in chats.items"
-        :key="chat.id"
-        :to="`/app/workspaces/chats/${chat.id}`"
-        class="flex items-center space-x-2 bg-primary-content dark:bg-neutral rounded-xl py-4 justify-evenly px-2 cursor-pointer max-h-24 shadow-md hover:scale-105 duration-300 h-24"
-      >
-        <NuxtLink
-          :to="`/app/workspaces/chats/${chat.id}`"
-          class="flex items-center space-x-2 flex-1"
-        >
-          <div
-            class="bg-secondary dark:bg-slate-50 text-primary-content dark:text-secondary rounded-full h-12 w-12 flex items-center justify-center"
+    <div v-if="!isFetching">
+      <table class="table">
+        <tbody>
+          <tr
+            v-for="chat in chats.items"
+            :key="chat.id"
+            class="flex items-center justify-between"
           >
-            <Icon
-              name="ph:chats-circle"
-              class="h-8 w-8"
-            />
-          </div>
-          <div
-            class="flex-1 w-20 space-y-2 item-body text-base-content dark:text-neutral-content"
-          >
-            <h3 class="capitalize text-md font-semibold">
-              {{ chat.label ?? chat.file.label }}
-            </h3>
-            <p class="text-sm line-clamp-2">
-              {{ chat.messages.length ? chat.messages.at(-1)?.content : '' }}
-            </p>
-          </div>
-        </NuxtLink>
-        <button
-          class="dropdown dropdown-bottom dropdown-end flex items-center justify-center"
-        >
-          <Icon
-            name="ph:dots-three-vertical"
-            class="h-8 w-8"
-          />
-          <ul
-            class="dropdown-content z-50 menu p-1 shadow bg-base-100 rounded-xl w-40"
-          >
-            <li>
+            <td>
+              <div class="flex items-center space-x-3">
+                <div>
+                  <div>
+                    <Icon
+                      name="ph:chats-circle"
+                      class="h-8 w-8 text-secondary"
+                    />
+                  </div>
+                </div>
+                <NuxtLink :to="`/app/workspaces/chats/${chat.id}`">
+                  <div class="font-bold">
+                    {{ chat.label ?? chat.file.label }}
+                  </div>
+                  <div class="text-sm opacity-50 line-clamp-2">
+                    {{
+                      chat.messages.length ? chat.messages.at(-1)?.content : ''
+                    }}
+                  </div>
+                </NuxtLink>
+              </div>
+            </td>
+            <td class="flex items-center justify-end">
               <button
-                class="flex items-center justify-between rounded-xl"
-                @click="openUpdateModal(chat.id, chat.label ?? '')"
+                class="dropdown dropdown-bottom dropdown-end flex items-center justify-center"
               >
                 <Icon
-                  name="ph:pencil"
-                  class="h-6 w-6"
+                  name="ph:dots-three-vertical"
+                  class="h-8 w-8"
                 />
-                <span>{{ $t('common.buttons.edit') }}</span>
+                <ul
+                  class="dropdown-content z-50 menu p-1 shadow bg-base-100 rounded-xl w-40"
+                >
+                  <li>
+                    <button
+                      class="flex items-center justify-between rounded-xl"
+                      @click="openUpdateModal(chat.id, chat.label ?? '')"
+                    >
+                      <Icon
+                        name="ph:pencil"
+                        class="h-6 w-6"
+                      />
+                      <span>{{ $t('common.buttons.edit') }}</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="flex items-center justify-between rounded-xl"
+                      @click="openDeleteModal(chat.id)"
+                    >
+                      <Icon
+                        name="ph:trash"
+                        class="h-6 w-6"
+                      />
+                      <span>{{ $t('common.buttons.delete') }}</span>
+                    </button>
+                  </li>
+                </ul>
               </button>
-            </li>
-            <li>
-              <button
-                class="flex items-center justify-between rounded-xl"
-                @click="openDeleteModal(chat.id)"
-              >
-                <Icon
-                  name="ph:trash"
-                  class="h-6 w-6"
-                />
-                <span>{{ $t('common.buttons.delete') }}</span>
-              </button>
-            </li>
-          </ul>
-        </button>
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <div
         v-if="chats.items.length === 0"
         class="text-center text-md"
