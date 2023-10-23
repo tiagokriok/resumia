@@ -59,7 +59,7 @@ export async function createPresignedUrl(
         // },
         { bucket: config.awsBucket },
         ['starts-with', '$key', key],
-        ['content-length-range', 0, 1024 * 1024 * 10], // max 5MB
+        ['content-length-range', 0, 1024 * 1024 * 10], // 10MB
       ],
       Fields: {
         // acl: 'public-read',

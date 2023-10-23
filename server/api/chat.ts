@@ -157,7 +157,6 @@ export default defineLazyEventHandler(async () => {
         statusCode: 400,
         statusMessage: 'Bad Request',
       })
-    } finally {
     }
   })
 })
