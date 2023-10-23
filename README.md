@@ -2,7 +2,7 @@
 
 ## Intro
 
-Resumia allows users to upload a document and make questions about it. The questions are based on the content of the document.
+Resumia allows users to upload a document and make questions about it. The answers are based on the content of the document.
 
 ## Features
 
@@ -29,6 +29,7 @@ Resumia allows users to upload a document and make questions about it. The quest
 - Tailwind with DaisyUI
 - Langchain
 - TRPC
+- Docker
 - MongoDB
 - Redis (Vector Store)
 - AWS S3
