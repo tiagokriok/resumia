@@ -1,11 +1,11 @@
+import { Chat } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import { SearchQuery } from '~/lib/types/Search'
 import { Context } from '~/server/trpc/context'
-import { Chat, Chats } from './chats.schema'
 
 interface RecentlyChats {
   id: string
-  label: string
+  label: string | null
   lastMessage: string
   fileId: string
   fileLabel: string
@@ -27,46 +27,68 @@ export const findChats = async ({
   }
 
   const filter = {
-    isDeleted: input.withTrash,
-    'owner.id': ctx.user?.id,
+    userId: ctx.user.id,
   }
 
   if (input.searchText) {
     // @ts-ignore
-    filter.$or = [
+    filter.OR = [
       {
-        label: { $regex: input.searchText, $options: 'i' },
+        label: {
+          contains: input.searchText,
+        },
       },
       {
-        'file.label': { $regex: input.searchText, $options: 'i' },
+        file: {
+          label: {
+            contains: input.searchText,
+          },
+        },
       },
       {
-        'messages.content': { $regex: input.searchText, $options: 'i' },
+        messages: {
+          every: {
+            content: {
+              contains: input.searchText,
+            },
+          },
+        },
       },
     ]
   }
 
-  const projection: { [key: string]: number | string } = {}
+  const projection: { [key: string]: boolean } = {}
 
   if (input.columns?.length) {
-    input.columns.forEach((column: string | { field: string; as: string }) => {
-      if (typeof column === 'string') {
-        if (column !== 'password') {
-          projection[column] = 1
-        }
-      } else {
-        if (column.field !== 'password') {
-          projection[column.as] = `$${column.field}`
-        }
+    input.columns.forEach((column: string) => {
+      if (column !== 'password') {
+        projection[column] = true
       }
     })
   }
 
-  const total = await Chats.count(filter)
-  const chats = await Chats.find(filter, projection, {
+  const total = await ctx.prisma.chat.count({
+    where: filter,
+  })
+
+  const chats = await ctx.prisma.chat.findMany({
+    where: filter,
+    select: {
+      file: true,
+      messages: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: {
+          content: true,
+          role: true,
+        },
+      },
+      ...(Object.keys(projection).length && { projection }),
+    },
     skip: input.offset,
     take: input.limit,
-    sort: {
+    orderBy: {
       [`${input.orderBy}`]: input.order,
     },
   })
@@ -93,9 +115,11 @@ export const findOneChat = async ({
     })
   }
 
-  const chat = await Chats.findOne({
-    id: input,
-    'owner.id': user.id,
+  const chat = await ctx.prisma.chat.findUnique({
+    where: {
+      id: input,
+      userId: user.id,
+    },
   })
 
   if (!chat) {
@@ -120,30 +144,46 @@ export const getRecentlyChats = async ({
     })
   }
 
-  const recentlyChats: RecentlyChats[] = await Chats.find(
-    {
-      'owner.id': ctx.user?.id,
-      isDeleted: false,
+  const chats = await ctx.prisma.chat.findMany({
+    where: {
+      userId: ctx.user.id,
     },
-    {
-      id: 1,
-      label: 1,
-      fileId: '$file.id',
-      fileLabel: '$file.label',
-      lastMessage: {
-        $last: '$messages.content',
+    select: {
+      id: true,
+      label: true,
+      file: {
+        select: {
+          id: true,
+          label: true,
+        },
       },
-      updatedAt: 1,
-    },
-    {
-      limit: 5,
-      sort: {
-        updatedAt: 'desc',
+      messages: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: 1,
+        select: {
+          content: true,
+        },
       },
+      updatedAt: true,
     },
-  ).lean()
+    take: 5,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
 
-  return recentlyChats
+  return chats.map((chat) => {
+    return {
+      id: chat.id,
+      label: chat.label,
+      lastMessage: chat.messages[0].content,
+      fileId: chat.file.id,
+      fileLabel: chat.file.label,
+      updatedAt: chat.updatedAt,
+    }
+  })
 }
 
 export const createChat = async ({
@@ -165,19 +205,14 @@ export const createChat = async ({
     })
   }
 
-  const chat = await Chats.create({
-    owner: {
-      id: user.id,
-      name: user.name,
+  const chat = await ctx.prisma.chat.create({
+    data: {
+      userId: user.id,
+      fileId: input.id,
     },
-    file: {
-      id: input.id,
-      label: input.label,
-    },
-    messages: [],
   })
 
-  return chat.toObject()
+  return chat
 }
 
 export const updateChat = async ({
@@ -199,17 +234,15 @@ export const updateChat = async ({
     })
   }
 
-  await Chats.updateOne(
-    {
+  await ctx.prisma.chat.update({
+    where: {
       id: input.chatId,
-      'owner.id': user.id,
+      userId: user.id,
     },
-    {
-      $set: {
-        label: input.label,
-      },
+    data: {
+      label: input.label,
     },
-  )
+  })
 }
 
 export const deleteChat = async ({
@@ -228,16 +261,10 @@ export const deleteChat = async ({
     })
   }
 
-  await Chats.updateOne(
-    {
+  await ctx.prisma.chat.delete({
+    where: {
       id: input,
-      'owner.id': user.id,
+      userId: user.id,
     },
-    {
-      $set: {
-        isDeleted: true,
-        deletedAt: Date.now(),
-      },
-    },
-  )
+  })
 }

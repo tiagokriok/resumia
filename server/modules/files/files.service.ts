@@ -14,7 +14,6 @@ import { createPresignedUrl } from '~/server/providers/s3'
 import { Context } from '~/server/trpc/context'
 import { SearchQuery } from '../../../lib/types/Search'
 import { CreateFileInput, UpdateFileInput } from './dto'
-import { File, Files } from './files.schema'
 
 export const findFiles = async ({
   input,
@@ -32,45 +31,55 @@ export const findFiles = async ({
   }
 
   const filter = {
-    isDeleted: input.withTrash,
+    userId: user.id,
   }
 
   if (input.searchText) {
     // @ts-ignore
-    filter.$or = [
+    filter.OR = [
       {
-        name: { $regex: input.searchText, $options: 'i' },
+        name: {
+          contains: input.searchText,
+        },
       },
       {
-        description: { $regex: input.searchText, $options: 'i' },
+        description: {
+          contains: input.searchText,
+        },
       },
       {
-        label: { $regex: input.searchText, $options: 'i' },
+        label: {
+          contains: input.searchText,
+        },
       },
     ]
   }
 
-  const projection: { [key: string]: number | string } = {}
+  const projection: { [key: string]: boolean } = {}
 
   if (input.columns?.length) {
-    input.columns.forEach((column: string | { field: string; as: string }) => {
-      if (typeof column === 'string') {
-        if (column !== 'password') {
-          projection[column] = 1
-        }
-      } else {
-        projection[column.field] = `$${column.as}`
+    input.columns.forEach((column: string) => {
+      if (column !== 'password') {
+        projection[column] = true
       }
     })
   }
 
-  const total = await Files.count(filter)
-  const files = await Files.find(filter, projection, {
-    skip: input.offset,
+  const total = await ctx.prisma.file.count({
+    where: filter,
+  })
+  const files = await ctx.prisma.file.findMany({
+    where: filter,
     take: input.limit,
-    sort: {
-      [`${input.orderBy}`]: input.order,
+    skip: input.offset,
+    orderBy: {
+      createdAt: 'desc',
     },
+    ...(Object.keys(projection).length && {
+      select: {
+        ...projection,
+      },
+    }),
   })
 
   return {
@@ -85,11 +94,7 @@ export const createFile = async ({
 }: {
   input: CreateFileInput
   ctx: Context
-}): Promise<{
-  file: File
-  url: string
-  fields: Record<string, string> | null
-}> => {
+}) => {
   const user = ctx.user
 
   if (!user) {
@@ -98,31 +103,14 @@ export const createFile = async ({
     })
   }
 
-  const file = await Files.create({
-    ...input,
-    owner: {
-      id: user.id,
-      name: user.name,
+  const file = await ctx.prisma.file.create({
+    data: {
+      userId: user.id,
+      ...input,
     },
   })
 
-  const presigned = await createPresignedUrl(
-    'POST',
-    `${user.id}/${file.id}`,
-    60 * 60,
-  )
-
-  if (!presigned) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-    })
-  }
-
-  return {
-    file: file.toObject(),
-    url: presigned.url,
-    fields: presigned.fields as Record<string, string> | null,
-  }
+  return file
 }
 
 export const updateFile = async ({
@@ -140,18 +128,16 @@ export const updateFile = async ({
     })
   }
 
-  const file = await Files.updateOne(
-    {
+  const file = await ctx.prisma.file.update({
+    where: {
       id: input.id,
-      'owner.id': user.id,
+      userId: user.id,
     },
-    {
-      $set: {
-        label: input.label,
-        description: input.description,
-      },
+    data: {
+      label: input.label,
+      description: input.description,
     },
-  )
+  })
 
   return file
 }
@@ -171,7 +157,12 @@ export const embedFile = async ({
     })
   }
 
-  const file = await Files.findOne({ id: input, 'owner.id': user.id })
+  const file = await ctx.prisma.file.findUnique({
+    where: {
+      id: input,
+      userId: user.id,
+    },
+  })
 
   if (!file) {
     throw new TRPCError({
@@ -180,6 +171,7 @@ export const embedFile = async ({
     })
   }
 
+  //TODO: Add supabase
   const presigned = await createPresignedUrl('GET', `${user.id}/${input}`, 60)
 
   if (!presigned) {
@@ -232,5 +224,10 @@ export const deleteFile = async ({
     })
   }
 
-  await Files.deleteOne({ id: input, 'owner.id': user.id })
+  await ctx.prisma.file.delete({
+    where: {
+      id: input,
+      userId: user.id,
+    },
+  })
 }

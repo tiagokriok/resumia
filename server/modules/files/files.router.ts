@@ -12,12 +12,8 @@ import {
 
 export const fileRouter = router({
   create: protectedProcedure.input(createFileSchema).mutation(createFile),
-  embed: protectedProcedure
-    .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
-    .mutation(embedFile),
-  delete: protectedProcedure
-    .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
-    .mutation(deleteFile),
+  embed: protectedProcedure.input(z.string().cuid()).mutation(embedFile),
+  delete: protectedProcedure.input(z.string().cuid()).mutation(deleteFile),
   find: protectedProcedure.input(searchSchema).query(findFiles),
   update: protectedProcedure.input(updateFileSchema).mutation(updateFile),
 })

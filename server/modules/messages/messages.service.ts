@@ -1,6 +1,6 @@
+import { Message } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import { Context } from '~/server/trpc/context'
-import { Message, Messages } from './messages.schema'
 
 export const findMessages = async ({
   input,
@@ -18,8 +18,13 @@ export const findMessages = async ({
     })
   }
 
-  const messages = await Messages.find({
-    chatId: input,
+  const messages = await ctx.prisma.message.findMany({
+    where: {
+      chatId: input,
+      chat: {
+        userId: user.id,
+      },
+    },
   })
 
   return messages

@@ -6,21 +6,8 @@ export const searchSchema = z.object({
   orderBy: z.string().default('createdAt'),
   order: z.enum(['asc', 'desc']).default('desc'),
   query: z.string().optional(),
-  columns: z
-    .array(
-      z.union([
-        z.string().trim(),
-        z.object({
-          field: z.string().trim(),
-          as: z.string().trim(),
-        }),
-      ]),
-    )
-    .optional(),
-  withTrash: z.boolean().default(false),
+  columns: z.array(z.string().trim()).optional(),
   searchText: z.string().optional(),
 })
-
-// ['name', { field: 'email', as: 'email_alias' }]
 
 export type SearchQuery = z.infer<typeof searchSchema>

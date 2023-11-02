@@ -1,7 +1,10 @@
-import { Chats } from '~/server/modules/chats/chats.schema'
+import { PrismaClient } from '@prisma/client'
+import { defineProtectedHandler } from '../utils/ProtectedHandler'
 import { sseHooks } from '../utils/hooks'
 
-export default defineEventHandler(async (event) => {
+const prisma = new PrismaClient()
+
+export default defineProtectedHandler(async (event) => {
   const ctx = event.context
 
   if (!ctx.auth) {
@@ -24,7 +27,13 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const chat = await Chats.findOne({ id: chatId, 'owner.id': user.id })
+  // const chat = await Chats.findOne({ id: chatId, 'owner.id': user.id })
+  const chat = await prisma.chat.findUnique({
+    where: {
+      id: chatId,
+      userId: user.id,
+    },
+  })
 
   if (!chat) {
     throw createError({
@@ -43,7 +52,7 @@ export default defineEventHandler(async (event) => {
   setResponseStatus(event, 200)
 
   const sendEvent = (data: { id: string; name: string }) => {
-    if (chat.file.id !== data.id) event.node.res.end()
+    if (chat.fileId !== data.id) event.node.res.end()
     event.node.res.write(`id: ${data.id}\n`)
     event.node.res.write(`data: ${JSON.stringify(data)}\n\n`)
   }

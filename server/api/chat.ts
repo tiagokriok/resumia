@@ -1,10 +1,12 @@
+import { PrismaClient } from '@prisma/client/edge'
 import { LangChainStream, StreamingTextResponse } from 'ai'
 import { RetrievalQAChain } from 'langchain/chains'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { PromptTemplate } from 'langchain/prompts'
-import { Chats } from '~/server/modules/chats/chats.schema'
-import { Messages } from '~/server/modules/messages/messages.schema'
 import { vectorStore } from '../providers/langchain'
+import { defineProtectedHandler } from '../utils/ProtectedHandler'
+
+const prisma = new PrismaClient()
 
 export const runtime = 'edge'
 
@@ -25,7 +27,7 @@ export default defineLazyEventHandler(async () => {
     inputVariables: ['context', 'question'],
   })
 
-  return defineEventHandler(async (event) => {
+  return defineProtectedHandler(async (event) => {
     try {
       const ctx = event.context
 
@@ -59,7 +61,12 @@ export default defineLazyEventHandler(async () => {
         })
       }
 
-      const chat = await Chats.findOne({ id: chatId, 'owner.id': user.id })
+      const chat = await prisma.chat.findUnique({
+        where: {
+          id: chatId,
+          userId: user.id,
+        },
+      })
 
       if (!chat) {
         throw createError({
@@ -69,31 +76,13 @@ export default defineLazyEventHandler(async () => {
         })
       }
 
-      const question = await Messages.create({
-        chatId,
-        content: messages.at(-1).content,
-        role: 'user',
-      })
-
-      if (chat.messages.length >= 10) {
-        await Chats.updateOne(
-          { id: chatId },
-          {
-            $pop: {
-              messages: -1,
-            },
-          },
-        )
-      }
-
-      await Chats.updateOne(
-        { id: chatId },
-        {
-          $push: {
-            messages: question,
-          },
+      const question = await prisma.message.create({
+        data: {
+          chatId,
+          content: messages.at(-1).content,
+          role: 'USER',
         },
-      )
+      })
 
       const { stream, handlers } = LangChainStream()
 
@@ -105,7 +94,7 @@ export default defineLazyEventHandler(async () => {
         callbacks: [handlers],
       })
 
-      const store = vectorStore(chat.file.id)
+      const store = vectorStore(chat.fileId)
 
       const chain = RetrievalQAChain.fromLLM(openAiChat, store.asRetriever(3), {
         prompt,
@@ -116,31 +105,13 @@ export default defineLazyEventHandler(async () => {
           query: question.content,
         })
         .then(async (response) => {
-          const answer = await Messages.create({
-            chatId,
-            content: response.text,
-            role: 'assistant',
-          })
-
-          if (chat.messages.length >= 10) {
-            await Chats.updateOne(
-              { id: chatId },
-              {
-                $pop: {
-                  messages: -1,
-                },
-              },
-            )
-          }
-
-          await Chats.updateOne(
-            { id: chatId },
-            {
-              $push: {
-                messages: answer,
-              },
+          await prisma.message.create({
+            data: {
+              chatId,
+              content: response.text,
+              role: 'ASSISTANT',
             },
-          )
+          })
         })
         .catch(console.error)
 

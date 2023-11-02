@@ -16,21 +16,17 @@ export const chatRouter = router({
   create: protectedProcedure
     .input(
       z.object({
-        id: z.string().regex(/^[0-9A-Za-z]{12}$/),
+        id: z.string().cuid(),
         label: z.string(),
       }),
     )
     .mutation(createChat),
-  findOne: protectedProcedure
-    .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
-    .query(findOneChat),
-  delete: protectedProcedure
-    .input(z.string().regex(/^[0-9A-Za-z]{12}$/))
-    .mutation(deleteChat),
+  findOne: protectedProcedure.input(z.string().cuid()).query(findOneChat),
+  delete: protectedProcedure.input(z.string().cuid()).mutation(deleteChat),
   update: protectedProcedure
     .input(
       z.object({
-        chatId: z.string().regex(/^[0-9A-Za-z]{12}$/),
+        chatId: z.string().cuid(),
         label: z.string(),
       }),
     )

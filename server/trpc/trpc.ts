@@ -41,7 +41,9 @@ const loggerMiddleware = t.middleware(async (opts) => {
         `[TRPC] - ${meta.type.toUpperCase()} ${meta.path} took ${durationMs}ms`,
       )
     : console.error(
-        `[TRPC] - ${meta.type.toUpperCase()} ${meta.path} took ${durationMs}ms`,
+        `[TRPC] - ERROR - ${meta.type.toUpperCase()} ${
+          meta.path
+        } took ${durationMs}ms`,
       )
 
   return result

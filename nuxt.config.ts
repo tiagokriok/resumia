@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     '@nuxtjs/color-mode',
     'vue-email/nuxt',
+    '@nuxtjs/supabase',
   ],
   i18n: {
     vueI18n: './locales/i18n.config.ts',
@@ -44,19 +45,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     jwtSecret: '',
-    mongodbUri: '',
-    awsAccessKeyId: '',
-    awsSecretAccessKey: '',
-    awsDefaultRegion: '',
-    awsBucket: '',
-    redisUrl: '',
     openaiApiKey: '',
     resendKey: '',
     fromEmail: '',
     applicationUrl: '',
-  },
-  nitro: {
-    plugins: ['~/server/plugins/database.ts'],
   },
   routeRules: {
     '/app/**': {
