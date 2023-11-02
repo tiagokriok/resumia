@@ -329,7 +329,7 @@
               <input
                 v-model="chatLabel"
                 type="text"
-                class="input input-bordered input-secondary dark:input-primary w-full max-w-xs rounded-xl"
+                class="input input-bordered input-secondary dark:input-primary w-full rounded-xl"
               />
             </div>
             <div class="modal-action">

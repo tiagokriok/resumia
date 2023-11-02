@@ -5,7 +5,6 @@ import { PromptTemplate } from 'langchain/prompts'
 import { Chats } from '~/server/modules/chats/chats.schema'
 import { Messages } from '~/server/modules/messages/messages.schema'
 import { vectorStore } from '../providers/langchain'
-import { redis } from '../providers/redis'
 
 export const runtime = 'edge'
 
@@ -106,8 +105,6 @@ export default defineLazyEventHandler(async () => {
         callbacks: [handlers],
       })
 
-      await redis.connect()
-
       const store = vectorStore(chat.file.id)
 
       const chain = RetrievalQAChain.fromLLM(openAiChat, store.asRetriever(3), {
@@ -119,8 +116,6 @@ export default defineLazyEventHandler(async () => {
           query: question.content,
         })
         .then(async (response) => {
-          await redis.disconnect()
-
           const answer = await Messages.create({
             chatId,
             content: response.text,
@@ -151,7 +146,6 @@ export default defineLazyEventHandler(async () => {
 
       return new StreamingTextResponse(stream)
     } catch (error) {
-      await redis.disconnect()
       console.error(error)
       throw createError({
         statusCode: 400,

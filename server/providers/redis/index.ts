@@ -6,6 +6,8 @@ export const redis = createClient({
   url: redisUrl,
 })
 
+redis.connect()
+
 redis.on('error', (err) => console.error(err))
 
 redis.on('ready', () => console.log('Redis is ready!'))

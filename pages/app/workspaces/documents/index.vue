@@ -33,7 +33,6 @@
   const { $client } = useNuxtApp()
   const { t } = useI18n()
   const toast = useToast()
-  const { isMobile } = useDevice()
   const router = useRouter()
 
   const deleteModal = ref<HTMLDialogElement | null>(null)
@@ -214,6 +213,7 @@
         updateModal.value?.close()
         createModal.value?.close()
         deleteModal.value?.showModal()
+        file.value = selectedFile
         break
       case 'view':
         deleteModal.value?.close()

@@ -117,16 +117,17 @@
     <div class="pb-20">
       <div
         class="fixed bottom-0 inset-x-0 px-4 p-2 glass bg-secondary dark:bg-neutral border-none"
-        @submit="handleSubmit"
       >
         <form
           class="form-control flex items-center justify-between flex-row space-x-2"
+          @submit="handleSubmit"
         >
           <textarea
             ref="textarea"
             v-model="input"
             placeholder="Type a message"
             class="resize-none textarea textarea-bordered rounded-xl flex-1"
+            @keydown.enter="handleSubmit"
           />
           <button
             type="submit"

@@ -2,14 +2,11 @@ import { LangChainStream, StreamingTextResponse } from 'ai'
 import { RetrievalQAChain } from 'langchain/chains'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { PromptTemplate } from 'langchain/prompts'
-import { redis } from '../redis'
 import { vectorStore } from './store'
 
 export async function sendPrompt(keyPrefix: string, question: string) {
   try {
     const { openaiApiKey } = useRuntimeConfig()
-
-    await redis.connect()
 
     const openAiChat = new ChatOpenAI({
       openAIApiKey: openaiApiKey,
@@ -52,6 +49,5 @@ export async function sendPrompt(keyPrefix: string, question: string) {
     console.error(error)
     throw new Error('Send prompt error')
   } finally {
-    await redis.disconnect()
   }
 }
